@@ -538,8 +538,8 @@ module.exports = {
             msg.edit({ content: ' ', embeds: [lyricsEmbed] });
         }
         if (interaction.options.getSubcommand() === "nowplaying") {
-            const database = Setup.findOne({ guild: interaction.guild.id });
-            if(database.enable === true) return interaction.editReply(`${client.i18n.get(language, "setup", "setup_enable")}`);
+            let database = await Setup.findOne({ guild: interaction.guild.id });
+            if (database.enable === true) return interaction.editReply(`${client.i18n.get(language, "setup", "setup_enable")}`);
 
             const realtime = client.config.NP_REALTIME;
             const msg = await interaction.editReply(`${client.i18n.get(language, "music", "np_loading")}`);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const premiumCode = mongoose.Schema({
+const CreateRedeem = mongoose.Schema({
   code: {
     type: String,
     default: null
@@ -15,4 +15,4 @@ const premiumCode = mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('premium-codes', premiumCode)
+module.exports = mongoose.model('Redeem', CreateRedeem)

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const user = mongoose.Schema({
+const CreatePremium = mongoose.Schema({
     Id: {
         type: String,
         required: true,
@@ -31,4 +31,4 @@ const user = mongoose.Schema({
     }
   }
 })
-module.exports = mongoose.model('premium-users', user)
+module.exports = mongoose.model('Premium', CreatePremium)

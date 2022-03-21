@@ -1,7 +1,7 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const moment = require('moment');
 const voucher_codes = require('voucher-code-generator');
-const Redeem = require("../../settings/models/Premium.js");
+const Redeem = require("../../settings/models/Redeem.js");
 const Setup = require("../../settings/models/Setup.js");
 const Premium = require("../../settings/models/Premium.js");
 
@@ -76,61 +76,61 @@ run: async (interaction, client, user, language) => {
         if (interaction.options.getSubcommand() === "generate") {
             if(interaction.user.id != client.owner) return interaction.editReply({ content: `${client.i18n.get(language, "interaction", "owner_only")}` });
 
-            const name = interaction.options.getString("plan");
-            const camount = interaction.options.getString("amount");
-
+                const name = interaction.options.getString("plan");
+                const camount = interaction.options.getString("amount");
+        
             let codes = [];
-
+        
             const plan = name;
             const plans = ['daily', 'weekly', 'monthly', 'yearly'];
-
+        
             if (!plans.includes(name))
-                return interaction.editReply({ content:  `${client.i18n.get(language, "premium", "plan_invalid", {
+            return interaction.editReply({ content:  `${client.i18n.get(language, "premium", "plan_invalid", {
                 plans: plans.join(', ')
-                })}` })
-
+            })}` })
+        
             let time;
             if (plan === 'daily') time = Date.now() + 86400000;
             if (plan === 'weekly') time = Date.now() + 86400000 * 7;
             if (plan === 'monthly') time = Date.now() + 86400000 * 30;
             if (plan === 'yearly') time = Date.now() + 86400000 * 365;
-
+        
             let amount = camount;
             if (!amount) amount = 1;
-
+        
             for (var i = 0; i < amount; i++) {
-                const codePremium = voucher_codes.generate({
+            const codePremium = voucher_codes.generate({
                 pattern: '####-####-####'
-                })
-
-                const code = codePremium.toString().toUpperCase()
-                const find = await Redeem.findOne({ code: code })
-
-                if (!find) {
+            })
+        
+            const code = codePremium.toString().toUpperCase()
+            const find = await Redeem.findOne({ code: code })
+        
+            if (!find) {
                 Redeem.create({
                     code: code,
                     plan: plan,
                     expiresAt: time
-                })
-                codes.push(`${i + 1} - ${code}`)
+                }),
+                    codes.push(`${i + 1} - ${code}`)
                 }
             }
-
+        
             const embed = new MessageEmbed()
-                .setColor(client.color)
-                .setAuthor({ name: `${client.i18n.get(language, "premium", "gen_author")}`, iconURL: client.user.avatarURL() }) //${lang.description.replace("{codes_length}", codes.length).replace("{codes}", codes.join('\n')).replace("{plan}", plan).replace("{expires}", moment(time).format('dddd, MMMM Do YYYY'))}
-                .setDescription(`${client.i18n.get(language, "premium", "gen_desc", {
+            .setColor(client.color)
+            .setAuthor({ name: `${client.i18n.get(language, "premium", "gen_author")}`, iconURL: client.user.avatarURL() }) //${lang.description.replace("{codes_length}", codes.length).replace("{codes}", codes.join('\n')).replace("{plan}", plan).replace("{expires}", moment(time).format('dddd, MMMM Do YYYY'))}
+            .setDescription(`${client.i18n.get(language, "premium", "gen_desc", {
                 codes_length: codes.length,
                 codes: codes.join('\n'),
                 plan: plan,
                 expires: moment(time).format('dddd, MMMM Do YYYY')
-                })}`)
-                .setTimestamp()
-                .setFooter({ text: `${client.i18n.get(language, "premium", "gen_footer", {
+            })}`)
+            .setTimestamp()
+            .setFooter({ text: `${client.i18n.get(language, "premium", "gen_footer", {
                 prefix: "/"
-                })}`, iconURL: interaction.user.displayAvatarURL() })
-
-                interaction.editReply({ embeds: [embed] })
+            })}`, iconURL: interaction.user.displayAvatarURL() })
+        
+            interaction.editReply({ embeds: [embed] })
         }
         ///// PROFILE COMMAND!
         if (interaction.options.getSubcommand() === "profile") {
@@ -234,6 +234,7 @@ run: async (interaction, client, user, language) => {
         }
         ///// SETUP CHANNEL SONG REQUEST COMMAND!
         if (interaction.options.getSubcommand() === "setup") {
+            if (!interaction.member.permissions.has('MANAGE_GUILD')) return interaction.editReply(`${client.i18n.get(language, "utilities", "lang_perm")}`);
             try {
                 if (user && user.isPremium) {
                     if(interaction.options._hoistedOptions.find(c => c.value === "create")) {
@@ -276,15 +277,18 @@ run: async (interaction, client, user, language) => {
                         });
                     }
                     if(interaction.options._hoistedOptions.find(c => c.value === "delete")) {
-                        const channel = await Setup.findOne({ guild: interaction.guild.id });
-                        if(channel) {
-                            await channel.delete();
+                        await Setup.findOneAndUpdate({ guild: interaction.guild.id }, {
+                                guild: interaction.guild.id,
+                                enable: false,
+                                channel: "",
+                                playmsg: "",
+                            });
+                            
                             const embed = new MessageEmbed()
                                 .setDescription(`${client.i18n.get(language, "setup", "setup_deleted")}`)
                                 .setColor(client.color);
 
                             return interaction.editReply({ embeds: [embed] });
-                        }
                     }
                 } else {
                         const Premiumed = new MessageEmbed()
