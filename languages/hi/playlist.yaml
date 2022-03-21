@@ -1,0 +1,83 @@
+##### Create command #####
+create_loading: "**Creating playlist...**"
+create_arg: "Please provide a playlist name. Example: %{prefix}create <playlist name>"
+create_toolong: "Playlist name can't be longer than 16 characters."
+create_limit_playlist: "You can't have playlist more than %{limit} playlists."
+create_name_exist: "This name already have in data."
+create_created: "`📦` | *Created* • `%{playlist}`"
+
+##### Add command #####
+add_loading: "**Adding to playlist...**"
+add_arg: "Please provide a playlist name. Example: %{prefix}add <playlist name> <playlist link>"
+add_match: "The playlist link is invalid."
+add_fail: "Error loading playlist."
+add_track: "**Searched • [%{title}](%{url})** `%{duration}` • %{user}"
+add_playlist: "**Searched • [%{title}](%{url})** `%{duration}` (%{track} tracks) • %{user}"
+add_search: "**Searched • [%{title}](%{url})** `%{duration}` • %{user}"
+add_owner: "You can't add to this playlist."
+add_limit_track: "You can't add more than %{limit} tracks to this playlist."
+add_added: "`📦` | *Added* • [`%{count} track's`] to *Playlist* • `%{playlist}`"
+
+##### Delete command #####
+delete_arg: "Please provide a playlist name. Example: %{prefix}delete <playlist name>"
+delete_notfound: "The playlist name is invalid."
+delete_owner: "You can't delete this playlist."
+delete_deleted: "`📦` | *Deleted* • `%{name}`"
+
+##### Detail command #####
+detail_arg: "Please provide a playlist name. Example: %{prefix}detail <playlist name>"
+detail_notfound: "The playlist name is invalid."
+detail_private: "This playlist is private."
+detail_embed_title: "Playlist • %{name}"
+detail_embed_footer: "Page • %{page}/%{pages} | %{songs} • Songs | %{duration} • Total duration"
+detail_notnumber: "Page must be a number."
+detail_page_notfound: "There are only %{page} pages available."
+detail_track: "%{num}. **[%{title}](%{url})** | *Author*: %{author} • `[%{duration}]`"
+
+##### Import command #####
+import_loading: "Importing a playlist to the queue..."
+import_voice: "You need to be in a voice channel to use command."
+import_join: "I don't have permission to join your voice channel."
+import_speak: "I don't have permission to speak in your voice channel."
+import_arg: "Please specify a playlist name. Example: %{prefix}import <playlist name>**"
+import_notfound: "The playlist name is invalid."
+import_private: "This playlist is private."
+import_imported: "**Imported • %{name}** `[%{duration}]` (%{tracks} tracks) • %{user}"
+import_match: "The playlist link is invalid."
+import_fail: "Error loading playlist."
+
+##### View command #####
+view_embed_title: "%{user}'s • Playlist"
+view_embed_footer: "Page • %{page}/%{pages} | %{songs} • Playlists"
+view_notnumber: "Page must be a number."
+view_page_notfound: "There are only %{page} pages available."
+view_embed_playlist: "%{num}. **`%{name}`** • (%{tracks} tracks) • *Created At*: `[%{create} ago]`"
+
+##### Remove command #####
+remove_arg: "Please provide a playlist name. Example: %{prefix}remove <playlist name> <position>"
+remove_notfound: "The playlist name is invalid."
+remove_song_notfound: "Can't not find the song to remove"
+remove_owner: "You can't remove song from this playlist."
+remove_removed: "`📦` | *Removed* • position `%{position}` in `%{name}`"
+
+##### Savequeue command #####
+savequeue_arg: "Please provide a playlist name. Example: %{prefix}savequeue <playlist name>"
+savequeue_notfound: "The playlist name is invalid."
+savequeue_owner: "You can't save song to this playlist."
+savequeue_saved: "`📦` | *Saved* • (%{tracks} tracks) to `%{name}`"
+
+##### Private command #####
+private_arg: "Please provide a playlist name. Example: %{prefix}private <playlist name>"
+private_notfound: "The playlist name is invalid."
+private_owner: "You can't private this playlist."
+private_already: "This playlist is already private."
+private_loading: "Loading please wait..."
+private_success: "`📦` | *Playlist is now:* `Private`"
+
+##### Public command #####
+public_arg: "Please provide a playlist name. Example: %{prefix}public <playlist name>"
+public_notfound: "The playlist name is invalid."
+public_owner: "You can't public this playlist."
+public_already: "This playlist is already public."
+public_loading: "Loading please wait..."
+public_success: "`📦` | *Playlist is now:* `Public`"

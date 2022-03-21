@@ -1,0 +1,45 @@
+{
+  "name": "nanospaceplus",
+  "version": "x.x.x",
+  "description": "✈ Join Discord: https://discord.gg/4pk97A2 👌",
+  "main": "index.js",
+  "dependencies": {
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "better-erela.js-apple": "^1.0.1",
+    "better-erela.js-spotify": "^1.3.6",
+    "chalk": "^4.1.0",
+    "common-tags": "^1.8.0",
+    "delay": "^4.4.0",
+    "discord-api-types": "^0.26.0",
+    "discord.js": "^13.6.0",
+    "dotenv": "^12.0.3",
+    "erela.js": "^2.3.3",
+    "erela.js-deezer": "^1.0.7",
+    "erela.js-facebook": "^1.0.4",
+    "humanize-duration": "^3.27.1",
+    "locale-parser": "^1.1.2",
+    "lyrics-finder": "^21.7.0",
+    "moment": "^2.29.1",
+    "mongoose": "^5.9.19",
+    "node-cron": "^3.0.0",
+    "plsargs": "^0.1.6",
+    "voucher-code-generator": "^1.1.1",
+    "youtube-sr": "^4.1.9"
+  },
+  "scripts": {
+    "start": "node --no-warnings index.js"
+  },
+  "author": "Adivise",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adivise/NanoSpacePlus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Adivise/NanoSpacePlus/issues"
+  },
+  "homepage": "https://github.com/Adivise/NanoSpacePlus#readme",
+  "devDependencies": {
+    "node": "^17.0.1"
+  }
+}

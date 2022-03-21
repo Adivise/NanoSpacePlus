@@ -1,0 +1,13 @@
+##### InteractionCreate Event #####
+
+# On settings/config.js in DEV_ID
+dev_only: बॉट मेंटेनेंस चल रहा है। कृपया बाद में फिर से आएं।
+
+# No permission to use command (this for bot!)
+no_perms: मेरे पास कमांड का उपयोग करने के लिए Permission नहीं है!
+
+# Bot getting error something!
+error: बॉट के साथ कुछ समस्या है। बाद में फिर से कोशिश करें।
+
+# You are not the client owner of this bot!
+owner_only: आप बॉट के मालिक नहीं हैं!

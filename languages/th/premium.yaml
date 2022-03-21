@@ -1,0 +1,17 @@
+##### Generate command #####
+provide_plan: "โปรดระบุแผน: %{plans}"
+plan_invalid: "แผนไม่ถูกต้อง แผนที่มีอยู่: %{plans}"
+gen_author: "Generate Code"
+gen_desc: "• *Generated* [`+%{codes_length}`]\n```%{codes}```\n • *แผน*: `%{plan}`\n • *วันหมดอายุ*: `%{expires}`"
+gen_footer: "ใช้: %{prefix}redeem <code> เพื่อรับโค้ด!"
+
+##### Profile command #####
+profile_author: "โปรไฟล์พรีเมี่ยม"
+profile_desc: "*ผู้ใช้*: `%{user}`\n*แผน*: `%{plan}`\n*วันหมดอายุ*: `%{expires}`"
+
+##### Redeem command #####
+redeem_arg: "โปรดระบุโค้ดที่คุณต้องการแลก!"
+redeem_already: "คุณเป็นผู้ใช้ระดับพรีเมียมแล้ว"
+redeem_title: "แลกพรีเมี่ยม"
+redeem_desc: "**คุณได้แลกรับ พรีเมียมเรียบร้อยแล้ว!**\n\n*วันหมดอายุ*: [`%{expires}`]"
+redeem_invalid: "**โค้ดไม่ถูกต้อง โปรดลองอีกครั้งโดยใช้อันที่ถูกต้อง!**"

@@ -1,0 +1,17 @@
+##### Generate command #####
+provide_plan: "Please provide plan: %{plans}"
+plan_invalid: "Invalid Plan available plans: %{plans}"
+gen_author: "Generate Code"
+gen_desc: "• *Generated* [`+%{codes_length}`]\n```%{codes}```\n • *Plan*: `%{plan}`\n • *Expires at*: `%{expires}`"
+gen_footer: "Type: %{prefix}redeem <code> to redeem!"
+
+##### Profile command #####
+profile_author: "Premium Profile"
+profile_desc: "*User*: `%{user}`\n*Plan*: `%{plan}`\n*Expires at*: `%{expires}`"
+
+##### Redeem command #####
+redeem_arg: "Please specify the code you want to redeem!"
+redeem_already: "You already are a premium user"
+redeem_title: "Premium Redeemed"
+redeem_desc: "**You have successfully redeemed premium!**\n\n*Expires at*: [`%{expires}`]"
+redeem_invalid: "**The code is invalid. Please try again using valid one!**"
