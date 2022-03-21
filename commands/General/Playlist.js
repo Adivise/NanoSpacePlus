@@ -1,6 +1,6 @@
 const { MessageEmbed, Permissions } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
-const formatDuration = require('../../structures/formatduration');
+const formatDuration = require('../../structures/FormatDuration.js');
 const { SlashPage, SlashPlaylist } = require('../../structures/PageQueue.js');
 const Playlist = require("../../settings/models/Playlist.js");
 const humanizeDuration = require('humanize-duration');
