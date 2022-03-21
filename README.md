@@ -1,6 +1,6 @@
 ## 📄 READ THIS
 
-**THIS PROJECT FORK FROM MY ORIGINAL BOT [NanoSpace](https://github.com/Adivise/NanoSpace) (BUT THIS VERSION IS FULL SLASHCOMMAND NOT RESPONSIBLE)**
+**NEED USE WITH PREFIX? HERE: >> [NanoSpace](https://github.com/Adivise/NanoSpace)**
 
 ## 📑 Short Feature
 - [x] Music System
