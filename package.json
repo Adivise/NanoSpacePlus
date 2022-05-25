@@ -23,8 +23,7 @@
     "mongoose": "^5.9.19",
     "node-cron": "^3.0.0",
     "plsargs": "^0.1.6",
-    "voucher-code-generator": "^1.1.1",
-    "youtube-sr": "^4.1.9"
+    "voucher-code-generator": "^1.1.1"
   },
   "scripts": {
     "start": "node --no-warnings index.js"

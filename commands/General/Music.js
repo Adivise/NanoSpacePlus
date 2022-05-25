@@ -4,7 +4,7 @@ const { convertTime } = require("../../structures/ConvertTime.js");
 const { SlashPage } = require('../../structures/PageQueue.js');
 const Setup = require("../../settings/models/Setup.js");
 const lyricsfinder = require('lyrics-finder');
-const ytsr = require("youtube-sr").default;
+// const ytsr = require("youtube-sr").default;
 
 const fastForwardNum = 10;
 const rewindNum = 10;
@@ -550,11 +550,11 @@ module.exports = {
             const CurrentDuration = formatDuration(player.position);
             const TotalDuration = formatDuration(song.duration);
             const Thumbnail = `https://img.youtube.com/vi/${song.identifier}/maxresdefault.jpg`;
-            const songInfo = await ytsr.searchOne(song.uri);
-            const views = songInfo.views;
-            const uploadat = songInfo.uploadedAt;
-            const Part = Math.floor(player.position / song.duration * 30);
-            const Emoji = player.playing ? "🔴 |" : "⏸ |";
+          //  const songInfo = await ytsr.searchOne(song.uri);
+          //  const views = songInfo.views;
+          //  const uploadat = songInfo.uploadedAt;
+          //  const Part = Math.floor(player.position / song.duration * 30);
+          //  const Emoji = player.playing ? "🔴 |" : "⏸ |";
     
             const embeded = new MessageEmbed()
                 .setAuthor({ name: player.playing ? `${client.i18n.get(language, "music", "np_title")}` : `${client.i18n.get(language, "music", "np_title_pause")}`, iconURL: `${client.i18n.get(language, "music", "np_icon")}` })
@@ -564,8 +564,8 @@ module.exports = {
                 .addField(`${client.i18n.get(language, "music", "np_author")}`, `${song.author}`, true)
                 .addField(`${client.i18n.get(language, "music", "np_request")}`, `${song.requester}`, true)
                 .addField(`${client.i18n.get(language, "music", "np_volume")}`, `${player.volume}%`, true)
-                .addField(`${client.i18n.get(language, "music", "np_view")}`, `${views}`, true)
-                .addField(`${client.i18n.get(language, "music", "np_upload")}`, `${uploadat}`, true)
+               // .addField(`${client.i18n.get(language, "music", "np_view")}`, `${views}`, true)
+               // .addField(`${client.i18n.get(language, "music", "np_upload")}`, `${uploadat}`, true)
                 .addField(`${client.i18n.get(language, "music", "np_download")}`, `**[Click Here](https://www.mp3fromlink.com/watch?v=${song.identifier})**`, true)
                 .addField(`${client.i18n.get(language, "music", "np_current_duration", {
                     current_duration: CurrentDuration,
