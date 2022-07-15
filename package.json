@@ -22,6 +22,7 @@
     "moment": "^2.29.1",
     "mongoose": "^5.9.19",
     "node-cron": "^3.0.0",
+    "uuid": "^8.3.2",
     "plsargs": "^0.1.6",
     "voucher-code-generator": "^1.1.1"
   },
