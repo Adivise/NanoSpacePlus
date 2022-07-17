@@ -24,8 +24,7 @@
     "node-cron": "^3.0.0",
     "uuid": "^8.3.2",
     "plsargs": "^0.1.6",
-    "voucher-code-generator": "^1.1.1",
-    "youtube-sr": "^4.1.9"
+    "voucher-code-generator": "^1.1.1"
   },
   "scripts": {
     "start": "node --no-warnings index.js"
