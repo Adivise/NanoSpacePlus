@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, CommandInteraction, ApplicationCommandOptionType, createChannel } = require('discord.js');
 const moment = require('moment');
 const voucher_codes = require('voucher-code-generator');
 const Redeem = require("../../settings/models/Redeem.js");
@@ -12,49 +12,49 @@ module.exports = {
         {
             name: "generate",
             description: "Generate a premium code (Owner only)",
-            type: 1, //// SUBCOMMAND = 1
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "plan",
                     description: "The plan you want to generate a voucher code for",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 },
                 {
                     name: "amount",
                     description: "The amount of codes you want to generate",
                     required: false,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "profile",
             description: "View your premium profile!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand,
         },
         {
             name: "redeem",
             description: "Redeem your premium!",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "code",
                     description: "The code you want to redeem",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "setup",
             description: "Setup channel song request",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "type",
                     description: "Type of channel",
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     choices: [
                         {
@@ -70,6 +70,9 @@ module.exports = {
             ]
         }
     ],
+    /**
+     * @param {CommandInteraction} interaction
+     */
 run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         ///// GENERATE PREMIUM CODE COMMAND!
@@ -116,7 +119,7 @@ run: async (interaction, client, user, language) => {
                 }
             }
         
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
             .setColor(client.color)
             .setAuthor({ name: `${client.i18n.get(language, "premium", "gen_author")}`, iconURL: client.user.avatarURL() }) //${lang.description.replace("{codes_length}", codes.length).replace("{codes}", codes.join('\n')).replace("{plan}", plan).replace("{expires}", moment(time).format('dddd, MMMM Do YYYY'))}
             .setDescription(`${client.i18n.get(language, "premium", "gen_desc", {
@@ -139,7 +142,7 @@ run: async (interaction, client, user, language) => {
     
             try {
             if (user && user.isPremium) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "premium", "profile_author")}`, iconURL: client.user.displayAvatarURL() })
                     .setDescription(`${client.i18n.get(language, "premium", "profile_desc", {
                         user: interaction.user.tag,
@@ -152,7 +155,7 @@ run: async (interaction, client, user, language) => {
                 return interaction.editReply({ embeds: [embed] });
     
             } else {
-                const Premiumed = new MessageEmbed()
+                const Premiumed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
                     .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
                     .setColor(client.color)
@@ -175,7 +178,7 @@ run: async (interaction, client, user, language) => {
             if (!code)
                 return interaction.editReply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                     .setColor(client.color)
                     .setDescription(`${client.i18n.get(language, "premium", "redeem_arg")}`),
                 ],
@@ -184,7 +187,7 @@ run: async (interaction, client, user, language) => {
             if (member && member.isPremium) {
                 return interaction.editReply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                     .setColor(client.color)
                     .setDescription(`${client.i18n.get(language, "premium", "redeem_already")}`),
                 ],
@@ -212,7 +215,7 @@ run: async (interaction, client, user, language) => {
     
             interaction.editReply({
                 embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setTitle(`${client.i18n.get(language, "premium", "redeem_title")}`)
                     .setDescription(`${client.i18n.get(language, "premium", "redeem_desc", {
                         expires: expires,
@@ -225,7 +228,7 @@ run: async (interaction, client, user, language) => {
             } else {
             return interaction.editReply({
                 embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                     .setColor(client.color)
                     .setDescription(`${client.i18n.get(language, "premium", "redeem_invalid")}`),
                     ],
@@ -238,19 +241,21 @@ run: async (interaction, client, user, language) => {
             try {
                 if (user && user.isPremium) {
                     if(interaction.options._hoistedOptions.find(c => c.value === "create")) {
-                        await interaction.guild.channels.create(`song-request`, {
-                            type: 'GUILD_TEXT',
+                        // Create voice
+                        await interaction.guild.channels.create({
+                            name: "song-request",
+                            type: 0, // 0 = text, 2 = voice
                             topic: `${client.i18n.get(language, "setup", "setup_topic")}`,
-                            parent: interaction.channel.parentId,
-                            userLimit: 3,
-                            rateLimitPerUser: 3,
+                            parent_id: interaction.channel.parentId,
+                            user_limit: 3,
+                            rate_limit_per_user: 3, 
                         }).then(async (channel) => {
 
-                        const attachment = new MessageAttachment("./settings/images/banner.png", "setup.png");
+                        const attachment = new AttachmentBuilder("./settings/images/banner.png", { name: "setup.png" });
 
                         const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`;
 
-                        const playEmbed = new MessageEmbed()
+                        const playEmbed = new EmbedBuilder()
                             .setColor(client.color)
                             .setAuthor({ name: `${client.i18n.get(language, "setup", "setup_playembed_author")}` })
                             .setImage(`${client.i18n.get(language, "setup", "setup_playembed_image")}`)
@@ -266,7 +271,7 @@ run: async (interaction, client, user, language) => {
                                     playmsg: playmsg.id,
                                 }, { upsert: true, new: true });
 
-                                const embed = new MessageEmbed()
+                                const embed = new EmbedBuilder()
                                     .setDescription(`${client.i18n.get(language, "setup", "setup_msg", {
                                         channel: channel,
                                     })}`)
@@ -284,14 +289,14 @@ run: async (interaction, client, user, language) => {
                                 playmsg: "",
                             });
                             
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "setup", "setup_deleted")}`)
                                 .setColor(client.color);
 
                             return interaction.editReply({ embeds: [embed] });
                     }
                 } else {
-                        const Premiumed = new MessageEmbed()
+                        const Premiumed = new EmbedBuilder()
                             .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
                             .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
                             .setColor(client.color)

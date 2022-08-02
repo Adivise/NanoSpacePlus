@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, CommandInteraction, ApplicationCommandOptionType } = require('discord.js');
 const GLang = require('../../settings/models/Language.js'); 
 
 module.exports = { 
@@ -8,22 +8,26 @@ module.exports = {
         {
             name: "language",
             description: "Change the language for the bot",
-            type: 1, /// SUBCOMMAND! = 1
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "input",
                     description: "The new language",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "restart",
             description: "Shuts down the client!",
-            type: 1 /// SUBCOMMMAND! = 1
+            type: ApplicationCommandOptionType.Subcommand,
         }
     ],
+    /**
+     * 
+     * @param {CommandInteraction} interaction 
+     */
 run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         ///// CHANGE LANGUAGE COMMAND!
@@ -43,7 +47,7 @@ run: async (interaction, client, user, language) => {
                     language: input
                 });
                 newLang.save().then(() => {
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "utilities", "lang_set", {
                         language: input
                     })}`)
@@ -58,7 +62,7 @@ run: async (interaction, client, user, language) => {
             else if(newLang) {
                 newLang.language = input;
                 newLang.save().then(() => {
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "utilities", "lang_change", {
                         language: input
                     })}`)
@@ -75,7 +79,7 @@ run: async (interaction, client, user, language) => {
         if (interaction.options.getSubcommand() === "restart") {
             if(interaction.user.id != client.owner) return interaction.editReply({ content: `${client.i18n.get(language, "interaction", "owner_only")}` });
 
-            const restart = new MessageEmbed()
+            const restart = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "utilities", "restart_msg")}`)
                 .setColor(client.color);
         

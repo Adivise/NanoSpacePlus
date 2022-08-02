@@ -1,10 +1,14 @@
-const { Permissions } = require("discord.js");
+const { PermissionsBitField, InteractionType, CommandInteraction } = require("discord.js");
 const GLang = require("../../settings/models/Language.js");
 const chalk = require('chalk');
 const Premium = require("../../settings/models/Premium.js");
 
+ /**
+  * @param {CommandInteraction} interaction
+  */
+
 module.exports = async(client, interaction) => {
-    if (interaction.isCommand() || interaction.isContextMenu()) {
+    if (interaction.type === InteractionType.ApplicationCommand) {
         if (!client.slash.has(interaction.commandName)) return;
         if (!interaction.guild) return;
 
@@ -25,13 +29,13 @@ module.exports = async(client, interaction) => {
 
         console.log(chalk.magenta(`[COMMAND] ${command.name} used by ${interaction.user.tag} from ${interaction.guild.name} (${interaction.guild.id})`));
 
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.SEND_MESSAGES)) return interaction.user.dmChannel.send(`${client.i18n.get(language, "interaction", "no_perms")}`);
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.VIEW_CHANNEL)) return;
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.EMBED_LINKS)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.SPEAK)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.CONNECT)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return await interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) return interaction.user.dmChannel.send(`${client.i18n.get(language, "interaction", "no_perms")}`);
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewChannel)) return;
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Speak)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Connect)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
+        if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) return await interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
 
         if (command) {
             let user = interaction.client.premiums.get(interaction.user.id)

@@ -1,4 +1,4 @@
-const { MessageEmbed, Permissions } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField, CommandInteraction, ApplicationCommandOptionType } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 const formatDuration = require('../../structures/FormatDuration.js');
 const { SlashPage, SlashPlaylist } = require('../../structures/PageQueue.js');
@@ -14,152 +14,155 @@ module.exports = {
         {
             name: "add",
             description: "Add song to a playlist",
-            type: 1, /// SUBCOMMAND! = 1
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 },
                 {
                     name: "input",
                     description: "The song to add",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ]
         },
         {
             name: "create",
             description: "Create a new playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ]
         },
         {
             name: "delete",
             description: "Delete a playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "detail",
             description: "Detail a playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 },
                 {
                     name: "page",
                     description: "The page you want to view",
                     required: false,
-                    type: 4
+                    type: ApplicationCommandOptionType.Integer,
                 }
             ],
         },
         {
             name: "import",
             description: "Import a playlist to queue.",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "private",
             description: "Private a playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "public",
             description: "Public a playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "remove",
             description: "Remove a song from a playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 },
                 {
                     name: "postion",
                     description: "The position of the song",
                     required: true,
-                    type: 4
+                    type: ApplicationCommandOptionType.Integer
                 }
             ],
         },
         {
             name: "savequeue",
             description: "Save the current queue to a playlist",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "name",
                     description: "The name of the playlist",
                     required: true,
-                    type: 3
+                    type: ApplicationCommandOptionType.String,
                 }
             ],
         },
         {
             name: "view",
             description: "View my playlists",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "page",
                     description: "The page you want to view",
                     required: false,
-                    type: 4
+                    type: ApplicationCommandOptionType.Integer
                 }
             ],
         }
     ],
+    /**
+     * @param {CommandInteraction} interaction
+     */
 run: async (interaction, client, user, language) => {
     ///// ADD SUBCOMMAND!
     await interaction.deferReply({ ephemeral: false });
@@ -180,7 +183,7 @@ run: async (interaction, client, user, language) => {
         if(res.loadType != "NO_MATCHES") {
             if(res.loadType == "TRACK_LOADED") {
                 TrackAdd.push(res.tracks[0])
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "playlist", "add_track", {
                         title: res.tracks[0].title,
                         url: res.tracks[0].uri,
@@ -193,7 +196,7 @@ run: async (interaction, client, user, language) => {
                 for (let t = 0; t < res.tracks.length; t++) {
                     TrackAdd.push(res.tracks[t]);
                 }
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "playlist", "add_playlist", {
                         title: res.playlist.name,
                         url: Inputed,
@@ -205,7 +208,7 @@ run: async (interaction, client, user, language) => {
                 msg.edit({ content: " ", embeds: [embed] });
             } else if(res.loadType == "SEARCH_RESULT") {
                 TrackAdd.push(res.tracks[0]);
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "playlist", "add_search", {
                         title: res.tracks[0].title,
                         url: res.tracks[0].uri,
@@ -232,7 +235,7 @@ run: async (interaction, client, user, language) => {
                         playlist.tracks.push(TrackAdd[songs]);
                     }
                     playlist.save().then(() => {
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "playlist", "add_added", {
                             count: TrackAdd.length,
                             playlist: PlaylistName
@@ -272,7 +275,7 @@ run: async (interaction, client, user, language) => {
             });
 
             CreateNew.save().then(() => {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "playlist", "create_created", {
                     playlist: PlaylistName
                     })}`)
@@ -292,7 +295,7 @@ run: async (interaction, client, user, language) => {
 
             await playlist.delete();
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "playlist", "delete_deleted", {
                     name: Plist
                     })}`)
@@ -332,7 +335,7 @@ run: async (interaction, client, user, language) => {
             const pages = [];
             for (let i = 0; i < pagesNum; i++) {
                 const str = playlistStrings.slice(i * 10, i * 10 + 10).join('');
-                const embed = new MessageEmbed() //${playlist.name}'s Playlists
+                const embed = new EmbedBuilder() //${playlist.name}'s Playlists
                     .setAuthor({ name: `${client.i18n.get(language, "playlist", "detail_embed_title", {
                         name: playlist.name
                     })}`, iconURL: interaction.user.displayAvatarURL() })
@@ -366,8 +369,8 @@ run: async (interaction, client, user, language) => {
 		
             const { channel } = interaction.member.voice;
             if (!channel) return interaction.editReply(`${client.i18n.get(language, "playlist", "import_voice")}`);
-            if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.CONNECT)) return interaction.editReply(`${client.i18n.get(language, "playlist", "import_join")}`);
-            if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.SPEAK)) return interaction.editReply(`${client.i18n.get(language, "playlist", "import_speak")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return interaction.editReply(`${client.i18n.get(language, "playlist", "import_join")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return interaction.editReply(`${client.i18n.get(language, "playlist", "import_speak")}`);
     
             let player = client.manager.get(interaction.guild.id);
             if(!player) { player = await client.manager.create({
@@ -394,7 +397,7 @@ run: async (interaction, client, user, language) => {
     
             const msg = await interaction.editReply(`${client.i18n.get(language, "playlist", "import_loading")}`);
     
-            const embed = new MessageEmbed() // **Imported • \`${Plist}\`** (${playlist.tracks.length} tracks) • ${message.user}
+            const embed = new EmbedBuilder() // **Imported • \`${Plist}\`** (${playlist.tracks.length} tracks) • ${message.user}
                 .setDescription(`${client.i18n.get(language, "playlist", "import_imported", {
                     name: Plist,
                     tracks: playlist.tracks.length,
@@ -454,7 +457,7 @@ run: async (interaction, client, user, language) => {
             playlist.private = true;
     
             playlist.save().then(() => {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "playlist", "private_success")}`)
                     .setColor(client.color)
                 msg.edit({ content: " ", embeds: [embed] });
@@ -478,7 +481,7 @@ run: async (interaction, client, user, language) => {
             playlist.private = false;
     
             playlist.save().then(() => {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "playlist", "public_success")}`)
                     .setColor(client.color)
                 msg.edit({ content: " ", embeds: [embed] });
@@ -502,7 +505,7 @@ run: async (interaction, client, user, language) => {
             playlist.tracks.splice(position - 1, 1);
             await playlist.save();
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "playlist", "remove_removed", {
                     name: Plist,
                     position: pos
@@ -524,7 +527,7 @@ run: async (interaction, client, user, language) => {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
             const queue = player.queue.map(track => track);
             const current = player.queue.current;
@@ -532,7 +535,7 @@ run: async (interaction, client, user, language) => {
             TrackAdd.push(current);
             TrackAdd.push(...queue);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "playlist", "savequeue_saved", {
                     name: Plist,
                     tracks: queue.length + 1
@@ -572,7 +575,7 @@ run: async (interaction, client, user, language) => {
             const pages = [];
             for (let i = 0; i < pagesNum; i++) {
                 const str = playlistStrings.slice(i * 10, i * 10 + 10).join('');
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "playlist", "view_embed_title", {
                         user: interaction.user.username
                     })}`, iconURL: interaction.user.displayAvatarURL() })
@@ -600,7 +603,7 @@ run: async (interaction, client, user, language) => {
             }
         }
         } else {
-            const Premiumed = new MessageEmbed()
+            const Premiumed = new EmbedBuilder()
                 .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
                 .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
                 .setColor(client.color)

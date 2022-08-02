@@ -1,4 +1,4 @@
-const { Client, Intents, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { Manager } = require("erela.js");
 const Spotify = require("better-erela.js-spotify").default;
 const Deezer = require("erela.js-deezer");
@@ -11,14 +11,16 @@ class MainClient extends Client {
         super({
             shards: "auto",
             allowedMentions: {
-                parse: ["roles", "users", "everyone"],
-                repliedUser: false
+              everyone: false,
+              roles: false,
+              users: false,
             },
             intents: [
-                Intents.FLAGS.GUILDS,
-                Intents.FLAGS.GUILD_MESSAGES,
-                Intents.FLAGS.GUILD_MEMBERS,
-                Intents.FLAGS.GUILD_VOICE_STATES,
+              GatewayIntentBits.Guilds,
+              GatewayIntentBits.GuildMembers,
+              GatewayIntentBits.GuildMessages,
+              GatewayIntentBits.GuildVoiceStates,
+              GatewayIntentBits.MessageContent,
             ]
         });
 
