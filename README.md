@@ -1,8 +1,8 @@
-## 📄 READ THIS
+## 📄 โปรดอ่าน
 
 *Prefix Commands!* | **[NanoSpace](https://github.com/Adivise/NanoSpace)**
 
-## 📑 Short Feature
+## 📑 ระบบแบบย่อๆ
 - [x] Music System
 - [x] Playlists System
 - [x] Premium System
@@ -13,7 +13,7 @@
 - [x] Custom Filters
 - [x] Easy to use
 
-## 🎶 Support Source
+## 🎶 รับร้องการเล่นจาก
 - [x] Youtube
 - [x] SoundCloud
 - [x] Spotify
@@ -25,7 +25,7 @@
 - [x] Vimeo
 - [x] Https (Radio)
 
-<details><summary>📎 Requirements [CLICK ME]</summary>
+<details><summary>📎 Requirements [กดเพื่อดู]</summary>
 <p>
 
 ## 📎 Requirements
