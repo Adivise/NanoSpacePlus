@@ -1,5 +1,5 @@
 const { EmbedBuilder, CommandInteraction, ApplicationCommandOptionType, PermissionsBitField } = require("discord.js");
-const { ModalBuilder, ModalField } = require("discord-modal");
+// const { ModalBuilder, ModalField } = require("discord-modal");
 
 module.exports = {
   name: "extra",
