@@ -8,7 +8,7 @@ const Premium = require("../../settings/models/Premium.js");
   */
 
 module.exports = async(client, interaction) => {
-    if (interaction.type === InteractionType.ApplicationCommand) {
+    if (interaction.isCommand || interaction.isContextMenuCommand || interaction.isModalSubmit) {
         if (!client.slash.has(interaction.commandName)) return;
         if (!interaction.guild) return;
 
@@ -37,17 +37,17 @@ module.exports = async(client, interaction) => {
         if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) return interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
         if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) return await interaction.reply(`${client.i18n.get(language, "interaction", "no_perms")}`);
 
-        if (command) {
-            let user = interaction.client.premiums.get(interaction.user.id)
+    if (command) {
+        let user = interaction.client.premiums.get(interaction.user.id)
         
-            if (!user) {
-                const findUser = await Premium.findOne({ Id: interaction.user.id })
-                if (!findUser) {
-                    const newUser = await Premium.create({ Id: interaction.user.id })
-                    interaction.client.premiums.set(interaction.user.id, newUser)
-                    user = newUser
-                } else return
-            } 
+        if (!user) {
+            const findUser = await Premium.findOne({ Id: interaction.user.id })
+            if (!findUser) {
+                const newUser = await Premium.create({ Id: interaction.user.id })
+                interaction.client.premiums.set(interaction.user.id, newUser)
+                user = newUser
+            } else return
+        } 
         try {
             command.run(interaction, client, user, language);
         } catch (error) {
@@ -55,4 +55,6 @@ module.exports = async(client, interaction) => {
             await interaction.reply({ content: `${client.i18n.get(language, "interaction", "error")}`, ephmeral: true });
         }}
     }
+
+
 }

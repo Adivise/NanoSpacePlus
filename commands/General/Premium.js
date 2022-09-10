@@ -1,4 +1,4 @@
-const { EmbedBuilder, AttachmentBuilder, CommandInteraction, ApplicationCommandOptionType, createChannel } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, CommandInteraction, ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 const moment = require('moment');
 const voucher_codes = require('voucher-code-generator');
 const Redeem = require("../../settings/models/Redeem.js");
@@ -50,24 +50,6 @@ module.exports = {
             name: "setup",
             description: "Setup channel song request",
             type: ApplicationCommandOptionType.Subcommand,
-            options: [
-                {
-                    name: "type",
-                    description: "Type of channel",
-                    type: ApplicationCommandOptionType.String,
-                    required: true,
-                    choices: [
-                        {
-                            name: "Create",
-                            value: "create"
-                        },
-                        {
-                            name: "Delete",
-                            value: "delete"
-                        }
-                    ]
-                },
-            ]
         }
     ],
     /**
@@ -237,64 +219,47 @@ run: async (interaction, client, user, language) => {
         }
         ///// SETUP CHANNEL SONG REQUEST COMMAND!
         if (interaction.options.getSubcommand() === "setup") {
-            if (!interaction.member.permissions.has('MANAGE_GUILD')) return interaction.editReply(`${client.i18n.get(language, "utilities", "lang_perm")}`);
+            if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)) return interaction.editReply(`${client.i18n.get(language, "utilities", "lang_perm")}`);
             try {
                 if (user && user.isPremium) {
-                    if(interaction.options._hoistedOptions.find(c => c.value === "create")) {
-                        // Create voice
-                        await interaction.guild.channels.create({
-                            name: "song-request",
-                            type: 0, // 0 = text, 2 = voice
-                            topic: `${client.i18n.get(language, "setup", "setup_topic")}`,
-                            parent_id: interaction.channel.parentId,
-                            user_limit: 3,
-                            rate_limit_per_user: 3, 
-                        }).then(async (channel) => {
+                    await interaction.guild.channels.create({
+                        name: "song-request",
+                        type: 0, // 0 = text, 2 = voice
+                        topic: `${client.i18n.get(language, "setup", "setup_topic")}`,
+                        parent_id: interaction.channel.parentId,
+                        user_limit: 3,
+                        rate_limit_per_user: 3, 
+                    }).then(async (channel) => {
 
-                        const attachment = new AttachmentBuilder("./settings/images/banner.png", { name: "setup.png" });
+                    const attachment = new AttachmentBuilder("./settings/images/banner.png", { name: "setup.png" });
 
-                        const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`;
+                    const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`;
 
-                        const playEmbed = new EmbedBuilder()
-                            .setColor(client.color)
-                            .setAuthor({ name: `${client.i18n.get(language, "setup", "setup_playembed_author")}` })
-                            .setImage(`${client.i18n.get(language, "setup", "setup_playembed_image")}`)
-                            .setDescription(`${client.i18n.get(language, "setup", "setup_playembed_desc")}`)
-                            .setFooter({ text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}` });
+                    const playEmbed = new EmbedBuilder()
+                        .setColor(client.color)
+                        .setAuthor({ name: `${client.i18n.get(language, "setup", "setup_playembed_author")}` })
+                        .setImage(`${client.i18n.get(language, "setup", "setup_playembed_image")}`)
+                        .setDescription(`${client.i18n.get(language, "setup", "setup_playembed_desc")}`)
+                        .setFooter({ text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}` });
 
-                        await channel.send({ files: [attachment] });
-                            await channel.send({ content: `${queueMsg}`, embeds: [playEmbed], components: [client.diSwitch] }).then(async (playmsg) => {
-                                await Setup.findOneAndUpdate({ guild: interaction.guild.id }, {
-                                    guild: interaction.guild.id,
-                                    enable: true,
-                                    channel: channel.id,
-                                    playmsg: playmsg.id,
-                                }, { upsert: true, new: true });
-
-                                const embed = new EmbedBuilder()
-                                    .setDescription(`${client.i18n.get(language, "setup", "setup_msg", {
-                                        channel: channel,
-                                    })}`)
-                                    .setColor(client.color);
-
-                                return interaction.followUp({ embeds: [embed] });
-                            })
-                        });
-                    }
-                    if(interaction.options._hoistedOptions.find(c => c.value === "delete")) {
-                        await Setup.findOneAndUpdate({ guild: interaction.guild.id }, {
+                    await channel.send({ files: [attachment] });
+                        await channel.send({ content: `${queueMsg}`, embeds: [playEmbed], components: [client.diSwitch] }).then(async (playmsg) => {
+                            await Setup.findOneAndUpdate({ guild: interaction.guild.id }, {
                                 guild: interaction.guild.id,
-                                enable: false,
-                                channel: "",
-                                playmsg: "",
+                                enable: true,
+                                channel: channel.id,
+                                playmsg: playmsg.id,
                             });
                             
                             const embed = new EmbedBuilder()
-                                .setDescription(`${client.i18n.get(language, "setup", "setup_deleted")}`)
+                                .setDescription(`${client.i18n.get(language, "setup", "setup_msg", {
+                                    channel: channel,
+                                })}`)
                                 .setColor(client.color);
 
-                            return interaction.editReply({ embeds: [embed] });
-                    }
+                            return interaction.followUp({ embeds: [embed] });
+                        })
+                    });
                 } else {
                         const Premiumed = new EmbedBuilder()
                             .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })

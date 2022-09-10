@@ -15,8 +15,8 @@ module.exports = async (client, player, track, payload) => {
     const channel = client.channels.cache.get(player.textChannel);
     if (!channel) return;
 
-    let data = await Setup.findOne({ guild: channel.guild.id });
-    if (player.textChannel === data.channel) return;
+    const db = await Setup.findOne({ guild: channel.guild.id });
+    if (player.textChannel === db.channel) return;
 
 		let guildModel = await GLang.findOne({
 			guild: channel.guild.id,
