@@ -286,8 +286,8 @@ module.exports = {
                     await player.queue.clear();
         
                     const off = new EmbedBuilder()
-                    .setDescription(`${client.i18n.get(language, "music", "autoplay_off")}`)
-                    .setColor(client.color);
+                        .setDescription(`${client.i18n.get(language, "music", "autoplay_off")}`)
+                        .setColor(client.color);
         
                     msg.edit({ content: " ", embeds: [off] });
                 } else {
@@ -550,6 +550,7 @@ module.exports = {
 
             const realtime = client.config.NP_REALTIME;
             const msg = await interaction.editReply(`${client.i18n.get(language, "music", "np_loading")}`);
+
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
     
@@ -573,7 +574,7 @@ module.exports = {
                 .addFields({ name: `${client.i18n.get(language, "music", "np_volume")}`, value: `${player.volume}%`, inline: true })
                 .addFields({ name: `${client.i18n.get(language, "music", "np_view")}`, value: `${views}`, inline: true })
                 .addFields({ name: `${client.i18n.get(language, "music", "np_upload")}`, value: `${uploadat}`, inline: true })
-                .addFields({ name: `${client.i18n.get(language, "music", "np_download")}`, value: `**[Click Here](https://www.mp3fromlink.com/watch?v=${song.identifier})**`, inline: true })
+                .addFields({ name: `${client.i18n.get(language, "music", "np_download")}`, value: `**[Click Here](https://www.y2mate.com/youtube/${song.identifier})**`, inline: true })
                 .addFields({ name: `${client.i18n.get(language, "music", "np_current_duration", {
                     current_duration: CurrentDuration,
                     total_duration: TotalDuration
