@@ -1,4 +1,4 @@
-const { Client, MessageEmbed } = require("discord.js");
+const { Client, EmbedBuilder } = require("discord.js");
 const formatDuration = require("../../structures/FormatDuration.js");
 const { Player } = require("erela.js");
 const GLang = require("../../settings/models/Language.js");
@@ -47,7 +47,7 @@ module.exports = async (client) => {
         let cSong = player.queue.current;
         let qDuration = `${formatDuration(player.queue.duration)}`;
 
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setAuthor({ name: `${client.i18n.get(language, "setup", "setup_author")}`, iconURL: `${client.i18n.get(language, "setup", "setup_author_icon")}` })
             .setDescription(`${client.i18n.get(language, "setup", "setup_desc", {
                 title: cSong.title,
@@ -95,7 +95,7 @@ module.exports = async (client) => {
 
         const queueMsg = `${client.i18n.get(language, "setup", "setup_queuemsg")}`;
 
-        const playEmbed = new MessageEmbed()
+        const playEmbed = new EmbedBuilder()
           .setColor(client.color)
           .setAuthor({ name: `${client.i18n.get(language, "setup", "setup_playembed_author")}` })
           .setImage(`${client.i18n.get(language, "setup", "setup_playembed_image")}`)

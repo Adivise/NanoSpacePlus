@@ -1,13 +1,6 @@
-const { MessageEmbed, Client } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const GLang = require("../../settings/models/Language.js");
-const { Player } = require("erela.js");
-
-/**
- * 
- * @param {Client} client 
- * @param {Player} player 
- * @returns 
- */
+const Setup = require("../../settings/models/Setup.js");
 
 module.exports = async (client, player) => {
 	const channel = client.channels.cache.get(player.textChannel);
@@ -27,16 +20,19 @@ module.exports = async (client, player) => {
 
 	const { language } = guildModel;
 
-		/////////// Update Music Setup ///////////
+	/////////// Update Music Setup ///////////
 
-		await client.UpdateMusic(player);
+	await client.UpdateMusic(player);
 
-		/////////// Update Music Setup ///////////
+	const db = await Setup.findOne({ guild: channel.guild.id });
+	if (db.enable) return player.destroy();
 
-	const embed = new MessageEmbed()
+	////////// End Update Music Setup //////////
+
+	const embed = new EmbedBuilder()
 		.setColor(client.color)
 		.setDescription(`${client.i18n.get(language, "player", "queue_end_desc")}`);
 
-	if(channel) channel.send({ embeds: [embed] });
-	player.destroy();
+	await channel.send({ embeds: [embed] });
+	return player.destroy();
 }

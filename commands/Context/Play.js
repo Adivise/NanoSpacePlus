@@ -1,9 +1,9 @@
-const { ContextMenuInteraction, MessageEmbed, Permissions } = require('discord.js');
+const { ContextMenuInteraction, EmbedBuilder, PermissionsBitField, ApplicationCommandType } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = { 
     name: "Context | Play",
-    type: 3,
+    type: ApplicationCommandType.Message,
     /**
      * @param {ContextMenuInteraction} interaction
      */
@@ -17,8 +17,8 @@ module.exports = {
         
         const { channel } = interaction.member.voice;
 		if (!channel) return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
-		if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.CONNECT)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-		if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.SPEAK)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
+		if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
+		if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
 
         const player = await client.manager.create({
             guild: interaction.guild.id,
@@ -33,7 +33,7 @@ module.exports = {
         if(res.loadType != "NO_MATCHES") {
             if(res.loadType == "TRACK_LOADED") {
                 player.queue.add(res.tracks[0]);
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "play_track", {
                         title: res.tracks[0].title,
                         url: res.tracks[0].uri,
@@ -46,7 +46,7 @@ module.exports = {
             }
             else if(res.loadType == "PLAYLIST_LOADED") {
                 player.queue.add(res.tracks)
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "play_playlist", {
                         title: res.playlist.name,
                         url: value,
@@ -60,7 +60,7 @@ module.exports = {
             }
             else if(res.loadType == "SEARCH_RESULT") {
                 player.queue.add(res.tracks[0]);
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "play_result", {
                         title: res.tracks[0].title,
                         url: res.tracks[0].uri,

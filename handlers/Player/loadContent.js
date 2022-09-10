@@ -1,4 +1,4 @@
-const { MessageEmbed, Client } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 const Setup = require("../../settings/models/Setup.js");
 const GLang = require("../../settings/models/Language.js");
 const delay = require("delay");
@@ -35,7 +35,7 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-                        } else if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(channel)) {
+                        } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
                         } else if (!player || !player.queue.previous) {
                             return interaction.reply(`${client.i18n.get(language, "music", "previous_notfound")}`);
@@ -43,7 +43,7 @@ try {
                             await player.queue.unshift(player.queue.previous);
                             await player.stop();
 
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "music", "previous_msg")}`)
                                 .setColor(client.color);
 
@@ -56,7 +56,7 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-                        } else if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(channel)) {
+                        } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
@@ -65,7 +65,7 @@ try {
                             await player.destroy();
                             await client.UpdateMusic(player);
 
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
                                 .setColor(client.color);
 
@@ -73,7 +73,7 @@ try {
                         } else {
                             await player.stop();
 
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
                                 .setColor(client.color);
 
@@ -86,7 +86,7 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-                        } else if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(channel)) {
+                        } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
@@ -94,7 +94,7 @@ try {
                             await player.destroy();
                             await client.UpdateMusic(player);
 
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "player", "stop_msg")}`)
                                 .setColor(client.color);
 
@@ -107,7 +107,7 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-                        } else if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(channel)) {
+                        } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
@@ -115,7 +115,7 @@ try {
                             await player.pause(!player.paused);
                             const uni = player.paused ? `${client.i18n.get(language, "player", "switch_pause")}` : `${client.i18n.get(language, "player", "switch_resume")}`;
 
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "player", "pause_msg", {
                                 pause: uni,
                                 })}`)
@@ -130,7 +130,7 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-                        } else if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(channel)) {
+                        } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
@@ -138,7 +138,7 @@ try {
                             await player.setQueueRepeat(!player.queueRepeat);
                             const uni = player.queueRepeat ? `${client.i18n.get(language, "player", "switch_enable")}` : `${client.i18n.get(language, "player", "switch_disable")}`;
                     
-                            const embed = new MessageEmbed()
+                            const embed = new EmbedBuilder()
                                 .setDescription(`${client.i18n.get(language, "player", "repeat_msg", {
                                 loop: uni,
                                 })}`)
@@ -156,12 +156,16 @@ try {
     } catch (e) {
         console.log(e);
 }
+/**
+ * @param {Client} client
+ * @param {Message} message
+ */
 
 client.on("messageCreate", async (message) => {
         if (!message.guild || !message.guild.available) return;
-        let database = await Setup.findOne({ guild: message.guildId });
+        let database = await Setup.findOne({ guild: message.guild.id });
         if (!database) return Setup.create({
-            guild: message.guildId,
+            guild: message.guild.id,
             enable: false,
             channel: "",
             playmsg: "",
@@ -190,7 +194,7 @@ client.on("messageCreate", async (message) => {
 
         if (message.author.bot) return;
 
-            let song = message.cleanContent;
+            const song = message.cleanContent;
             await message.delete();
 
             let voiceChannel = await message.member.voice.channel;

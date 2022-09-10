@@ -1,4 +1,4 @@
-const { MessageEmbed, Permissions, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField, ActionRowBuilder, ButtonBuilder, ButtonStyle, ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
 const formatDuration = require('../../structures/FormatDuration.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 const { SlashPage } = require('../../structures/PageQueue.js');
@@ -16,27 +16,27 @@ module.exports = {
         {
             name: "247",
             description: "24/7 in voice channel",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "autoplay",
             description: "Autoplay music (Random play songs)",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "clear",
             description: "Clear song in queue!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "forward",
             description: "Forward timestamp in the song!",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "seconds",
                     description: "The number of seconds to forward the timestamp by.",
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false
                 }
             ],
@@ -44,22 +44,22 @@ module.exports = {
         {
             name: "join",
             description: "Make the bot join the voice channel.",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "leave",
             description: "Make the bot leave the voice channel.",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "loop",
             description: "Loop song in queue type all/current!",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "type",
                     description: "Type of loop",
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     choices: [
                         {
@@ -77,17 +77,17 @@ module.exports = {
         {
             name: "loopall",
             description: "Loop all songs in queue!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "lyrics",
             description: "Display lyrics of a song.",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "input",
                     description: "The song you want to find lyrics for",
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 }
             ],
@@ -95,22 +95,22 @@ module.exports = {
         {
             name: "nowplaying",
             description: "Display the song currently playing.",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "pause",
             description: "Pause the music!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "play",
             description: "Play a song from any types.",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "input",
                     description: "The input of the song",
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 }
             ], 
@@ -118,17 +118,17 @@ module.exports = {
         {
             name: "previous",
             description: "Play the previous song in the queue.",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "queue",
             description: "Show the queue of songs.",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "page",
                     description: "Page number to show.",
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false,
                 }
             ],
@@ -136,22 +136,22 @@ module.exports = {
         {
             name: "replay",
             description: "Replay the current song!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "resume",
             description: "Resume the music!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "rewind",
             description: "Rewind timestamp in the song!",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "seconds",
                     description: "Rewind timestamp in the song!",
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false,
                 }
             ],
@@ -159,12 +159,12 @@ module.exports = {
         {
             name: "search",
             description: "Search for a song!",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "input",
                     description: "The input of the song",
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 }
             ],
@@ -172,12 +172,12 @@ module.exports = {
         {
             name: "seek",
             description: "Seek timestamp in the song!",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "seconds",
                     description: "The number of seconds to seek the timestamp by.",
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                 }
             ],
@@ -185,22 +185,22 @@ module.exports = {
         {
             name: "shuffle",
             description: "Shuffle song in queue!",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "skip",
             description: "Skips the song currently playing.",
-            type: 1
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "skipto",
             description: "Skips to a certain song in the queue.",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "position",
                     description: "The position of the song in the queue.",
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                 }
             ],
@@ -208,17 +208,22 @@ module.exports = {
         {
             name: "volume",
             description: "Adjusts the volume of the bot.",
-            type: 1,
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "amount",
                     description: "The amount of volume to set the bot to.",
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false,
                 }
             ],
         }
     ],
+
+    /**
+     * @param {CommandInteraction} interaction
+     */
+
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
 
@@ -229,27 +234,27 @@ module.exports = {
                 if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
 
                 const { channel } = interaction.member.voice;
-                if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
                 try {
                     if (user && user.isPremium) {
                 if (player.twentyFourSeven) {
                     player.twentyFourSeven = false;
-                    const off = new MessageEmbed()
+                    const off = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
                     .setColor(client.color);
 
                     msg.edit({ content: " ", embeds: [off] });
                 } else {
                     player.twentyFourSeven = true;
-                    const on = new MessageEmbed()
+                    const on = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "247_on")}`)
                     .setColor(client.color);
 
                     msg.edit({ content: " ", embeds: [on] });
                 }
             } else {
-                const Premiumed = new MessageEmbed()
+                const Premiumed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
                     .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
                     .setColor(client.color)
@@ -271,7 +276,7 @@ module.exports = {
                 const autoplay = player.get("autoplay");
         
                 const { channel } = interaction.member.voice;
-                if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
         
                 try {
                     if (user && user.isPremium) {
@@ -280,7 +285,7 @@ module.exports = {
                     await player.set("autoplay", false);
                     await player.queue.clear();
         
-                    const off = new MessageEmbed()
+                    const off = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "autoplay_off")}`)
                     .setColor(client.color);
         
@@ -296,14 +301,14 @@ module.exports = {
                     await player.set("identifier", identifier);
                     await player.queue.add(res.tracks[1]);
         
-                    const on = new MessageEmbed()
+                    const on = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "autoplay_on")}`)
                     .setColor(client.color);
         
                     msg.edit({ content: " ", embeds: [on] });
                 }
             } else {
-                const Premiumed = new MessageEmbed()
+                const Premiumed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
                     .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
                     .setColor(client.color)
@@ -322,11 +327,11 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             await player.queue.clear();
             
-            const cleared = new MessageEmbed()
+            const cleared = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "clearqueue_msg")}`)
                 .setColor(client.color);
     
@@ -339,7 +344,7 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             const song = player.queue.current;
             const CurrentDuration = formatDuration(player.position);
@@ -349,7 +354,7 @@ module.exports = {
     
                     player.seek(player.position + value * 1000);
                     
-                    const forward1 = new MessageEmbed()
+                    const forward1 = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "forward_msg", {
                         duration: CurrentDuration
                     })}`)
@@ -371,7 +376,7 @@ module.exports = {
                 if((player.position + fastForwardNum * 1000) < song.duration) {
                     player.seek(player.position + fastForwardNum * 1000);
                     
-                    const forward2 = new MessageEmbed()
+                    const forward2 = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "forward_msg", {
                         duration: CurrentDuration
                         })}`)
@@ -389,6 +394,8 @@ module.exports = {
 
             const { channel } = interaction.member.voice;
             if(!channel) return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
     
             const player = client.manager.create({
                 guild: interaction.guild.id,
@@ -399,7 +406,7 @@ module.exports = {
     
             await player.connect();
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "join_msg", {
                     channel: channel.name
                 })}`)
@@ -413,12 +420,12 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             await player.destroy();
             await client.UpdateMusic(player);
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "leave_msg", {
                     channel: channel.name
                 })}`)
@@ -432,13 +439,13 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if(interaction.options._hoistedOptions.find(c => c.value === "current")) {
                 if (player.trackRepeat === false) {
                     player.setTrackRepeat(true);
     
-                    const looped = new MessageEmbed()
+                    const looped = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "loop_current")}`)
                         .setColor(client.color);
     
@@ -446,7 +453,7 @@ module.exports = {
                 } else {
                     player.setTrackRepeat(false);
     
-                    const unlooped = new MessageEmbed()
+                    const unlooped = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "unloop_current")}`)
                         .setColor(client.color);
     
@@ -457,7 +464,7 @@ module.exports = {
                 if (player.queueRepeat === true) {
                     player.setQueueRepeat(false);
     
-                    const unloopall = new MessageEmbed()
+                    const unloopall = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "unloop_all")}`)
                         .setColor(client.color);
     
@@ -466,7 +473,7 @@ module.exports = {
                 else {
                     player.setQueueRepeat(true);
     
-                    const loopall = new MessageEmbed()
+                    const loopall = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "loop_all")}`)
                         .setColor(client.color);
     
@@ -480,12 +487,12 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if (player.queueRepeat === true) {
                 player.setQueueRepeat(false)
                 
-                const unloopall = new MessageEmbed()
+                const unloopall = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
                     .setColor(client.color);
     
@@ -493,7 +500,7 @@ module.exports = {
             } else {
                 player.setQueueRepeat(true);
                 
-                const loopall = new MessageEmbed()
+                const loopall = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
                     .setColor(client.color);
     
@@ -507,7 +514,7 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             let song = value;
                 let CurrentSong = player.queue.current;
@@ -522,7 +529,7 @@ module.exports = {
                 console.log(err);
                 return msg.edit(`${client.i18n.get(language, "music", "lyrics_notfound")}`);
             }
-            let lyricsEmbed = new MessageEmbed()
+            let lyricsEmbed = new EmbedBuilder()
                 .setColor(client.color)
                 .setTitle(`${client.i18n.get(language, "music", "lyrics_title", {
                     song: song
@@ -550,59 +557,59 @@ module.exports = {
             const CurrentDuration = formatDuration(player.position);
             const TotalDuration = formatDuration(song.duration);
             const Thumbnail = `https://img.youtube.com/vi/${song.identifier}/maxresdefault.jpg`;
-          //  const songInfo = await ytsr.searchOne(song.uri);
-          //  const views = songInfo.views;
-          //  const uploadat = songInfo.uploadedAt;
-          //  const Part = Math.floor(player.position / song.duration * 30);
-          //  const Emoji = player.playing ? "🔴 |" : "⏸ |";
+           // const songInfo = await ytsr.searchOne(song.uri);
+           // const views = songInfo.views;
+           // const uploadat = songInfo.uploadedAt;
+            const Part = Math.floor(player.position / song.duration * 30);
+            const Emoji = player.playing ? "🔴 |" : "⏸ |";
     
-            const embeded = new MessageEmbed()
+            const embeded = new EmbedBuilder()
                 .setAuthor({ name: player.playing ? `${client.i18n.get(language, "music", "np_title")}` : `${client.i18n.get(language, "music", "np_title_pause")}`, iconURL: `${client.i18n.get(language, "music", "np_icon")}` })
                 .setColor(client.color)
                 .setDescription(`**[${song.title}](${song.uri})**`)
                 .setThumbnail(Thumbnail)
-                .addField(`${client.i18n.get(language, "music", "np_author")}`, `${song.author}`, true)
-                .addField(`${client.i18n.get(language, "music", "np_request")}`, `${song.requester}`, true)
-                .addField(`${client.i18n.get(language, "music", "np_volume")}`, `${player.volume}%`, true)
-               // .addField(`${client.i18n.get(language, "music", "np_view")}`, `${views}`, true)
-               // .addField(`${client.i18n.get(language, "music", "np_upload")}`, `${uploadat}`, true)
-                .addField(`${client.i18n.get(language, "music", "np_download")}`, `**[Click Here](https://www.mp3fromlink.com/watch?v=${song.identifier})**`, true)
-                .addField(`${client.i18n.get(language, "music", "np_current_duration", {
+                .addFields({ name: `${client.i18n.get(language, "music", "np_author")}`, value: `${song.author}`, inline: true })
+                .addFields({ name: `${client.i18n.get(language, "music", "np_request")}`, value: `${song.requester}`, inline: true })
+                .addFields({ name: `${client.i18n.get(language, "music", "np_volume")}`, value: `${player.volume}%`, inline: true })
+               // .addFields({ name: `${client.i18n.get(language, "music", "np_view")}`, value: `${views}`, inline: true })
+               // .addFields({ name: `${client.i18n.get(language, "music", "np_upload")}`, value: `${uploadat}`, inline: true })
+                .addFields({ name: `${client.i18n.get(language, "music", "np_download")}`, value: `**[Click Here](https://www.mp3fromlink.com/watch?v=${song.identifier})**`, inline: true })
+                .addFields({ name: `${client.i18n.get(language, "music", "np_current_duration", {
                     current_duration: CurrentDuration,
                     total_duration: TotalDuration
-                })}`, `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\``)
+                })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\``, inline: false })
                 .setTimestamp();
     
-            const row = new MessageActionRow()
+            const row = new ActionRowBuilder()
                 .addComponents(
-                  new MessageButton()
+                  new ButtonBuilder()
                     .setCustomId("pause")
                     .setEmoji("⏯")
-                    .setStyle("PRIMARY")
+                    .setStyle(ButtonStyle.Primary)
                 )
                 .addComponents(
-                  new MessageButton()
+                  new ButtonBuilder()
                     .setCustomId("replay")
                     .setEmoji("⬅")
-                    .setStyle("SUCCESS")
+                    .setStyle(ButtonStyle.Success)
                 )
                 .addComponents(
-                  new MessageButton()
+                  new ButtonBuilder()
                     .setCustomId("stop")
                     .setEmoji("✖")
-                    .setStyle("DANGER")
+                    .setStyle(ButtonStyle.Danger)
                 )
                 .addComponents(
-                  new MessageButton()
+                  new ButtonBuilder()
                     .setCustomId("skip")
                     .setEmoji("➡")
-                    .setStyle("SUCCESS")
+                    .setStyle(ButtonStyle.Success)
                 )
                 .addComponents(
-                  new MessageButton()
+                  new ButtonBuilder()
                     .setCustomId("loop")
                     .setEmoji("🔄")
-                    .setStyle("PRIMARY")
+                    .setStyle(ButtonStyle.Primary)
                 )
     
             const NEmbed = await msg.edit({ content: " ", embeds: [embeded], components: [row] });
@@ -615,7 +622,7 @@ module.exports = {
                 const Part = Math.floor(player.position / song.duration * 30);
                 const Emoji = player.playing ? "🔴 |" : "⏸ |";
     
-                embeded.fields[6] = { name: `${client.i18n.get(language, "music", "np_current_duration", {
+                embeded.data.fields[6] = { name: `${client.i18n.get(language, "music", "np_current_duration", {
                     current_duration: CurrentDuration,
                     total_duration: TotalDuration
                 })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\`` };
@@ -628,7 +635,7 @@ module.exports = {
             }
     
             const filter = (interaction) => {
-                if(interaction.guild.me.voice.channel && interaction.guild.me.voice.channelId === interaction.member.voice.channelId) return true;
+                if(interaction.guild.members.me.voice.channel && interaction.guild.members.me.voice.channelId === interaction.member.voice.channelId) return true;
                 else {
                   interaction.reply({ content: `${client.i18n.get(language, "music", "np_invoice")}`, ephemeral: true });
                 }
@@ -645,14 +652,14 @@ module.exports = {
                 await player.pause(!player.paused);
                 const uni = player.paused ? `${client.i18n.get(language, "music", "np_switch_pause")}` : `${client.i18n.get(language, "music", "np_switch_resume")}`;
           
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "np_pause_msg", {
                         pause: uni
                     })}`)
                     .setColor(client.color);
                 
                 embeded.setAuthor({ name: player.playing ? `${client.i18n.get(language, "music", "np_title")}` : `${client.i18n.get(language, "music", "np_title_pause")}`, iconURL: `${client.i18n.get(language, "music", "np_icon")}` })
-                embeded.fields[6] = { name: `${client.i18n.get(language, "music", "np_current_duration", {
+                embeded.data.fields[6] = { name: `${client.i18n.get(language, "music", "np_current_duration", {
                     current_duration: formatDuration(player.position),
                     total_duration: TotalDuration
                 })}`, value: `\`\`\`${player.playing ? "🔴 |" : "⏸ |"} ${'─'.repeat(Math.floor(player.position / song.duration * 30)) + '🎶' + '─'.repeat(30 - Math.floor(player.position / song.duration * 30))}\`\`\`` };
@@ -666,7 +673,7 @@ module.exports = {
     
                 await player.seek(0);
               
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "np_replay_msg")}`)
                     .setColor(client.color);;
           
@@ -679,7 +686,7 @@ module.exports = {
                 await player.stop();
                 await player.destroy();
           
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "np_stop_msg")}`)
                     .setColor(client.color);
     
@@ -692,7 +699,7 @@ module.exports = {
                 }
                 await player.stop();
           
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "np_skip_msg")}`)
                     .setColor(client.color);
     
@@ -706,7 +713,7 @@ module.exports = {
                 await player.setTrackRepeat(!player.trackRepeat);
                 const uni = player.trackRepeat ? `${client.i18n.get(language, "music", "np_switch_enable")}` : `${client.i18n.get(language, "music", "np_switch_disable")}`;
           
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "np_repeat_msg", {
                         loop: uni
                         })}`)
@@ -729,12 +736,12 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
             
             await player.pause(player.playing);
             const uni = player.paused ? `${client.i18n.get(language, "music", "pause_switch_pause")}` : `${client.i18n.get(language, "music", "pause_switch_resume")}`;
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "pause_msg", {
                     pause: uni
                 })}`)
@@ -748,8 +755,8 @@ module.exports = {
             
             const { channel } = interaction.member.voice;
             if (!channel) return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
-            if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.CONNECT)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-            if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.SPEAK)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
     
             const player = await client.manager.create({
                 guild: interaction.guild.id,
@@ -764,7 +771,7 @@ module.exports = {
             if(res.loadType != "NO_MATCHES") {
                 if(res.loadType == "TRACK_LOADED") {
                     player.queue.add(res.tracks[0]);
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "play_track", {
                             title: res.tracks[0].title,
                             url: res.tracks[0].uri,
@@ -777,7 +784,7 @@ module.exports = {
                 }
                 else if(res.loadType == "PLAYLIST_LOADED") {
                     player.queue.add(res.tracks)
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "play_playlist", {
                             title: res.playlist.name,
                             url: value,
@@ -791,7 +798,7 @@ module.exports = {
                 }
                 else if(res.loadType == "SEARCH_RESULT") {
                     player.queue.add(res.tracks[0]);
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setDescription(`${client.i18n.get(language, "music", "play_result", {
                             title: res.tracks[0].title,
                             url: res.tracks[0].uri,
@@ -818,14 +825,14 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if (!player.queue.previous) return msg.edit(`${client.i18n.get(language, "music", "previous_notfound")}`);
     
             await player.queue.unshift(player.queue.previous);
             await player.stop();
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "previous_msg")}`)
                 .setColor(client.color);
     
@@ -837,7 +844,7 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             const song = player.queue.current;
             const qduration = `${formatDuration(player.queue.duration)}`;
@@ -858,7 +865,7 @@ module.exports = {
             for (let i = 0; i < pagesNum; i++) {
                 const str = songStrings.slice(i * 10, i * 10 + 10).join('');
     
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "music", "queue_author", {
                         guild: interaction.guild.name,
                     })}`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
@@ -900,11 +907,11 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             await player.seek(0);
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "replay_msg")}`)
                 .setColor(client.color);
     
@@ -916,12 +923,12 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
             
             await player.pause(player.playing);
             const uni = player.paused ? `${client.i18n.get(language, "music", "resume_switch_pause")}` : `${client.i18n.get(language, "music", "resume_switch_resume")}`;
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "resume_msg", {
                     resume: uni
                 })}`)
@@ -936,7 +943,7 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             const CurrentDuration = formatDuration(player.position);
     
@@ -944,7 +951,7 @@ module.exports = {
                 if((player.position - value * 1000) > 0) {
                     await player.seek(player.position - value * 1000);
                     
-                    const rewind1 = new MessageEmbed()
+                    const rewind1 = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "rewind_msg", {
                         duration: CurrentDuration,
                     })}`)
@@ -966,7 +973,7 @@ module.exports = {
                 if((player.position - rewindNum * 1000) > 0) {
                     await player.seek(player.position - rewindNum * 1000);
                     
-                    const rewind2 = new MessageEmbed()
+                    const rewind2 = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "rewind_msg", {
                         duration: CurrentDuration,
                     })}`)
@@ -985,8 +992,8 @@ module.exports = {
     
             const { channel } = interaction.member.voice;
             if (!channel) return msg.edit(`${client.i18n.get(language, "music", "search_invoice")}`);
-            if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.CONNECT)) return msg.edit(`${client.i18n.get(language, "music", "search_join")}`);
-            if (!channel.permissionsFor(interaction.guild.me).has(Permissions.FLAGS.SPEAK)) return msg.edit(`${client.i18n.get(language, "music", "search_speak")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "search_join")}`);
+            if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "search_speak")}`);
     
             const player = client.manager.create({
                 guild: interaction.guild.id,
@@ -995,36 +1002,36 @@ module.exports = {
                 selfDeafen: true,
             });
     
-            const row = new MessageActionRow()
+            const row = new ActionRowBuilder()
             .addComponents(
-              new MessageButton()
+              new ButtonBuilder()
                 .setCustomId("one")
                 .setEmoji("1️⃣")
-                .setStyle("SECONDARY")
+                .setStyle(ButtonStyle.Secondary)
             )
             .addComponents(
-              new MessageButton()
+              new ButtonBuilder()
                 .setCustomId("two")
                 .setEmoji("2️⃣")
-                .setStyle("SECONDARY")
+                .setStyle(ButtonStyle.Secondary)
             )
             .addComponents(
-              new MessageButton()
+              new ButtonBuilder()
                 .setCustomId("three")
                 .setEmoji("3️⃣")
-                .setStyle("SECONDARY")
+                .setStyle(ButtonStyle.Secondary)
             )
             .addComponents(
-              new MessageButton()
+              new ButtonBuilder()
                 .setCustomId("four")
                 .setEmoji("4️⃣")
-                .setStyle("SECONDARY")
+                .setStyle(ButtonStyle.Secondary)
             )
             .addComponents(
-              new MessageButton()
+              new ButtonBuilder()
                 .setCustomId("five")
                 .setEmoji("5️⃣")
-                .setStyle("SECONDARY")
+                .setStyle(ButtonStyle.Secondary)
             )
     
             const search = value;
@@ -1035,7 +1042,7 @@ module.exports = {
             if(res.loadType != "NO_MATCHES") {
                 if(res.loadType == "TRACK_LOADED") {
                     player.queue.add(res.tracks[0]);
-                    const embed = new MessageEmbed() //`**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
+                    const embed = new EmbedBuilder() //`**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
                         .setDescription(`${client.i18n.get(language, "music", "search_result", {
                             title: res.tracks[0].title,
                             url: res.tracks[0].uri,
@@ -1058,7 +1065,7 @@ module.exports = {
                                 author: video.author
                             })}`)
                             .join("\n");
-                        const playing = new MessageEmbed()
+                        const playing = new EmbedBuilder()
                             .setAuthor({ name: `${client.i18n.get(language, "music", "search_title")}`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
                             .setColor(client.color)
                             .setDescription(results)
@@ -1075,7 +1082,7 @@ module.exports = {
                                 player.queue.add(res.tracks[0]);
                                 if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
     
-                                const embed = new MessageEmbed() //**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
+                                const embed = new EmbedBuilder() //**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
                                     .setDescription(`${client.i18n.get(language, "music", "search_result", {
                                         title: res.tracks[0].title,
                                         url: res.tracks[0].uri,
@@ -1089,7 +1096,7 @@ module.exports = {
                                 player.queue.add(res.tracks[1]);
                                 if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
     
-                                const embed = new MessageEmbed() //**Queued • [${res.tracks[1].title}](${res.tracks[1].uri})** \`${convertTime(res.tracks[1].duration, true)}\` • ${res.tracks[1].requester}
+                                const embed = new EmbedBuilder() //**Queued • [${res.tracks[1].title}](${res.tracks[1].uri})** \`${convertTime(res.tracks[1].duration, true)}\` • ${res.tracks[1].requester}
                                     .setDescription(`${client.i18n.get(language, "music", "search_result", {
                                         title: res.tracks[1].title,
                                         url: res.tracks[1].uri,
@@ -1103,7 +1110,7 @@ module.exports = {
                                 player.queue.add(res.tracks[2]);
                                 if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
     
-                                const embed = new MessageEmbed() //**Queued • [${res.tracks[2].title}](${res.tracks[2].uri})** \`${convertTime(res.tracks[2].duration, true)}\` • ${res.tracks[2].requester}
+                                const embed = new EmbedBuilder() //**Queued • [${res.tracks[2].title}](${res.tracks[2].uri})** \`${convertTime(res.tracks[2].duration, true)}\` • ${res.tracks[2].requester}
                                     .setDescription(`${client.i18n.get(language, "music", "search_result", {
                                         title: res.tracks[2].title,
                                         url: res.tracks[2].uri,
@@ -1117,7 +1124,7 @@ module.exports = {
                                 player.queue.add(res.tracks[3]);
                                 if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
     
-                                const embed = new MessageEmbed() //**Queued • [${res.tracks[3].title}](${res.tracks[3].uri})** \`${convertTime(res.tracks[3].duration, true)}\` • ${res.tracks[3].requester}
+                                const embed = new EmbedBuilder() //**Queued • [${res.tracks[3].title}](${res.tracks[3].uri})** \`${convertTime(res.tracks[3].duration, true)}\` • ${res.tracks[3].requester}
                                     .setDescription(`${client.i18n.get(language, "music", "search_result", {
                                         title: res.tracks[3].title,
                                         url: res.tracks[3].uri,
@@ -1131,7 +1138,7 @@ module.exports = {
                                 player.queue.add(res.tracks[4]);
                                 if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
     
-                                const embed = new MessageEmbed() //**Queued • [${res.tracks[4].title}](${res.tracks[4].uri})** \`${convertTime(res.tracks[4].duration, true)}\` • ${res.tracks[4].requester}
+                                const embed = new EmbedBuilder() //**Queued • [${res.tracks[4].title}](${res.tracks[4].uri})** \`${convertTime(res.tracks[4].duration, true)}\` • ${res.tracks[4].requester}
                                     .setDescription(`${client.i18n.get(language, "music", "search_result", {
                                         title: res.tracks[4].title,
                                         url: res.tracks[4].uri,
@@ -1154,7 +1161,7 @@ module.exports = {
                     }
                     else if(res.loadType == "PLAYLIST_LOADED") {
                         player.queue.add(res.tracks)
-                        const playlist = new MessageEmbed() //**Queued** • [${res.playlist.name}](${search}) \`${convertTime(res.playlist.duration)}\` (${res.tracks.length} tracks) • ${res.tracks[0].requester}
+                        const playlist = new EmbedBuilder() //**Queued** • [${res.playlist.name}](${search}) \`${convertTime(res.playlist.duration)}\` (${res.tracks.length} tracks) • ${res.tracks[0].requester}
                             .setDescription(`${client.i18n.get(language, "music", "search_playlist", {
                                 title: res.playlist.name,
                                 url: search,
@@ -1183,14 +1190,14 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if(value * 1000 >= player.playing.length || value < 0) return msg.edit(`${client.i18n.get(language, "music", "seek_beyond")}`);
             await player.seek(value * 1000);
     
             const Duration = formatDuration(player.position);
     
-            const seeked = new MessageEmbed()
+            const seeked = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "seek_msg", {
                     duration: Duration
                 })}`)
@@ -1204,11 +1211,11 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             await player.queue.shuffle();
     
-            const shuffle = new MessageEmbed()
+            const shuffle = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "shuffle_msg")}`)
                 .setColor(client.color);
             
@@ -1220,13 +1227,13 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if (player.queue.size == 0) {
                 await player.destroy();
                 await client.UpdateMusic(player);
     
-                const skipped = new MessageEmbed()
+                const skipped = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
                     .setColor(client.color);
         
@@ -1234,7 +1241,7 @@ module.exports = {
             } else {
                 await player.stop();
     
-                const skipped = new MessageEmbed()
+                const skipped = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
                     .setColor(client.color);
         
@@ -1252,7 +1259,7 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if ((value > player.queue.length) || (value && !player.queue[value - 1])) return msg.edit(`${client.i18n.get(language, "music", "skipto_invalid")}`);
             if (value == 1) player.stop();
@@ -1260,7 +1267,7 @@ module.exports = {
             await player.queue.splice(0, value - 1);
             await player.stop();
             
-            const skipto = new MessageEmbed()
+            const skipto = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "skipto_msg", {
                     position: value
                 })}`)
@@ -1275,7 +1282,7 @@ module.exports = {
             const player = client.manager.get(interaction.guild.id);
             if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
             const { channel } = interaction.member.voice;
-            if (!channel || interaction.member.voice.channel !== interaction.guild.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
     
             if (!value) return msg.edit(`${client.i18n.get(language, "music", "volume_usage", {
                 volume: player.volume
@@ -1284,7 +1291,7 @@ module.exports = {
     
             await player.setVolume(Number(value));
     
-            const changevol = new MessageEmbed()
+            const changevol = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "volume_msg", {
                     volume: value
                 })}`)
