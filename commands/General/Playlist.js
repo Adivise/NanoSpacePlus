@@ -391,7 +391,7 @@ run: async (interaction, client, user, language) => {
     
             const playlist = await Playlist.findOne({ name: Plist });
             if(!playlist) { interaction.editReply(`${client.i18n.get(language, "playlist", "import_notfound")}`); return; }
-            if(playlist.private && playlist.owner !== interaction.user.id) { interaction.editReply(`${client.i18n.get(language, "playlist", "import_private")}`); player.destroy(); return; }
+            if(playlist.private && playlist.owner !== interaction.user.id) { interaction.editReply(`${client.i18n.get(language, "playlist", "import_private")}`); return; }
     
             const totalDuration = convertTime(playlist.tracks.reduce((acc, cur) => acc + cur.duration, 0));
     
