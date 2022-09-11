@@ -4,6 +4,7 @@ const Spotify = require("better-erela.js-spotify").default;
 const Deezer = require("erela.js-deezer");
 const AppleMusic = require("better-erela.js-apple").default;
 const Facebook = require("erela.js-facebook");
+const Tidal  = require("erela.js-tidal");
 const { I18n } = require("locale-parser")
 
 class MainClient extends Client {
@@ -43,7 +44,8 @@ class MainClient extends Client {
         new Spotify(),
         new Facebook(),
         new Deezer(),
-        new AppleMusic()
+        new AppleMusic(),
+		new Tidal()
       ],
       send(id, payload) {
         const guild = client.guilds.cache.get(id);
