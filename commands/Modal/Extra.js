@@ -50,7 +50,7 @@ module.exports = {
         await interaction.showModal(modal);
 
         const submitted = await interaction.awaitModalSubmit({ 
-            time: 120000,
+            time: 12000,
             filter: i => i.user.id === interaction.user.id 
         });
 

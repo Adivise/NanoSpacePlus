@@ -424,6 +424,7 @@ module.exports = {
     
             await player.destroy();
             await client.UpdateMusic(player);
+            await client.clearInterval;
     
             const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "leave_msg", {
@@ -614,10 +615,9 @@ module.exports = {
                 )
     
             const NEmbed = await msg.edit({ content: " ", embeds: [embeded], components: [row] });
-            var interval = null;
     
             if (realtime === 'true') {
-            interval = setInterval(async () => {
+            client.interval = setInterval(async () => {
                 if (!player.playing) return;
                 const CurrentDuration = formatDuration(player.position);
                 const Part = Math.floor(player.position / song.duration * 30);
@@ -691,7 +691,7 @@ module.exports = {
                     .setDescription(`${client.i18n.get(language, "music", "np_stop_msg")}`)
                     .setColor(client.color);
     
-                clearInterval(interval);
+                await client.clearInterval;
                 if (NEmbed) await NEmbed.edit({ components: [] })
                 interaction.reply({ embeds: [embed], ephemeral: true });
                 } else if (id === "skip") {
@@ -704,7 +704,7 @@ module.exports = {
                     .setDescription(`${client.i18n.get(language, "music", "np_skip_msg")}`)
                     .setColor(client.color);
     
-                clearInterval(interval);
+                await client.clearInterval;
                 if (NEmbed) await NEmbed.edit({ components: [] });
                 interaction.reply({ embeds: [embed], ephemeral: true });
                 } else if(id === "loop") {
@@ -727,7 +727,7 @@ module.exports = {
             collector.on('end', async (collected, reason) => {
                 if(reason === "time") {
                     if (NEmbed) await NEmbed.edit({ components: [] });
-                    clearInterval(interval);
+                    await client.clearInterval;
                 }
             });
         }
@@ -1233,6 +1233,7 @@ module.exports = {
             if (player.queue.size == 0) {
                 await player.destroy();
                 await client.UpdateMusic(player);
+                await client.clearInterval;
     
                 const skipped = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
@@ -1241,6 +1242,7 @@ module.exports = {
                 msg.edit({ content: " ", embeds: [skipped] });
             } else {
                 await player.stop();
+                await client.clearInterval;
     
                 const skipped = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
@@ -1267,6 +1269,7 @@ module.exports = {
     
             await player.queue.splice(0, value - 1);
             await player.stop();
+            await client.clearInterval;
             
             const skipto = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "skipto_msg", {

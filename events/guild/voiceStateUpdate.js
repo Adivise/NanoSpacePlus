@@ -28,6 +28,7 @@ module.exports = async (client, oldState, newState) => {
 				if(!player) return;
 				await player.destroy();
 				await client.UpdateMusic(player);
+				await client.clearInterval;
 			}
 		}
 	}

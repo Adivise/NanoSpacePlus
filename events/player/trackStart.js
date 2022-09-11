@@ -9,6 +9,7 @@ module.exports = async (client, player, track, payload) => {
     /////////// Update Music Setup ///////////
 
     await client.UpdateQueueMsg(player);
+    await client.clearInterval;
 
     /////////// Update Music Setup ///////////
 
