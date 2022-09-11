@@ -23,7 +23,7 @@ module.exports = async (client, player) => {
 	/////////// Update Music Setup ///////////
 
 	await client.UpdateMusic(player);
-	await client.clearInterval;
+	await client.clearInterval(client.interval);
 
 	const db = await Setup.findOne({ guild: channel.guild.id });
 	if (db.enable) return player.destroy();

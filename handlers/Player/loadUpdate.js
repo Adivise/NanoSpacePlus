@@ -70,9 +70,6 @@ module.exports = async (client) => {
         }).catch((e) => {});
     };
 
-    client.interval = null;
-    client.clearInterval = clearInterval(client.interval);
-
     /**
      *
      * @param {Player} player

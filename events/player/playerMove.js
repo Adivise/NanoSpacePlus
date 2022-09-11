@@ -19,7 +19,7 @@ module.exports = async (client, player, oldChannel, newChannel) => {
         /////////// Update Music Setup ///////////
 
         await client.UpdateMusic(player);
-        await client.clearInterval;
+        await client.clearInterval(client.interval);
 
         ////////// End Update Music Setup //////////
 

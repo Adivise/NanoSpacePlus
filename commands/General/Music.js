@@ -424,7 +424,7 @@ module.exports = {
     
             await player.destroy();
             await client.UpdateMusic(player);
-            await client.clearInterval;
+            await client.clearInterval(client.interval);
     
             const embed = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "leave_msg", {
@@ -691,7 +691,7 @@ module.exports = {
                     .setDescription(`${client.i18n.get(language, "music", "np_stop_msg")}`)
                     .setColor(client.color);
     
-                await client.clearInterval;
+                await client.clearInterval(client.interval);
                 if (NEmbed) await NEmbed.edit({ components: [] })
                 interaction.reply({ embeds: [embed], ephemeral: true });
                 } else if (id === "skip") {
@@ -704,7 +704,7 @@ module.exports = {
                     .setDescription(`${client.i18n.get(language, "music", "np_skip_msg")}`)
                     .setColor(client.color);
     
-                await client.clearInterval;
+                await client.clearInterval(client.interval);
                 if (NEmbed) await NEmbed.edit({ components: [] });
                 interaction.reply({ embeds: [embed], ephemeral: true });
                 } else if(id === "loop") {
@@ -727,7 +727,7 @@ module.exports = {
             collector.on('end', async (collected, reason) => {
                 if(reason === "time") {
                     if (NEmbed) await NEmbed.edit({ components: [] });
-                    await client.clearInterval;
+                    await client.clearInterval(client.interval);
                 }
             });
         }
@@ -1233,7 +1233,7 @@ module.exports = {
             if (player.queue.size == 0) {
                 await player.destroy();
                 await client.UpdateMusic(player);
-                await client.clearInterval;
+                await client.clearInterval(client.interval);
     
                 const skipped = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
@@ -1242,7 +1242,7 @@ module.exports = {
                 msg.edit({ content: " ", embeds: [skipped] });
             } else {
                 await player.stop();
-                await client.clearInterval;
+                await client.clearInterval(client.interval);
     
                 const skipped = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
@@ -1269,7 +1269,7 @@ module.exports = {
     
             await player.queue.splice(0, value - 1);
             await player.stop();
-            await client.clearInterval;
+            await client.clearInterval(client.interval);
             
             const skipto = new EmbedBuilder()
                 .setDescription(`${client.i18n.get(language, "music", "skipto_msg", {

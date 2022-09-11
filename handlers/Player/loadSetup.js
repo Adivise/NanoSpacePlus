@@ -59,4 +59,11 @@ module.exports = async (client) => {
                 .setEmoji("🔄")
                 .setDisabled(true),
         ]);
+
+        client.interval = null;
+
+        client.clearInterval = async function (interval) {
+            clearInterval(interval);
+        }
+
 };
