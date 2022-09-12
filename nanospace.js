@@ -26,6 +26,7 @@ class MainClient extends Client {
         });
 
     this.config = require("./settings/config.js");
+    this.button = require("./settings/button.js");
     this.owner = this.config.OWNER_ID;
     this.dev = this.config.DEV_ID;
     this.color = this.config.EMBED_COLOR;

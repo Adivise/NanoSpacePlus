@@ -582,36 +582,43 @@ module.exports = {
                 })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\``, inline: false })
                 .setTimestamp();
     
-            const row = new ActionRowBuilder()
+            const button = client.button.nowplaying;
+
+            const row = new  ActionRowBuilder()
                 .addComponents(
-                  new ButtonBuilder()
+                new ButtonBuilder()
                     .setCustomId("pause")
-                    .setEmoji("⏯")
-                    .setStyle(ButtonStyle.Primary)
+                    .setLabel(`${button.pause.label}`)
+                    .setEmoji(`${button.pause.emoji}`)
+                    .setStyle(ButtonStyle[button.pause.style])
                 )
                 .addComponents(
-                  new ButtonBuilder()
+                new ButtonBuilder()
                     .setCustomId("replay")
-                    .setEmoji("⬅")
-                    .setStyle(ButtonStyle.Success)
+                    .setLabel(`${button.replay.label}`)
+                    .setEmoji(`${button.replay.emoji}`)
+                    .setStyle(ButtonStyle[button.replay.style])
                 )
                 .addComponents(
-                  new ButtonBuilder()
+                new ButtonBuilder()
                     .setCustomId("stop")
-                    .setEmoji("✖")
-                    .setStyle(ButtonStyle.Danger)
+                    .setLabel(`${button.stop.label}`)
+                    .setEmoji(`${button.stop.emoji}`)
+                    .setStyle(ButtonStyle[button.stop.style])
                 )
                 .addComponents(
-                  new ButtonBuilder()
+                new ButtonBuilder()
                     .setCustomId("skip")
-                    .setEmoji("➡")
-                    .setStyle(ButtonStyle.Success)
+                    .setLabel(`${button.skip.label}`)
+                    .setEmoji(`${button.skip.emoji}`)
+                    .setStyle(ButtonStyle[button.pause.style])
                 )
                 .addComponents(
-                  new ButtonBuilder()
+                new ButtonBuilder()
                     .setCustomId("loop")
-                    .setEmoji("🔄")
-                    .setStyle(ButtonStyle.Primary)
+                    .setLabel(`${button.loop.label}`)
+                    .setEmoji(`${button.loop.emoji}`)
+                    .setStyle(ButtonStyle[button.loop.style])
                 )
     
             const NEmbed = await msg.edit({ content: " ", embeds: [embeded], components: [row] });
@@ -1003,36 +1010,43 @@ module.exports = {
                 selfDeafen: true,
             });
     
-            const row = new ActionRowBuilder()
+        const button = client.button.search;
+
+        const row = new  ActionRowBuilder()
             .addComponents(
-              new ButtonBuilder()
+            new ButtonBuilder()
                 .setCustomId("one")
-                .setEmoji("1️⃣")
-                .setStyle(ButtonStyle.Secondary)
+                .setLabel(`${button.one.label}`)
+                .setEmoji(`${button.one.emoji}`)
+                .setStyle(ButtonStyle[button.one.style])
             )
             .addComponents(
-              new ButtonBuilder()
+            new ButtonBuilder()
                 .setCustomId("two")
-                .setEmoji("2️⃣")
-                .setStyle(ButtonStyle.Secondary)
+                .setLabel(`${button.two.label}`)
+                .setEmoji(`${button.two.emoji}`)
+                .setStyle(ButtonStyle[button.two.style])
             )
             .addComponents(
-              new ButtonBuilder()
+            new ButtonBuilder()
                 .setCustomId("three")
-                .setEmoji("3️⃣")
-                .setStyle(ButtonStyle.Secondary)
+                .setLabel(`${button.three.label}`)
+                .setEmoji(`${button.three.emoji}`)
+                .setStyle(ButtonStyle[button.three.style])
             )
             .addComponents(
-              new ButtonBuilder()
+            new ButtonBuilder()
                 .setCustomId("four")
-                .setEmoji("4️⃣")
-                .setStyle(ButtonStyle.Secondary)
+                .setLabel(`${button.four.label}`)
+                .setEmoji(`${button.four.emoji}`)
+                .setStyle(ButtonStyle[button.four.style])
             )
             .addComponents(
-              new ButtonBuilder()
+            new ButtonBuilder()
                 .setCustomId("five")
-                .setEmoji("5️⃣")
-                .setStyle(ButtonStyle.Secondary)
+                .setLabel(`${button.five.label}`)
+                .setEmoji(`${button.five.emoji}`)
+                .setStyle(ButtonStyle[button.five.style])
             )
     
             const search = value;
