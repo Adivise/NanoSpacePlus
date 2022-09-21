@@ -30,7 +30,7 @@
 
 ## 📎 Requirements
 
-- Node.js Version 16.6.0+ **[Download](https://nodejs.org/en/download/)**
+- Node.js v16+ **[Download](https://nodejs.org/en/download/)**
 - Discord Bot Token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 - LavaLink **[Guide](https://github.com/freyacodes/lavalink)** (*Dev Version!* **[Download](https://ci.fredboat.com/repository/downloadAll/Lavalink_Build/9311:id/artifacts.zip)** )
 - MongoDB **[Download](https://www.mongodb.com/try/download/community)** (Download & install = Finish!)
@@ -69,7 +69,7 @@ EMBED_COLOR=#000001
 OWNER_ID=REPLACE_HERE
 
 # Database
-MONGO_URI=mongodb://127.0.0.1:27017/nanospace
+MONGO_URI=mongodb://127.0.0.1:27017/nanospaceplus
 LIMIT_TRACK=50
 LIMIT_PLAYLIST=10
 
@@ -88,11 +88,22 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 
 ## 🔩 Features & Commands
 
-> Note: The default prefix is '#'
+> Note: The default prefix is '/'
+
+💬 **Context Menu**
+- Play (Right-Click & Apps > Context | Play) 
+- Skip (Right-Click & Apps > Context | Skip) 
+- Stop (Right-Click & Apps > Context | Stop) 
+- Shuffle (Right-Click & Apps > Context | Shuffle) 
+- Loop (Right-Click & Apps > Context | Loop) 
+
+💬 **Extra Commands!**
+- Play (/extra play) 
 
 🎶 **Music Commands!** 
 
-- Play (/music play [song/url])
+- Play (/play [song/url])
+- Search (/search [songname])
 - Nowplaying (/music nowplaying)
 - Queue (/music queue [page])
 - Repeat (/music loop type [current, all])
@@ -110,10 +121,13 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Seek (/music seek [second])
 - Rewind (/music rewind [second])
 - Replay (/music replay)
-- Search (/music search [songname])
 - 247 (/music 247)
 - Previous (/music previous)
 - Autoplay (/music autoplay)
+- Move (/music move [song] [position])
+- Remove (/music remove [song])
+- PlaySkip (/music playskip [song/url])
+- SearchSkip (/music searchskip [songname])
 
 ⏺ **Filter Commands!**
 - Bass (/filter bass)
@@ -151,18 +165,20 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Import (/playlist import [name])
 - Detail (/playlist detail [name])
 - Remove (/playlist remove [name] [position])
-- Savequeu (/playlist savequeue [name])
+- Savequeue (/playlist savequeue [name])
 - View (/playlist view)
 	
 💎 **Premium Commands!**
-- Premium (/premium premium [plan] [user id])
+- Profile (/profile)
 - Generate (/premium generate [plan] [amount]) // (OWNER ONLY)
 - Redeem (/premium redeem [code])
-- Setup (/premium setup type [create/delete])
+- Setup (/premium setup)
+- Remove (/premium remove [mention]) // (OWNER ONLY)
 	
 📑 **Utilities Commands!**
 - Restart (/utilitie restart) // (OWNER ONLY)
 - Language (/utilitie language input: [language] ) // Example: en, th
+- Help (/help)
 
 </p>
 </details>

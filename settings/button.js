@@ -134,6 +134,62 @@ module.exports = {
             label: " ",
             emoji: "➡",
             style: "Secondary"
+        }
+    },
+
+    song_request_on: {
+        pause: {
+            label: "Pause", // Set Button Name // Not use set to here " "
+            emoji: "⏯", // Set Button Emoji
+            style: "Success" //Primary //Secondary //Success //Danger
         },
+        previous: {
+            label: "Previous",
+            emoji: "⬅",
+            style: "Primary"
+        },
+        stop: {
+            label: "Stop",
+            emoji: "✖",
+            style: "Danger"
+        },
+        skip: {
+            label: "Skip",
+            emoji: "➡",
+            style: "Primary"
+        },
+        loop: {
+            label: "Loop",
+            emoji: "🔁",
+            style: "Success"
+        }
+    },
+
+    song_request_off: {
+        pause: {
+            label: "Pause", // Set Button Name // Not use set to here " "
+            emoji: "⏯", // Set Button Emoji
+            style: "Secondary" //Primary //Secondary //Success //Danger
+        },
+        previous: {
+            label: "Previous",
+            emoji: "⬅",
+            style: "Secondary"
+        },
+        stop: {
+            label: "Stop",
+            emoji: "✖",
+            style: "Secondary"
+        },
+        skip: {
+            label: "Skip",
+            emoji: "➡",
+            style: "Secondary"
+        },
+        loop: {
+            label: "Loop",
+            emoji: "🔁",
+            style: "Secondary"
+        }
     }
 }

@@ -15,3 +15,8 @@ redeem_already: "You already are a premium user"
 redeem_title: "Premium Redeemed"
 redeem_desc: "**You have successfully redeemed premium!**\n\n*Expires at*: [`%{expires}`]"
 redeem_invalid: "**The code is invalid. Please try again using valid one!**"
+
+##### Remove command #####
+remove_mention: "Please mention member!"
+remove_already: "**Already are remove! %{user}**"
+remove_desc: "**You have successfully remove! %{user}**"

@@ -172,3 +172,43 @@ volume_loading: "Loading please wait..."
 volume_usage: "*Current volume:* `%{volume}%`"
 volume_invalid: "You may only set the volume to 1% - 100%"
 volume_msg: "`🔊` | *Change volume to:* `%{volume}%`"
+
+### PlaySkip command!
+playskip_loading: "Loading please wait..."
+
+playskip_track: "**Skipped • [%{title}](%{url})** `%{duration}` • %{request}"
+playskip_playlist: "**Skipped • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
+playskip_result: "**Skipped • [%{title}](%{url})** `%{duration}` • %{request}"
+
+playskip_fail: "Error loading track failed"
+playskip_match: "Error song not matches"
+
+### RemoveTrack command!
+removetrack_loading: "Loading please wait..."
+
+removetrack_already: "Cannot remove a song that is already playing."
+removetrack_notfound: "Song not found."
+
+removetrack_desc: "**Removed • [%{name}](%{url})** `%{duration}` • %{request}"
+
+### Move command!
+move_loading: "Loading please wait..."
+
+move_already: "Cannot remove a song that is already playing."
+move_notfound: "Song not found."
+
+move_desc: "**Moved • [%{name}](%{url})** to %{pos}"
+
+### SearchSkip command!
+searchskip_loading: "Loading please wait..."
+
+searchskip_title: "Song Selection..."
+searchskip_select: "**(%{num}.) [%{title}](%{url})** `%{duration}` Author: `%{author}`"
+searchskip_footer: "Please select a song in 30 seconds."
+searchskip_no_response: "No response."
+
+searchskip_result: "**Skipped • [%{title}](%{url})** `%{duration}` • %{request}"
+searchskip_playlist: "**Skipped • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
+
+searchskip_fail: "Error loading track failed"
+searchskip_match: "Error song not matches"

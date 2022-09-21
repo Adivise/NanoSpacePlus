@@ -1,8 +1,9 @@
 const { ContextMenuInteraction, EmbedBuilder, ApplicationCommandType } = require('discord.js');
 
 module.exports = { 
-    name: "Context | Skip",
+    name: ["Context | Skip"],
     type: ApplicationCommandType.Message,
+    category: "Context",
     /**
      * @param {ContextMenuInteraction} interaction
      */

@@ -6,17 +6,8 @@ module.exports = async (client, player, track, payload) => {
     const channel = client.channels.cache.get(player.textChannel);
     if (!channel) return;
 
-    let guildModel = await GLang.findOne({
-      guild: channel.guild.id,
-    });
-    if (!guildModel) {
-      guildModel = await GLang.create({
-        guild: channel.guild.id,
-        language: "en",
-      });
-    }
-
-    const { language } = guildModel;
+		const guildModel = await GLang.findOne({ guild: channel.guild.id });
+		const { language } = guildModel;
 
     /////////// Update Music Setup ///////////
 

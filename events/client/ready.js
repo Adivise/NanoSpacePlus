@@ -1,5 +1,5 @@
 const { green, white } = require('chalk');
-const Premium = require('../../settings/models/Premium.js')
+const Premium = require('../../settings/models/Premium.js');
 
 module.exports = async (client) => {
     await client.manager.init(client.user.id);
@@ -17,7 +17,7 @@ module.exports = async (client) => {
 
     const activities = [
         `/premium setup | ${guilds} servers`,
-        `/music play <input> | ${members} users`,
+        `/play <input> | ${members} users`,
         `/filter doubletime | ${channels} channels`,
     ]
 

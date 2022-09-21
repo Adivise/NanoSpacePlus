@@ -1,14 +1,3 @@
-const Client = require("../../index.js");
-const { Player } = require("erela.js");
-
-    /**
-     * 
-     * @param {Client} client 
-     * @param {Player} player 
-     * @param {String} oldChannel
-     * @param {String} newChannel
-     */
-
 module.exports = async (client, player, oldChannel, newChannel) => {
         const guild = client.guilds.cache.get(player.guild)
         if(!guild) return;
@@ -32,5 +21,4 @@ module.exports = async (client, player, oldChannel, newChannel) => {
         player.voiceChannel = newChannel;
         player.destroy();
       }
-
 }

@@ -15,3 +15,8 @@ redeem_already: "คุณเป็นผู้ใช้ระดับพรี
 redeem_title: "แลกพรีเมี่ยม"
 redeem_desc: "**คุณได้แลกรับ พรีเมียมเรียบร้อยแล้ว!**\n\n*วันหมดอายุ*: [`%{expires}`]"
 redeem_invalid: "**โค้ดไม่ถูกต้อง โปรดลองอีกครั้งโดยใช้อันที่ถูกต้อง!**"
+
+##### Remove command #####
+remove_mention: "Please mention member!"
+remove_already: "**Already are remove! %{user}**"
+remove_desc: "**You have successfully remove! %{user}**"

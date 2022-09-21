@@ -1,11 +1,8 @@
-const { EmbedBuilder, Client, Message } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Setup = require("../../settings/models/Setup.js");
 const GLang = require("../../settings/models/Language.js");
 const delay = require("delay");
 
-/**
- * @param {Client} client
- */
 module.exports = async (client) => {
 try {
     client.on("interactionCreate", async (interaction) => {
@@ -15,19 +12,13 @@ try {
             let voiceMember = interaction.guild.members.cache.get(member.id);
             let channel = voiceMember.voice.channel;
 
-            let player = await client.manager.get(interaction.guild.id);
+            const player = await client.manager.get(interaction.guild.id);
             if (!player) return;
 
             const playChannel = client.channels.cache.get(player.textChannel);
             if (!playChannel) return;
         
-            let guildModel = await GLang.findOne({ guild: playChannel.guild.id });
-            if (!guildModel) { guildModel = await GLang.create({
-                    guild: playChannel.guild.id,
-                    language: "en",
-                });
-            }
-
+            const guildModel = await GLang.findOne({ guild: playChannel.guild.id });
             const { language } = guildModel;
 
             switch (customId) {
@@ -120,7 +111,8 @@ try {
                                 pause: uni,
                                 })}`)
                                 .setColor(client.color);
-
+                                
+                            client.UpdateQueueMsg(player);
                             interaction.reply({ embeds: [embed] });
                         }
                     }
@@ -156,35 +148,19 @@ try {
     } catch (e) {
         console.log(e);
 }
-/**
- * @param {Client} client
- * @param {Message} message
- */
 
 client.on("messageCreate", async (message) => {
         if (!message.guild || !message.guild.available) return;
-        let database = await Setup.findOne({ guild: message.guild.id });
-        if (!database) return Setup.create({
-            guild: message.guild.id,
-            enable: false,
-            channel: "",
-            playmsg: "",
-        });
+        
+        const database = await Setup.findOne({ guild: message.guild.id });
         if (database.enable === false) return;
 
-        let channel = await message.guild.channels.cache.get(database.channel);
+        const channel = await message.guild.channels.cache.get(database.channel);
         if (!channel) return;
 
         if (database.channel != message.channel.id) return;
 
-        let guildModel = await GLang.findOne({ guild: message.guild.id });
-        if (!guildModel) {
-            guildModel = await GLang.create({
-                guild: message.guild.id,
-                language: "en",
-            });
-        }
-
+        const guildModel = await GLang.findOne({ guild: message.guild.id });
         const { language } = guildModel;
 
         if (message.author.id === client.user.id) {
@@ -218,34 +194,31 @@ client.on("messageCreate", async (message) => {
                 if(res.loadType == "TRACK_LOADED") {
                     player.queue.add(res.tracks[0]);
                     if(!player.playing) player.play();
-                }
-                else if(res.loadType == "PLAYLIST_LOADED") {
+                } else if(res.loadType == "PLAYLIST_LOADED") {
                     player.queue.add(res.tracks)
                     if(!player.playing) player.play();
-                }
-                else if(res.loadType == "SEARCH_RESULT") {
+                } else if(res.loadType == "SEARCH_RESULT") {
                     player.queue.add(res.tracks[0]);
                     if(!player.playing) player.play();
-                }
-                else if(res.loadType == "LOAD_FAILED") {
+                } else if(res.loadType == "LOAD_FAILED") {
                     message.channel.send(`${client.i18n.get(language, "music", "play_fail")}`).then((msg) => { 
                         setTimeout(() => {
                             msg.delete()
                         }, 4000);
-                    }).catch((e) => {});
-                        player.destroy();
+                    });
+                    player.destroy();
                 }
             } else {
                 message.channel.send(`${client.i18n.get(language, "music", "play_match")}`).then((msg) => { 
                     setTimeout(() => {
                         msg.delete()
                     }, 4000);
-                }).catch((e) => {});
-                    player.destroy();
-                }
+                });
+                player.destroy();
+            }
 
-                if (player) {
-                    client.UpdateQueueMsg(player);
-                }
-        });
+            if (player) {
+                client.UpdateQueueMsg(player);
+            }
+    });
 };

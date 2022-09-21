@@ -1,11 +1,3 @@
-##### Prefix command #####
-prefix_perm: "You need the `MANAGE_GUILD` permission to use this command."
-prefix_arg: "Please specify a prefix!"
-prefix_length: "The prefix can't be longer than 10 characters!"
-prefix_set: "`🔧` | *Prefix has been set to:* `%{prefix}`"
-prefix_change: "`🔧` | *Prefix has been change to:* `%{prefix}`"
-prefix_error: "An error occured while setting the prefix!"
-
 ##### Language command #####
 lang_perm: "You need the `MANAGE_GUILD` permission to use this command."
 lang_arg: "Please specify a language!"
@@ -16,7 +8,6 @@ lang_error: "Something went wrong please try again later."
 
 ##### Restart command #####
 restart_msg: "`🤖` | *Client has been:* `Shutting down`"
-
 
 ##### Help command #####
 help_desc: "Please Select Category Menu!"
