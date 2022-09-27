@@ -5,6 +5,8 @@ module.exports = {
     TOKEN: process.env.TOKEN || "YOUR_TOKEN",  // your bot token
     EMBED_COLOR: process.env.EMBED_COLOR || "#000001", //<= default is "#000001"
 
+    SEARCH_DEFAULT: ["jvke", "I love you 300", "justin bieber", "post malone", "anime song"],
+
     OWNER_ID: process.env.OWNER_ID || "YOUR_CLIENT_ID", //your owner discord id example: "515490955801919488"
 
     NP_REALTIME: process.env.NP_REALTIME || "BOOLEAN", // "true" = realtime, "false" = not realtime :3 // WARNING: on set to "true" = laggy and bot will ratelimit if you have a lot of servers

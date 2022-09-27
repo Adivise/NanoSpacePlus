@@ -1,6 +1,8 @@
-const { PermissionsBitField } = require("discord.js");
+const { PermissionsBitField, InteractionType } = require("discord.js");
 const GLang = require("../../settings/models/Language.js");
 const chalk = require('chalk');
+const { SEARCH_DEFAULT } = require("../../settings/config.js")
+const yt = require("youtube-sr").default;
 
 module.exports = async(client, interaction) => {
     if (interaction.isCommand || interaction.isContextMenuCommand || interaction.isModalSubmit || interaction.isChatInputCommand) {
@@ -25,6 +27,29 @@ module.exports = async(client, interaction) => {
         try {
           subCommandGroupName = interaction.options.getSubcommandGroup();
         } catch { };
+
+        if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
+          const Random = SEARCH_DEFAULT[Math.floor(Math.random() * SEARCH_DEFAULT.length)];
+          if(interaction.commandName == "play") {
+              let choice = []
+              await yt.search(interaction.options.getString("song") || Random, { safeSearch: true, limit: 10 }).then(result => {
+                  result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
+              });
+              return await interaction.respond(choice).catch(() => { });
+          } else if (interaction.options.getSubcommand() == "playskip") {
+              let choice = []
+              await yt.search(interaction.options.getString("song") || Random, { safeSearch: true, limit: 10 }).then(result => {
+                  result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
+              });
+              return await interaction.respond(choice).catch(() => { });
+          } else if (interaction.options.getSubcommand() == "playtop") {
+              let choice = []
+              await yt.search(interaction.options.getString("song") || Random, { safeSearch: true, limit: 10 }).then(result => {
+                  result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
+              });
+              return await interaction.respond(choice).catch(() => { });
+          }
+      }
     
         const command = client.slash.find(command => {
           switch (command.name.length) {

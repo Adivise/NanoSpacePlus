@@ -1,9 +1,9 @@
-const { EmbedBuilder, PermissionsBitField, ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
-    name: ["play"], // I move play to main issues subcmd (max 25)
-    description: "Play a song from any types.",
+    name: ["music", "playtop"],
+    description: "Queued song to the top!",
     category: "Music",
     options: [
         {
@@ -20,28 +20,23 @@ module.exports = {
                 await interaction.deferReply({ ephemeral: false });
 
                 const value = interaction.options.get("song").value;
-                const msg = await interaction.editReply(`${client.i18n.get(language, "music", "play_loading")}`);
+                const msg = await interaction.editReply(`${client.i18n.get(language, "music", "playtop_loading")}`);
                 
+                const player = client.manager.get(interaction.guild.id);
+                if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
                 const { channel } = interaction.member.voice;
-                if (!channel) return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
-                if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-                if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
+                if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
-                const player = await client.manager.create({
-                    guild: interaction.guild.id,
-                    voiceChannel: interaction.member.voice.channel.id,
-                    textChannel: interaction.channel.id,
-                    selfDeafen: true,
-                });
-                
                 const state = player.state;
                 if (state != "CONNECTED") await player.connect();
                 const res = await client.manager.search(value, interaction.user);
                 if(res.loadType != "NO_MATCHES") {
                     if(res.loadType == "TRACK_LOADED") {
-                        player.queue.add(res.tracks[0]);
+                        await player.queue.add(res.tracks[0]);
+                        await playtop(player);
+
                         const embed = new EmbedBuilder()
-                            .setDescription(`${client.i18n.get(language, "music", "play_track", {
+                            .setDescription(`${client.i18n.get(language, "music", "playtop_track", {
                                 title: res.tracks[0].title,
                                 url: res.tracks[0].uri,
                                 duration: convertTime(res.tracks[0].duration, true),
@@ -51,9 +46,12 @@ module.exports = {
                         msg.edit({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "PLAYLIST_LOADED") {
-                        player.queue.add(res.tracks)
+                        const queues = player.queue.length;
+                        await player.queue.add(res.tracks);
+                        await playtoppl(player, queues);
+
                         const embed = new EmbedBuilder()
-                            .setDescription(`${client.i18n.get(language, "music", "play_playlist", {
+                            .setDescription(`${client.i18n.get(language, "music", "playtop_playlist", {
                                 title: res.playlist.name,
                                 url: value,
                                 duration: convertTime(res.playlist.duration),
@@ -64,9 +62,11 @@ module.exports = {
                         msg.edit({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "SEARCH_RESULT") {
-                        player.queue.add(res.tracks[0]);
+                        await player.queue.add(res.tracks[0]);
+                        await playtop(player);
+
                         const embed = new EmbedBuilder()
-                            .setDescription(`${client.i18n.get(language, "music", "play_result", {
+                            .setDescription(`${client.i18n.get(language, "music", "playtop_result", {
                                 title: res.tracks[0].title,
                                 url: res.tracks[0].uri,
                                 duration: convertTime(res.tracks[0].duration, true),
@@ -76,16 +76,32 @@ module.exports = {
                         msg.edit({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "LOAD_FAILED") {
-                        msg.edit(`${client.i18n.get(language, "music", "play_fail")}`); 
+                        msg.edit(`${client.i18n.get(language, "music", "playtop_fail")}`); 
                         player.destroy();
                     }
                 } else {
-                    msg.edit(`${client.i18n.get(language, "music", "play_match")}`); 
+                    msg.edit(`${client.i18n.get(language, "music", "playtop_match")}`); 
                     player.destroy();
                 }
             }
         } catch (error) {
-            //
+            ///
         }
+    }
+}
+
+function playtop(player) {
+    const song = player.queue[player.queue.length - 1];
+
+    player.queue.splice(player.queue.length - 1, 1);
+    player.queue.splice(1 - 1, 0, song);
+}
+
+function playtoppl(player, queues) {
+    let num = 0;
+    for (let i = queues + 1; i < player.queue.length + 1; i++) {
+        const song = player.queue[i - 1];
+        player.queue.splice(i - 1, 1);
+        player.queue.splice(num++, 0, song);
     }
 }

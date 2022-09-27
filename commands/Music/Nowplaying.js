@@ -4,7 +4,7 @@ const ytsr = require("youtube-sr").default;
 const Setup = require("../../settings/models/Setup.js");
 
 module.exports = {
-    name: ["music", "nowplaying"],
+    name: ["nowplaying"], // I move search to main issues subcmd (max 25)
     description: "Display the song currently playing.",
     category: "Music",
     run: async (interaction, client, user, language) => {

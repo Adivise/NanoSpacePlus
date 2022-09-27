@@ -3,7 +3,7 @@ const formatDuration = require('../../structures/FormatDuration.js');
 const { SlashPage } = require('../../structures/PageQueue.js');
 
 module.exports = {
-    name: ["music", "queue"],
+    name: ["queue"], // I move play to main issues subcmd (max 25)
     description: "Show the queue of songs.",
     category: "Music",
     options: [

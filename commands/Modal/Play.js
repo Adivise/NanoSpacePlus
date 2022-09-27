@@ -2,7 +2,7 @@ const { EmbedBuilder, PermissionsBitField, ModalBuilder, TextInputBuilder, Actio
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
-    name: ["extra", "play"],
+    name: ["modal", "play"],
     description: "Play with modal menus!",
     default_member_permissions: ["ManageGuild"],
     category: "Modal",

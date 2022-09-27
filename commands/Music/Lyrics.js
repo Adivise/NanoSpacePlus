@@ -46,7 +46,7 @@ module.exports = {
             .setFooter({ text: `Requested by ${interaction.user.username}`})
             .setTimestamp();
 
-        if (lyrics.length > 2048) {
+        if (lyrics.length > 4096) {
             lyricsEmbed.setDescription(`${client.i18n.get(language, "music", "lyrics_toolong")}`);
         }
 

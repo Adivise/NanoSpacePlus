@@ -183,6 +183,16 @@ playskip_result: "**Skipped • [%{title}](%{url})** `%{duration}` • %{request
 playskip_fail: "Error loading track failed"
 playskip_match: "Error song not matches"
 
+### PlayTop command!
+playtop_loading: "Loading please wait..."
+
+playtop_track: "**Shifted • [%{title}](%{url})** `%{duration}` • %{request}"
+playtop_playlist: "**Shifted • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
+playtop_result: "**Shifted • [%{title}](%{url})** `%{duration}` • %{request}"
+
+playtop_fail: "Error loading track failed"
+playtop_match: "Error song not matches"
+
 ### RemoveTrack command!
 removetrack_loading: "Loading please wait..."
 
@@ -212,3 +222,17 @@ searchskip_playlist: "**Skipped • [%{title}](%{url})** `%{duration}` (%{songs}
 
 searchskip_fail: "Error loading track failed"
 searchskip_match: "Error song not matches"
+
+### SearchTop command!
+searchtop_loading: "Loading please wait..."
+
+searchtop_title: "Song Selection..."
+searchtop_select: "**(%{num}.) [%{title}](%{url})** `%{duration}` Author: `%{author}`"
+searchtop_footer: "Please select a song in 30 seconds."
+searchtop_no_response: "No response."
+
+searchtop_result: "**Shifted • [%{title}](%{url})** `%{duration}` • %{request}"
+searchtop_playlist: "**Shifted • [%{title}](%{url})** `%{duration}` (%{songs} tracks) • %{request}"
+
+searchtop_fail: "Error loading track failed"
+searchtop_match: "Error song not matches"

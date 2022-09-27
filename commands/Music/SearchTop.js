@@ -2,8 +2,8 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ApplicationC
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
-    name: ["music", "searchskip"],
-    description: "Search and skip to a song!",
+    name: ["music", "searchtop"],
+    description: "Search and queue song to the top!",
     category: "Music",
     options: [
         {
@@ -17,7 +17,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false });
 
         const search = interaction.options.get("song").value;
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "searchskip_loading")}`);
+        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "searchtop_loading")}`);
 
         const player = client.manager.get(interaction.guild.id);
         if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
@@ -63,19 +63,16 @@ module.exports = {
                 .setStyle(ButtonStyle[button.five.style])
             )
 
-        /// Clear nowplaying
-        await client.clearInterval(client.interval);
-
         const state = player.state;
         if (state != "CONNECTED") await player.connect();
         const res = await client.manager.search(search, interaction.user);
         if(res.loadType != "NO_MATCHES") {
             if(res.loadType == "TRACK_LOADED") {
                 await player.queue.unshift(res.tracks[0]);
-                await skipped(player);
+                await playtop(player);
 
                 const embed = new EmbedBuilder() //`**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
-                    .setDescription(`${client.i18n.get(language, "music", "searchskip_result", {
+                    .setDescription(`${client.i18n.get(language, "music", "searchtop_result", {
                         title: res.tracks[0].title,
                         url: res.tracks[0].uri,
                         duration: convertTime(res.tracks[0].duration, true),
@@ -88,7 +85,7 @@ module.exports = {
                     let index = 1;
                     const results = res.tracks
                         .slice(0, 5) //**(${index++}.) [${video.title}](${video.uri})** \`${convertTime(video.duration)}\` Author: \`${video.author}\`
-                        .map(video => `${client.i18n.get(language, "music", "searchskip_select", {
+                        .map(video => `${client.i18n.get(language, "music", "searchtop_select", {
                             num: index++,
                             title: video.title,
                             url: video.uri,
@@ -97,10 +94,10 @@ module.exports = {
                         })}`)
                         .join("\n");
                     const playing = new EmbedBuilder()
-                        .setAuthor({ name: `${client.i18n.get(language, "music", "searchskip_title")}`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
+                        .setAuthor({ name: `${client.i18n.get(language, "music", "searchtop_title")}`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
                         .setColor(client.color)
                         .setDescription(results)
-                        .setFooter({ text: `${client.i18n.get(language, "music", "searchskip_footer")}` })
+                        .setFooter({ text: `${client.i18n.get(language, "music", "searchtop_footer")}` })
                     await msg.edit({ content: " ", embeds: [playing], components: [row] });
 
                     const collector = msg.createMessageComponentCollector({ filter: (m) => m.user.id === interaction.user.id, time: 30000, max: 1 });
@@ -111,12 +108,12 @@ module.exports = {
 
                         if(id === "one") {
                             await player.queue.unshift(res.tracks[0]);
-                            await skipped(player);
+                            await playtop(player);
 
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
-                                .setDescription(`${client.i18n.get(language, "music", "searchskip_result", {
+                                .setDescription(`${client.i18n.get(language, "music", "searchtop_result", {
                                     title: res.tracks[0].title,
                                     url: res.tracks[0].uri,
                                     duration: convertTime(res.tracks[0].duration, true),
@@ -127,12 +124,12 @@ module.exports = {
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "two") {
                             await player.queue.unshift(res.tracks[1]);
-                            await skipped(player);
+                            await playtop(player);
 
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[1].title}](${res.tracks[1].uri})** \`${convertTime(res.tracks[1].duration, true)}\` • ${res.tracks[1].requester}
-                                .setDescription(`${client.i18n.get(language, "music", "searchskip_result", {
+                                .setDescription(`${client.i18n.get(language, "music", "searchtop_result", {
                                     title: res.tracks[1].title,
                                     url: res.tracks[1].uri,
                                     duration: convertTime(res.tracks[1].duration, true),
@@ -143,12 +140,12 @@ module.exports = {
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "three") {
                             await player.queue.unshift(res.tracks[2]);
-                            await skipped(player);
+                            await playtop(player);
 
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[2].title}](${res.tracks[2].uri})** \`${convertTime(res.tracks[2].duration, true)}\` • ${res.tracks[2].requester}
-                                .setDescription(`${client.i18n.get(language, "music", "searchskip_result", {
+                                .setDescription(`${client.i18n.get(language, "music", "searchtop_result", {
                                     title: res.tracks[2].title,
                                     url: res.tracks[2].uri,
                                     duration: convertTime(res.tracks[2].duration, true),
@@ -159,12 +156,12 @@ module.exports = {
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "four") {
                             await player.queue.unshift(res.tracks[3]);
-                            await skipped(player);
+                            await playtop(player);
 
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[3].title}](${res.tracks[3].uri})** \`${convertTime(res.tracks[3].duration, true)}\` • ${res.tracks[3].requester}
-                                .setDescription(`${client.i18n.get(language, "music", "searchskip_result", {
+                                .setDescription(`${client.i18n.get(language, "music", "searchtop_result", {
                                     title: res.tracks[3].title,
                                     url: res.tracks[3].uri,
                                     duration: convertTime(res.tracks[3].duration, true),
@@ -175,12 +172,12 @@ module.exports = {
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "five") {
                             await player.queue.unshift(res.tracks[4]);
-                            await skipped(player);
+                            await playtop(player);
 
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[4].title}](${res.tracks[4].uri})** \`${convertTime(res.tracks[4].duration, true)}\` • ${res.tracks[4].requester}
-                                .setDescription(`${client.i18n.get(language, "music", "searchskip_result", {
+                                .setDescription(`${client.i18n.get(language, "music", "searchtop_result", {
                                     title: res.tracks[4].title,
                                     url: res.tracks[4].uri,
                                     duration: convertTime(res.tracks[4].duration, true),
@@ -194,7 +191,7 @@ module.exports = {
 
                     collector.on('end', async (collected, reason) => {
                         if(reason === "time") {
-                            msg.edit({ content: `${client.i18n.get(language, "music", "searchskip_no_response")}`, embeds: [], components: [] });
+                            msg.edit({ content: `${client.i18n.get(language, "music", "searchtop_no_response")}`, embeds: [], components: [] });
                             player.destroy();
                         }
                     });
@@ -202,10 +199,10 @@ module.exports = {
                 } else if(res.loadType == "PLAYLIST_LOADED") {
                     const queues = player.queue.length;
                     await player.queue.add(res.tracks);
-                    await skippedpl(player, queues);
+                    await playtoppl(player, queues);
 
                     const playlist = new EmbedBuilder() //**Queued** • [${res.playlist.name}](${search}) \`${convertTime(res.playlist.duration)}\` (${res.tracks.length} tracks) • ${res.tracks[0].requester}
-                        .setDescription(`${client.i18n.get(language, "music", "searchskip_playlist", {
+                        .setDescription(`${client.i18n.get(language, "music", "searchtop_playlist", {
                             title: res.playlist.name,
                             url: search,
                             duration: convertTime(res.playlist.duration),
@@ -216,28 +213,28 @@ module.exports = {
                     msg.edit({ content: " ", embeds: [playlist] });
                         if(!player.playing) player.play()
                 } else if(res.loadType == "LOAD_FAILED") {
-                    msg.edit(`${client.i18n.get(language, "music", "searchskip_fail")}`);
+                    msg.edit(`${client.i18n.get(language, "music", "searchtop_fail")}`);
                     player.destroy();
                 }
             } else {
-                msg.edit(`${client.i18n.get(language, "music", "searchskip_match")}`);
+                msg.edit(`${client.i18n.get(language, "music", "searchtop_match")}`);
                 player.destroy();
         }
     }
 }
 
-function skipped(player) {
-    return player.stop();
+function playtop(player) {
+    const song = player.queue[player.queue.length - 1];
+
+    player.queue.splice(player.queue.length - 1, 1);
+    player.queue.splice(1 - 1, 0, song);
 }
 
-function skippedpl(player, queues) {
+function playtoppl(player, queues) {
     let num = 0;
     for (let i = queues + 1; i < player.queue.length + 1; i++) {
         const song = player.queue[i - 1];
         player.queue.splice(i - 1, 1);
         player.queue.splice(num++, 0, song);
     }
-
-    player.stop();
 }
-

@@ -27,13 +27,13 @@ module.exports = {
                 return interaction.editReply({ embeds: [embed] });
 
             } else {
-                const Premiumed = new EmbedBuilder()
+                const embed = new EmbedBuilder()
                     .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
                     .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
                     .setColor(client.color)
                     .setTimestamp()
         
-                return interaction.editReply({ content: " ", embeds: [Premiumed] });
+                return interaction.editReply({ content: " ", embeds: [embed] });
             }
         } catch (err) {
             console.log(err)
