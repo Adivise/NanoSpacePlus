@@ -1,15 +1,20 @@
-## 📄 READ THIS
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=NanoSpacePlus&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient"/> </a> 
+</p>
 
-*Prefix Commands!* | **[NanoSpace](https://github.com/Adivise/NanoSpace)**
+<p align="center"> 
+  <a href="https://ko-fi.com/nanotect" target="_blank"> <img src="https://ko-fi.com/img/githubbutton_sm.svg"/> </a> 
+</p>
 
-## 📑 Short Feature
+## 📑 Feature
 - [x] Music System
 - [x] Playlists System
 - [x] Premium System
 - [x] Setup Request System
+- [x] AutoComplete (Play, Playskip, Playtop)
 - [x] Multi Language
 - [x] SlashCommand
-- [x] ContextMenus
+- [x] Context Message Menu
 - [x] Custom Filters
 - [x] Easy to use
 
