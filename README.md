@@ -13,7 +13,7 @@
 - [x] Setup Request System
 - [x] AutoComplete (Play, Playskip, Playtop)
 - [x] Multi Language
-- [x] SlashCommand
+- [x] Slash Command (Base, Group, Sub)
 - [x] Context Message Menu
 - [x] Custom Filters
 - [x] Easy to use
