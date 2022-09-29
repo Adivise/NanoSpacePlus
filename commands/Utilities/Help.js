@@ -49,7 +49,7 @@ module.exports = {
                                 .setDescription(`The bot prefix is: \`/\``)
                                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 2048 }))
                                 .setColor(client.color)
-                                .addFields({ name: `❯  ${directory.toUpperCase()} [${client.slash.filter(c => c.category === directory).size}]`, value: `${client.slash.filter(c => c.category === directory).map(c => `\`${c.name}\``).join(" | ")}`, inline: false })
+                                .addFields({ name: `❯  ${directory.toUpperCase()} [${client.slash.filter(c => c.category === directory).size}]`, value: `${client.slash.filter(c => c.category === directory).map(c => `\`${c.name.at(-1)}\``).join(", ")}`, inline: false })
                                 .setFooter({ text: `© ${interaction.guild.members.me.displayName} | Total Commands: ${client.slash.size}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
 
                             msg.edit({ embeds: [embed] });
