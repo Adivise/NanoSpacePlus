@@ -2,5 +2,5 @@
 
 # No premium sending msg!
 premium_author: "Only Premium!"
-premium_desc: "*You need to be a premium to use this command.*"
+premium_desc: "*You must be a premium user to execute this command.*"
 premium_error: "Something went wrong, try again later."
