@@ -2,7 +2,7 @@ const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
     name: ["music", "join"],
-    description: "Make the bot join the voice channel.",
+    description: "Summon the bot to your voice channel.",
     category: "Music",
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
