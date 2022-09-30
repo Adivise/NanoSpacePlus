@@ -2,7 +2,7 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = {
     name: ["music", "loop"],
-    description: "Loop song in queue type Queue/Current!",
+    description: "Loop the current song/queue.",
     category: "Music",
     options: [
         {

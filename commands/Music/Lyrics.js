@@ -8,7 +8,7 @@ module.exports = {
     options: [
         {
             name: "input",
-            description: "The song you want to find lyrics for",
+            description: "Song name to return lyrics for.",
             type: ApplicationCommandOptionType.String,
             required: false,
         }

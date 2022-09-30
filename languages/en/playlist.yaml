@@ -9,18 +9,18 @@ create_created: "`📦` | *Created* • `%{playlist}`"
 ##### Add command #####
 add_loading: "**Adding to playlist...**"
 add_arg: "Please provide a playlist name. Example: %{prefix}add <playlist name> <playlist link>"
-add_match: "The playlist link is invalid."
-add_fail: "Error loading playlist."
+add_match: "The provided link is invalid."
+add_fail: "Failed to load playlist."
 add_track: "**Searched • [%{title}](%{url})** `%{duration}` • %{user}"
 add_playlist: "**Searched • [%{title}](%{url})** `%{duration}` (%{track} tracks) • %{user}"
 add_search: "**Searched • [%{title}](%{url})** `%{duration}` • %{user}"
-add_owner: "You can't add to this playlist."
+add_owner: "You can't add songs to this playlist."
 add_limit_track: "You can't add more than %{limit} tracks to this playlist."
 add_added: "`📦` | *Added* • [`%{count} track's`] to *Playlist* • `%{playlist}`"
 
 ##### Delete command #####
-delete_arg: "Please provide a playlist name. Example: %{prefix}delete <playlist name>"
-delete_notfound: "The playlist name is invalid."
+delete_arg: "Please provide a valid playlist name. Example: %{prefix}delete <playlist name>"
+delete_notfound: "Provided playlist name is invalid"
 delete_owner: "You can't delete this playlist."
 delete_deleted: "`📦` | *Deleted* • `%{name}`"
 

@@ -61,4 +61,4 @@ dis_desc: "*I've been disconnected from <#%{voice}>*"
 
 # On player get move! = (detroy player)
 leave_title: "Moved"
-leave_desc: "*I got moved auto disconnected*"
+leave_desc: "*I have been moved from <#%{voice}>*"

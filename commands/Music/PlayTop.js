@@ -2,13 +2,13 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
-    name: ["music", "playtop"],
-    description: "Queued song to the top!",
+    name: ["music", "insert"],
+    description: "Force insert the song in top of queue",
     category: "Music",
     options: [
         {
             name: "song",
-            description: "The input of the song",
+            description: "The song you want to play",
             type: ApplicationCommandOptionType.String,
             required: true,
             autocomplete: true

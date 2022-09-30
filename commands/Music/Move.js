@@ -2,18 +2,18 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = {
     name: ["music", "move"],
-    description: "Move position song in queue!",
+    description: "Change a songs position in a queue.",
     category: "Music",
     options: [
         {
-            name: "queue",
-            description: "The queue of the song",
+            name: "from",
+            description: "The queue number of the song",
             type: ApplicationCommandOptionType.Integer,
             required: true,
         },
         {
-            name: "position",
-            description: "The position in queue want to move too.",
+            name: "to",
+            description: "The position in queue you want to move",
             type: ApplicationCommandOptionType.Integer,
             required: true,
         }
@@ -21,8 +21,8 @@ module.exports = {
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
 
-        const tracks = interaction.options.getInteger("queue");
-        const position = interaction.options.getInteger("position");
+        const tracks = interaction.options.getInteger("from");
+        const position = interaction.options.getInteger("to");
 
         const msg = await interaction.editReply(`${client.i18n.get(language, "music", "move_loading")}`);
         
