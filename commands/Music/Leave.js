@@ -1,8 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    name: ["music", "leave"],
-    description: "Make the bot leave the voice channel.",
+    name: ["music", "dc"],
+    description: "Disconnect the bot from your voice channel",
     category: "Music",
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
