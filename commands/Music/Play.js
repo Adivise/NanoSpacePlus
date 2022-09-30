@@ -3,12 +3,12 @@ const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
     name: ["play"], // I move play to main issues subcmd (max 25)
-    description: "Play a song from any types.",
+    description: "Plays a song of your choice",
     category: "Music",
     options: [
         {
             name: "song",
-            description: "The input of the song",
+            description: "The song you want to play",
             type: ApplicationCommandOptionType.String,
             required: true,
             autocomplete: true
