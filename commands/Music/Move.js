@@ -21,8 +21,8 @@ module.exports = {
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
 
-        const tracks = interaction.options.getInteger("queue");
-        const position = interaction.options.getInteger("position");
+        const tracks = interaction.options.getInteger("from");
+        const position = interaction.options.getInteger("to");
 
         const msg = await interaction.editReply(`${client.i18n.get(language, "music", "move_loading")}`);
         
