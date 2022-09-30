@@ -4,13 +4,13 @@ const formatDuration = require('../../structures/FormatDuration.js');
 const fastForwardNum = 10;
 
 module.exports = {
-    name: ["music", "forward"],
-    description: "Forward timestamp in the song!",
+    name: ["music", "seek"],
+    description: "Seek the currently playing song.",
     category: "Music",
     options: [
         {
             name: "seconds",
-            description: "The number of seconds to forward the timestamp by.",
+            description: "example 10s, 20s, 40s",
             type: ApplicationCommandOptionType.Integer,
             required: false
         }
