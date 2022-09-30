@@ -7,10 +7,10 @@ lang_change: "`🔧` | *Language has been change to:* `%{language}`"
 lang_error: "Something went wrong please try again later."
 
 ##### Restart command #####
-restart_msg: "`🤖` | *Client has been:* `Shutting down`"
+restart_msg: "`🤖` | *Client is:* `Shutting down`"
 
 ##### Help command #####
 help_desc: "Please Select Category Menu!"
 help_category_desc: "Select the %{category} to see all commands."
 help_category: "%{category}"
-help_timeout: "```Help Menu is time out please try %{prefix}help to see again.```"
+help_timeout: "```Help Menu timed out try using %{prefix}help again.```"
