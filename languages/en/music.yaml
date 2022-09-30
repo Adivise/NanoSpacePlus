@@ -41,7 +41,7 @@ unloopall: "`🔁` | *Song is unloop:* `All`"
 
 ### Lyrics command!
 lyrics_loading: "Searching for lyrics..."
-lyrics_notfound: "Couldn't find any lyrics for that song!"
+lyrics_notfound: "Couldn't find any lyrics for provided song!"
 lyrics_title: "Lyrics for %{song}"
 lyrics_toolong: "Lyrics too long to display!"
 
@@ -49,7 +49,7 @@ lyrics_toolong: "Lyrics too long to display!"
 np_loading: "Loading please wait..."
 
 np_title: "Now playing..."
-np_title_pause: "Song pause..."
+np_title_pause: "Song paused..."
 np_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
 
 # Embed Field
@@ -57,7 +57,7 @@ np_author: "Author:"
 np_request: "Requester:"
 np_volume: "Volume:"
 np_view: "Views:"
-np_upload: "Upload At:"
+np_upload: "Uploaded At:"
 np_download: "Download:"
 np_current_duration: "Current Duration: `[%{current_duration} / %{total_duration}]`"
 
