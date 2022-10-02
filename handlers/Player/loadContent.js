@@ -151,6 +151,10 @@ try {
 
 client.on("messageCreate", async (message) => {
         if (!message.guild || !message.guild.available) return;
+
+        /// Create database when not have!
+        await client.createSetup(message.guild.id);
+        await client.createLang(message.guild.id);
         
         const database = await Setup.findOne({ guild: message.guild.id });
         if (database.enable === false) return;
