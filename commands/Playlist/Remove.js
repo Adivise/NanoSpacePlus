@@ -55,11 +55,11 @@ module.exports = {
                     .setColor(client.color)
                     .setTimestamp()
 
-                return msg.edit({ content: " ", embeds: [embed] });
+                return interaction.editReply({ content: " ", embeds: [embed] });
             }
         } catch (err) {
             console.log(err);
-            msg.edit({ content: `${client.i18n.get(language, "nopremium", "premium_error")}` })
+            interaction.editReply({ content: `${client.i18n.get(language, "nopremium", "premium_error")}` })
         }
     }
 }
