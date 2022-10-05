@@ -3,6 +3,7 @@ const GLang = require("../../settings/models/Language.js");
 const chalk = require('chalk');
 const { SEARCH_DEFAULT } = require("../../settings/config.js")
 const yt = require("youtube-sr").default;
+const { REGEX } = require("../../settings/regex.js")
 
 module.exports = async(client, interaction) => {
     if (interaction.isCommand || interaction.isContextMenuCommand || interaction.isModalSubmit || interaction.isChatInputCommand) {
@@ -29,22 +30,48 @@ module.exports = async(client, interaction) => {
         } catch { };
 
         if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
+          const url = interaction.options.getString("song")
+
+          const match = {
+            youtube: REGEX[0].test(url),
+            spotify: REGEX[1].test(url),
+            deezer: REGEX[2].test(url),
+            soundcloud: REGEX[3].test(url)
+          } 
+
           const Random = SEARCH_DEFAULT[Math.floor(Math.random() * SEARCH_DEFAULT.length)];
+
+          async function checkRegex() {
+            if (
+              match.youtube == true || 
+              match.spotify == true || 
+              match.deezer == true ||
+              match.soundcloud == true
+            ) {
+              let choice = []
+              choice.push({ name: url, value: url })
+              await interaction.respond(choice).catch(() => { });
+            }
+          }
+
           if(interaction.commandName == "play") {
-              let choice = []
-              await yt.search(interaction.options.getString("song") || Random, { safeSearch: true, limit: 10 }).then(result => {
-                  result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
-              });
-              return await interaction.respond(choice).catch(() => { });
+            checkRegex()
+							let choice = []
+							await yt.search(url || Random, { safeSearch: true, limit: 10 }).then(result => {
+								result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
+							});
+							return await interaction.respond(choice).catch(() => { });
           } else if (interaction.options.getSubcommand() == "playskip") {
+            checkRegex()
               let choice = []
-              await yt.search(interaction.options.getString("song") || Random, { safeSearch: true, limit: 10 }).then(result => {
+              await yt.search(url || Random, { safeSearch: true, limit: 10 }).then(result => {
                   result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
               });
               return await interaction.respond(choice).catch(() => { });
           } else if (interaction.options.getSubcommand() == "playtop") {
+            checkRegex()
               let choice = []
-              await yt.search(interaction.options.getString("song") || Random, { safeSearch: true, limit: 10 }).then(result => {
+              await yt.search(url || Random, { safeSearch: true, limit: 10 }).then(result => {
                   result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
               });
               return await interaction.respond(choice).catch(() => { });
