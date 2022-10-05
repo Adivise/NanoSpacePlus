@@ -9,6 +9,17 @@ const manager = new ShardingManager('./index.js', {
   shardList: "auto", //edit it only if you know what are you doing
 });
 
-manager.on('shardCreate', shard => console.log(`Launched shard ${shard.id}`));
+manager
+  .spawn({ amount: manager.totalShards, delay: null, timeout: -1 })
+  .then((shards) => {
+    console.log(`[CLIENT] ${shards.size} shard(s) spawned.`);
+  })
+  .catch((err) => {
+    console.log("[CLIENT] An error has occurred :", err);
+  });
 
-manager.spawn();
+manager.on("shardCreate", (shard) => {
+  shard.on("ready", () => {
+    console.log(`[CLIENT] Shard ${shard.id} connected`);
+  });
+});
