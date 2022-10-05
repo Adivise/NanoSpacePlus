@@ -167,11 +167,6 @@ client.on("messageCreate", async (message) => {
         const guildModel = await GLang.findOne({ guild: message.guild.id });
         const { language } = guildModel;
 
-        if (message.author.id === client.user.id) {
-            await delay(3000);
-                message.delete()
-        }
-
         if (message.author.bot) return;
 
             const song = message.cleanContent;

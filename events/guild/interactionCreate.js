@@ -32,27 +32,19 @@ module.exports = async(client, interaction) => {
         if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
           const url = interaction.options.getString("song")
 
-          const match = {
-            youtube: REGEX[0].test(url),
-            spotify: REGEX[1].test(url),
-            deezer: REGEX[2].test(url),
-            soundcloud: REGEX[3].test(url)
-          } 
-
-          const Random = SEARCH_DEFAULT[Math.floor(Math.random() * SEARCH_DEFAULT.length)];
-
+          // Check The song playlist (Support: apple music/youtube/spotify/soundcloud/deezer)
+          const match = REGEX.some(function (match) {
+            return match.test(url) == true;
+          });
           async function checkRegex() {
-            if (
-              match.youtube == true || 
-              match.spotify == true || 
-              match.deezer == true ||
-              match.soundcloud == true
-            ) {
+            if (match == true) {
               let choice = []
               choice.push({ name: url, value: url })
               await interaction.respond(choice).catch(() => { });
             }
           }
+
+          const Random = SEARCH_DEFAULT[Math.floor(Math.random() * SEARCH_DEFAULT.length)];
 
           if(interaction.commandName == "play") {
             checkRegex()
