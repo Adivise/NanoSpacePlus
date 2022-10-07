@@ -20,6 +20,8 @@ try {
         
             const guildModel = await GLang.findOne({ guild: playChannel.guild.id });
             const { language } = guildModel;
+            
+            setTimeout(() => interaction.deleteReply(), 3000);
 
             switch (customId) {
                 case "sprevious":
@@ -150,6 +152,7 @@ try {
 }
 
 client.on("messageCreate", async (message) => {
+        if(message.author.bot || message.channel.type === 1) return;
         if (!message.guild || !message.guild.available) return;
 
         /// Create database when not have!
@@ -166,6 +169,11 @@ client.on("messageCreate", async (message) => {
 
         const guildModel = await GLang.findOne({ guild: message.guild.id });
         const { language } = guildModel;
+        
+        if (message.author.id === client.user.id) {
+            await delay(3000);
+            message.delete()
+        }
 
         if (message.author.bot) return;
 
