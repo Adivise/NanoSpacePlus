@@ -7,7 +7,7 @@ const { REGEX } = require("../../settings/regex.js")
 
 module.exports = async(client, interaction) => {
     if (interaction.isCommand || interaction.isContextMenuCommand || interaction.isModalSubmit || interaction.isChatInputCommand) {
-        if (!interaction.guild) return;
+        if (!interaction.guild || interaction.user.bot) return;
 
         /// Create database when not have!
         await client.createSetup(interaction.guild.id);
