@@ -194,6 +194,9 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
   <img src="https://contributors-img.web.app/image?repo=Adivise/NanoSpacePlus" />
 </a>
 
+<details><summary>📃 Translate Team (Languages) [CLICK ME]</summary>
+<p>
+
 ## 📃 Translate Team (Languages)
 
 - [x] **en (English)** 
@@ -205,7 +208,10 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
     - [@VenQuiDev](https://github.com/venquidev) **Discord:** `VenQui#6625`
 - [x] **vi (Vietnamese)**
     - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `RainyXeon </>#0017`
-	
+
+</p>
+</details>
+
 ## ⁉ Become Translate Team?
 
 - [Crowdin](https://crowdin.com/project/nanospace)
