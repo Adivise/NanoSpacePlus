@@ -4,7 +4,7 @@ const Premium = require("../../settings/models/Premium.js");
 const Redeem = require("../../settings/models/Redeem.js");
 
 module.exports = {
-    name: ["premium", "redeem"],
+    name: ["redeem"],
     description: "Redeem your premium!",
     category: "Premium",
     options: [

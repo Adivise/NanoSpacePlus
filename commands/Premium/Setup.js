@@ -9,6 +9,10 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false });
         
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)) return interaction.editReply(`${client.i18n.get(language, "utilities", "lang_perm")}`);
+
+        const player = client.manager.get(interaction.guild.id);
+        if (player) player.destroy();
+
         try {
             if (user && user.isPremium) {
                 await interaction.guild.channels.create({
@@ -29,7 +33,9 @@ module.exports = {
                     .setAuthor({ name: `${client.i18n.get(language, "setup", "setup_playembed_author")}` })
                     .setImage(`${client.i18n.get(language, "setup", "setup_playembed_image")}`)
                     .setDescription(`${client.i18n.get(language, "setup", "setup_playembed_desc")}`)
-                    .setFooter({ text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}` });
+                    .setFooter({ text: `${client.i18n.get(language, "setup", "setup_playembed_footer", {
+                        prefix: "/"
+                    })}` });
 
                 await channel.send({ files: [attachment] });
                     await channel.send({ content: `${queueMsg}`, embeds: [playEmbed], components: [client.diSwitch] }).then(async (playmsg) => {

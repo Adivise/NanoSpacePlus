@@ -1,0 +1,20 @@
+##### Setup command #####
+setup_topic: "⏯ *Pausar/Reanudar la canción.*\n⬅ *Anterior  canción.*\n⏹ *Detener la canción.*\n➡ *Saltar la canción.*\n🔁 *Bucle/Anular el bucle de la canción.*"
+setup_msg: "*`Configuración exitosa del sistema de música en`* %{channel}"
+setup_enable: "*`Ya tienes configurado el sistema de musica, no puedes usar este comando.`*"
+##### Setup Handler #####
+setup_queuemsg: "**__Lista de colas:__**\nÚnete a un canal de voz y poner en cola las canciones por nombre o url aquí."
+setup_playembed_author: "No se está reproduciendo ninguna canción actualmente."
+setup_nowplay: "Reproduciendo..."
+setup_songpause: "Canción en pausa..."
+setup_playembed_image: "https://images2.alphacoders.com/110/thumb-1920-1109233.jpg"
+setup_playembed_desc: ">>> [Invitación](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Servidor De Soporte](https://discord.gg/SNG3dh3MbR) | [Sitio Web](https://adivise.github.io/Stylish/)"
+setup_playembed_footer: "El prefijo es: %{prefix}"
+##### Setup Update Handler #####
+setup_author: "Comenzando la reproducción..."
+setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+setup_desc: "[%{title}](%{url}) `[%{duration}]` • %{request}"
+setup_footer: "%{songs} • Canciones en Cola | Volumen • %{volume}% | %{duration} • Duración total"
+setup_content: "**__Lista de canciones:__**"
+setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
+setup_content_empty: "Únete a un canal de voz y poner en cola las canciones por nombre o url aquí."

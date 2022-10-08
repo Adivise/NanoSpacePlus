@@ -6,14 +6,14 @@ const Setup = require("../../settings/models/Setup.js");
 module.exports = async (client) => {
 
     client.UpdateQueueMsg = async function (player) {
-        const data = await Setup.findOne({ guild: player.guild });
-        if (data.enable === false) return;
+        const database = await Setup.findOne({ guild: player.guild });
+        if (database.enable === false) return;
 
-        const channel = await client.channels.cache.get(data.channel);
+        const channel = await client.channels.cache.get(database.channel);
         if (!channel) return;
 
-        const playMsg = await channel.messages.fetch(data.playmsg, { cache: false, force: true });
-        if (!playMsg) return;
+        const msg = await channel.messages.fetch(database.playmsg, { cache: false, force: true });
+        if (!msg) return;
     
         const guildModel = await GLang.findOne({ guild: player.guild });
         const { language } = guildModel;
@@ -51,7 +51,7 @@ module.exports = async (client) => {
                 duration: qDuration,
             })}` }) //${player.queue.length} • Song's in Queue | Volume • ${player.volume}% | ${qDuration} • Total Duration
 
-        return playMsg.edit({ 
+        return msg.edit({ 
             content: `${client.i18n.get(language, "setup", "setup_content")}\n${Str == '' ? `${client.i18n.get(language, "setup", "setup_content_empty")}` : '\n' + Str}`, 
             embeds: [embed], 
             components: [client.enSwitch] 
@@ -59,14 +59,14 @@ module.exports = async (client) => {
     };
 
     client.UpdateMusic = async function (player) {
-        const data = await Setup.findOne({ guild: player.guild });
-        if (data.enable === false) return;
+        const database = await Setup.findOne({ guild: player.guild });
+        if (database.enable === false) return;
 
-        const channel = await client.channels.cache.get(data.channel);
+        const channel = await client.channels.cache.get(database.channel);
         if (!channel) return;
 
-        const playMsg = await channel.messages.fetch(data.playmsg, { cache: true, force: true });
-        if (!playMsg) return;
+        const msg = await channel.messages.fetch(database.playmsg, { cache: true, force: true });
+        if (!msg) return;
     
         const guildModel = await GLang.findOne({ guild: player.guild });
         const { language } = guildModel;
@@ -80,9 +80,11 @@ module.exports = async (client) => {
           .setDescription(`${client.i18n.get(language, "setup", "setup_playembed_desc", {
               clientId: client.user.id,
           })}`)
-          .setFooter({ text: `${client.i18n.get(language, "setup", "setup_playembed_footer")}` });
+          .setFooter({ text: `${client.i18n.get(language, "setup", "setup_playembed_footer", {
+            prefix: "/"
+          })}` });
 
-        return playMsg.edit({ 
+        return msg.edit({ 
             content: `${queueMsg}`, 
             embeds: [playEmbed], 
             components: [client.diSwitch] 

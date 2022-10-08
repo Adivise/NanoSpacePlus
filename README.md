@@ -193,3 +193,19 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 <a href="https://github.com/Adivise/NanoSpacePlus/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=Adivise/NanoSpacePlus" />
 </a>
+
+## 📃 Translate Team (Languages)
+
+- [x] **en (English)** 
+    - [@Adivise](https://github.com/Adivise) **Discord:** `*Stylish.#4078`
+- [x] **th (Thailand)** 
+    - [@Adivise](https://github.com/Adivise) **Discord:** `*Stylish.#4078`
+- [x] **es-ES (Spanish)** 
+    - [@NoBody-UU](https://github.com/NoBody-UU) **Discord:** `NoBody🥀#9666`
+    - [@VenQuiDev](https://github.com/venquidev) **Discord:** `VenQui#6625`
+- [x] **vi (Vietnamese)**
+    - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `RainyXeon </>#0017`
+	
+## ⁉ Become Translate Team?
+
+- [Crowdin](https://crowdin.com/project/nanospace)

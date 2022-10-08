@@ -1,0 +1,5 @@
+##### No premium Event #####
+#No premium sending msg!
+premium_author: "¡Solo Premium!"
+premium_desc: "*Necesitas ser premium para usar este comando.*"
+premium_error: "Algo salió mal, inténtalo de nuevo más tarde."

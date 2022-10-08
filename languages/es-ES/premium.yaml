@@ -1,0 +1,19 @@
+##### Generate command #####
+provide_plan: "Por favor, proporciona el plan: %{plans}"
+plan_invalid: "Plan no válido, planes disponibles: %{plans}"
+gen_author: "Generar código"
+gen_desc: "• *Generado* [`+%{codes_length}`]\n```%{codes}```\n • *Plan*: `%{plan}`\n • *Expira en*: `%{expires}`"
+gen_footer: "Escribe: %{prefix}redeem <code> para canjear!"
+##### Profile command #####
+profile_author: "Perfil Premium"
+profile_desc: "*Usuario*: `%{user}`\n*Plan*: `%{plan}`\n*Expira en*: `%{expires}`"
+##### Redeem command #####
+redeem_arg: "¡Por favor especifica el código que quieres canjear!"
+redeem_already: "Ya eres un usuario premium"
+redeem_title: "Premium canjeado"
+redeem_desc: "**¡Has canjeado con éxito el premium!**\n\n*Expira en*: [`%{expires}`]"
+redeem_invalid: "**El código no es válido. ¡Inténtalo de nuevo usando uno válido!**"
+##### Remove command #####
+remove_mention: "¡Por favor, mencione a un miembro!"
+remove_already: "**¡Ya ha sido eliminado! %{user}**"
+remove_desc: "**¡Has eliminado correctamente! %{user}**"

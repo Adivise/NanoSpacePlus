@@ -1,0 +1,43 @@
+##### On track start playing! Event #####
+track_title: "Comenzando la reproducción..."
+track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+#Embed Field
+author_title: "Autor:"
+request_title: "Solicitante:"
+volume_title: "Volumen Actual:"
+queue_title: "Longitud de cola:"
+duration_title: "Duración:"
+total_duration_title: "Duración Total:"
+current_duration_title: "Duración actual: `[0:00 / %{current_duration}]`"
+#Need in voice to use button!
+join_voice: "Necesitas estar en un canal de voz para poder usar el boton."
+#Message Button
+switch_pause: En pausa
+switch_resume: Reanudado
+pause_msg: "`⏯` | *La canción ha sido:* `%{pause}`"
+skip_msg: "`⏭` | *La canción ha sido:* `Saltada`"
+stop_msg: "`🚫` | *La Canción ha sido:* `Detenida`"
+shuffle_msg: "`🔀` | *La cola ha sido:* `Mezclada`"
+switch_enable: Activado
+switch_disable: Desactivado
+repeat_msg: "`🔁` | *Loop ha sido:* `%{loop}`"
+volup_msg: "`🔊` | *Cambia el volumen a:* `%{volume}%`"
+voldown_msg: "`🔈` | *Cambia el volumen a:* `%{volume}%`"
+replay_msg: "`⏮` | *La canción ha sido:* `Repetida`"
+queue_author: "Cola - %{guild}"
+queue_description: "*Actualmente Reproduciendo*\n*[%{track}](%{track_url})* `[%{duration}]` • %{requester}\n\n*Cola*:%{list_song}"
+queue_footer: "Página • %{page}/%{pages} | %{queue_lang} • Canción | %{total_duration} • Duración total"
+clear_msg: "`📛` | *La lista de reproducción ha sido:* `Limpiada`"
+##### On QueueEnd Event #####
+queue_end_desc: "`📛` | *La canción ha:* `Terminado`"
+##### On Track get error!! Event #####
+error_desc: "`❌` | *La canción tiene error:* `Auto-Skipped`"
+##### On Track get stuck!! Event #####
+stuck_desc: "`❌` | *La canción se ha atascado:* `Auto-Skipped`"
+##### On Bot get move Event #####
+#On player get discoconnect
+dis_title: "Desconectado"
+dis_desc: "*Me he desconectado de <#%{voice}>*"
+#On player get move! = (detroy player)
+leave_title: "Movido"
+leave_desc: "*Me he movido automáticamente, desconectado*"

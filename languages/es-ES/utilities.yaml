@@ -1,0 +1,14 @@
+##### Language command #####
+lang_perm: "Necesitas el permiso `MANAGE_GUILD` para usar este comando."
+lang_arg: "¡Por favor especifica un idioma!"
+provide_lang: "Por favor indica los idiomas: `%{languages}`"
+lang_set: "`🔧` | *El idioma se ha establecido a:* `%{language}`"
+lang_change: "`🔧` | *Se ha cambiado el idioma a:* `%{language}`"
+lang_error: "Algo salió mal, por favor inténtalo de nuevo más tarde."
+##### Restart command #####
+restart_msg: "`🤖` | *El cliente ha sido:* `Apagado`"
+##### Help command #####
+help_desc: "¡Por favor, seleccione un Menú de Categoría!"
+help_category_desc: "Seleccione la %{category} para ver todos los comandos."
+help_category: "%{category}"
+help_timeout: "```Se agotó el tiempo de espera del menú de ayuda, intente usar %{prefix}help de nuevo.```"

@@ -1,0 +1,33 @@
+##### All Filter command!
+filter_loading: "Đang bật **%{name}**. Điều này có thể mất vài giây..."
+filter_on: "`🔩` | *Đã bật:* `%{name}`"
+filter_number: "Hãy nhập một số bất kỳ."
+filter_greater: "Số bạn nhập cần phải lớn hơn 0."
+filter_less: "Số bạn nhập cần phải bé hơn 10."
+#Bassboost commaand!
+bassboost_loading: "Cài đặt **Bassboost** thành **%{amount}dB**. Điều này có thể mất vài giây..."
+bassboost_set: "`🔩` | *Bassboost đã được cài đặt thành* `%{amount}`"
+bassboost_limit: "Vui lòng nhập một số tử -10 đến 10."
+#Equalizer command!
+eq_author: "Tùy chỉnh hệ thống cân bằng âm thanh"
+eq_icon: "https://cdn.discordapp.com/emojis/758423098885275748.gif"
+eq_desc: "Có 14 dải âm có thể được đặt từ -10 đến 10. Không phải tất cả các dải đều phải được thực hiện."
+eq_field_title: "Ví dụ:"
+eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
+eq_number: "Dải âm #%{num} không phải là một số hợp lệ."
+eq_than: "Dải âm #%{num} cần phải bé hơn 10."
+eq_footer: "Cài đặt lại hệ thống cân bằng âm thanh: %{prefix}eq reset"
+eq_loading: "Cài đặt **Equalizer** thành **`%{bands}`**. Điều này có thể mất vài giây..."
+eq_on: "`🔩` | *Cân bằng âm thanh đã được thay đổi thành:* `%{bands}`"
+#Pitch command!
+pitch_loading: "Cài đặt **Pitch** thành **%{amount}**. Điều này có thể mất vài giây..."
+pitch_on: "`🔩` | *Pitch đã được đặt thành:* `%{amount}`"
+#Rate command!
+rate_loading: "Cài đặt **Rate** thành **%{amount}x**. Điều này có thể mất vài giây..."
+rate_on: "`🔩` | *Rate đã được đặt thành:* `%{amount}x`"
+#Reset command!
+reset_loading: "Đang tắt **%{name}**. Điều này có thể mất vài giây..."
+reset_on: "`🔩` | *Đã tắt:* `%{name}`"
+#Speed command!
+speed_loading: "Cài đặt **Tốc độ* thành **%{amount}x**. Điều này có thể mất vài giây..."
+speed_on: "`🔩` | *Tốc độ đã được đặt thành:* `%{amount}x`"

@@ -1,0 +1,9 @@
+##### InteractionCreate Event #####
+#On settings/config.js in DEV_ID
+dev_only: El bot está en mantenimiento. (Por favor, vuelve más tarde)
+#No permission to use command (this for bot!)
+no_perms: '¡No tengo permisos para ejecutar el comando!'
+#Bot getting error something!
+error: Algo salió mal.
+#You are not the client owner of this bot!
+owner_only: '¡No eres el dueño del cliente!'

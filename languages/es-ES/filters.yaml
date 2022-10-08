@@ -1,0 +1,33 @@
+##### All Filter command!
+filter_loading: "Encendiendo **%{name}**. Esto puede tardar unos segundos..."
+filter_on: "`🔩` | *Activado:* `%{name}`"
+filter_number: "Por favor, introduzca un número."
+filter_greater: "El número debe ser mayor que 0."
+filter_less: "El número debe ser menor que 10."
+#Bassboost commaand!
+bassboost_loading: "Ajustando **Bassboost** a **%{amount}dB**. Esto puede tardar unos segundos..."
+bassboost_set: "`🔩` | *Bassboost establecido en:* `%{amount}`"
+bassboost_limit: "Por favor, introduzca un número entre -10 y 10."
+#Equalizer command!
+eq_author: "Equalizador Personalizado"
+eq_icon: "https://cdn.discordapp.com/emojis/758423098885275748.gif"
+eq_desc: "Hay 14 bandas que se pueden ajustar de -10 a 10. No todas las bandas tienen que ser llenadas."
+eq_field_title: "Ejemplo:"
+eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
+eq_number: "La Banda #%{num} no es un número válido."
+eq_than: "La Banda #%{num} debe ser menor que 10."
+eq_footer: "Restablecer ecualizador: %{prefix}eq reset"
+eq_loading: "Configurando **Equalizador** a... **`%{bands}`** Esto puede tardar unos segundos..."
+eq_on: "`🔩` | *Equalizador establecido en:* `%{bands}`"
+#Pitch command!
+pitch_loading: "Ajustando **Pitch** a **%{amount}**. Esto puede tardar unos segundos..."
+pitch_on: "`🔩` | *Tono establecido en:* `%{amount}`"
+#Rate command!
+rate_loading: "Ajustando **Tarifa** a **%{amount}x**. Esto puede tardar unos segundos..."
+rate_on: "`🔩` | *Tarifa establecida en:* `%{amount}x`"
+#Reset command!
+reset_loading: "Desactivando **filtro** Esto puede tardar unos segundos..."
+reset_on: "`🔩` | *Desactivado:* `filter`"
+#Speed command!
+speed_loading: "Ajustando **Velocidad** a **%{amount}x**. Esto puede tardar unos segundos..."
+speed_on: "`🔩` | *Velocidad establecida en:* `%{amount}x`"
