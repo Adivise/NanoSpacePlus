@@ -1,4 +1,4 @@
-## 📃 Translate Contributors (Languages)
+## 📃 Translate Team (Languages)
 
 - [x] **en (English)** 
     - [@Adivise](https://github.com/Adivise) Discord: *Stylish.#4078
@@ -10,6 +10,6 @@
 - [x] **vi (Vietnamese)**
     - [@RainyXeon](https://github.com/RainyXeon) Discord: RainyXeon </>#0017
 	
-## ⁉ Need Translate Contributors?
+## ⁉ Become to translate team?
 
 - [Crowdin](https://crowdin.com/project/nanospace)
