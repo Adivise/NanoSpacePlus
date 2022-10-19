@@ -28,10 +28,13 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (!player || !player.queue.previous) {
                             return interaction.reply(`${client.i18n.get(language, "music", "previous_notfound")}`);
+setTimeout(() => interaction.deleteReply(), 10000);
                         } else {
                             await player.queue.unshift(player.queue.previous);
                             await player.stop();
@@ -41,6 +44,7 @@ try {
                                 .setColor(client.color);
 
                             interaction.reply({ embeds: [embed] });
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         }
                     }
                     break;
@@ -49,10 +53,13 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
+setTimeout(() => interaction.deleteReply(), 10000);
                         } else {}
                         if (player.queue.size == 0) {
                             await player.destroy();
@@ -63,6 +70,7 @@ try {
                                 .setColor(client.color);
 
                             interaction.reply({ embeds: [embed] });
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else {
                             await player.stop();
 
@@ -71,6 +79,7 @@ try {
                                 .setColor(client.color);
 
                             interaction.reply({ embeds: [embed] });
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         }
                     }
                     break;
@@ -79,10 +88,13 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else {
                             await player.destroy();
                             await client.UpdateMusic(player);
@@ -92,6 +104,7 @@ try {
                                 .setColor(client.color);
 
                             interaction.reply({ embeds: [embed] });
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         }
                     }
                     break;
@@ -100,10 +113,13 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
-                            return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                            return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`); 
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (!player) {
-                            return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
+                            return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`); 
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else {
                             await player.pause(!player.paused);
                             const uni = player.paused ? `${client.i18n.get(language, "player", "switch_pause")}` : `${client.i18n.get(language, "player", "switch_resume")}`;
@@ -116,6 +132,7 @@ try {
                                 
                             client.UpdateQueueMsg(player);
                             interaction.reply({ embeds: [embed] });
+setTimeout(() => interaction.deleteReply(), 10000);
                         }
                     }
                     break;
@@ -124,10 +141,13 @@ try {
                     {
                         if (!channel) { 
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(channel)) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         } else if (!player) {
                             return interaction.reply(`${client.i18n.get(language, "noplayer", "no_player")}`);
+setTimeout(() => interaction.deleteReply(), 10000);
                         } else {
                             await player.setQueueRepeat(!player.queueRepeat);
                             const uni = player.queueRepeat ? `${client.i18n.get(language, "player", "switch_enable")}` : `${client.i18n.get(language, "player", "switch_disable")}`;
@@ -139,6 +159,7 @@ try {
                                 .setColor(client.color);
 
                             interaction.reply({ embeds: [embed] });
+                          setTimeout(() => interaction.deleteReply(), 10000);
                         }
                     }
                 break;
@@ -173,10 +194,7 @@ client.on("messageCreate", async (message) => {
         const guildModel = await GLang.findOne({ guild: message.guild.id });
         const { language } = guildModel;
         
-        if (message.author.id === client.user.id) {
-            await delay(3000);
-            message.delete();
-        }
+        
 
         if (message.author.bot) return;
 
