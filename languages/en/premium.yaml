@@ -6,14 +6,14 @@ gen_desc: "• *Generated* [`+%{codes_length}`]\n```%{codes}```\n • *Plan*: `%
 gen_footer: "Type: %{prefix}redeem <code> to redeem!"
 
 ##### Profile command #####
-profile_author: "Premium Profile"
+profile_author: "Profile"
 profile_desc: "*User*: `%{user}`\n*Plan*: `%{plan}`\n*Expires at*: `%{expires}`"
 
 ##### Redeem command #####
 redeem_arg: "Please specify the code you want to redeem!"
 redeem_already: "You are already a premium user"
-redeem_title: "Premium redeemed"
-redeem_desc: "**You have successfully redeemed premium!**\n\n*Expires at*: [`%{expires}`]"
+redeem_title: "Redeemed Code"
+redeem_desc: "*Plan*: `%{plan}`\n*Expires at*: [`%{expires}`]"
 redeem_invalid: "**The code is invalid. Please try again using valid one!**"
 
 ##### Remove command #####

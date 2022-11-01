@@ -44,9 +44,10 @@ module.exports = {
             await premium.deleteOne();
 
             const embed = new EmbedBuilder()
-                .setTitle(`${client.i18n.get(language, "premium", "redeem_title")}`)
+                .setAuthor({ name: `${client.i18n.get(language, "premium", "redeem_title")}`, iconURL: client.user.displayAvatarURL() })
                 .setDescription(`${client.i18n.get(language, "premium", "redeem_desc", {
                     expires: expires,
+                    plan: premium.plan
                 })}`)
                 .setColor(client.color)
                 .setTimestamp()

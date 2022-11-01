@@ -3,14 +3,14 @@ const moment = require('moment');
 const Premium = require("../../settings/models/Premium.js");
 
 module.exports = {
-    name: ["premium", "profile"],
+    name: ["profile"],
     description: "View your premium profile!",
     category: "Premium",
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         
         const PremiumPlan = await Premium.findOne({ Id: interaction.user.id })
-        const expires = moment(PremiumPlan.premium.expiresAt).format('dddd, MMMM Do YYYY HH:mm:ss');
+        const expires = moment(PremiumPlan.premium.expiresAt).format('do/MMMM/YYYY (HH:mm:ss)');
 
         try {
             if (user && user.isPremium) {
