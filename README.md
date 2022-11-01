@@ -9,7 +9,7 @@
 ## 📑 Feature
 - [x] Music System
 - [x] Playlists System
-- [x] Premium System
+- [x] Premium System (Ko-Fi Support!)
 - [x] Setup Request System
 - [x] AutoComplete (Play, Playskip, Playtop)
 - [x] Multi Language
