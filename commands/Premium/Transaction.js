@@ -24,7 +24,7 @@ module.exports = {
         let codes = [];
 
         if (kofi) {
-            if (kofi.useable === true) return interaction.editReply({ content: "This transaction has already been used." });
+            if (kofi.useable === true) return interaction.editReply({ content: "The provided transaction id has already been used." });
 
             const generate = Codes.generate({
                 pattern: '####-####-####'
@@ -48,10 +48,10 @@ module.exports = {
                     });
                 } else if (kofi.type === "Commission") {
                     // I not have commission plan
-                    return interaction.editReply({ content: "I not support Commission Transaction" });
+                    return interaction.editReply({ content: "Commission Transaction is not supported yet!" });
                 } else if (kofi.type === "Shop Order") {
                     // I not have shop plan
-                    return interaction.editReply({ content: "I not support Shop Order Transaction" });
+                    return interaction.editReply({ content: "Shop Order Transaction is not aupported yet!" });
                 }
 
                 codes.push(`${code}`);
@@ -62,7 +62,7 @@ module.exports = {
             });
 
             const embed = new EmbedBuilder()
-                .setTitle("Verify Transaction")
+                .setTitle("Verify your Transaction")
                 .setDescription(`Here your code is: \`${codes.join('\n')}\``)
                 .setColor(client.color)
                 .setFooter({ text: `${client.i18n.get(language, "premium", "gen_footer", {
@@ -74,7 +74,7 @@ module.exports = {
         } else {
             const embed = new EmbedBuilder()
                 .setColor(client.color)
-                .setDescription(`This transaction id is invalid.`)
+                .setDescription(`The transaction id is invalid or has been used already.`)
 
             return interaction.editReply({ embeds: [embed] })
         }
