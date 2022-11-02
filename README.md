@@ -3,6 +3,10 @@
 </p>
 
 <p align="center"> 
+  <a href="https://discord.gg/SNG3dh3MbR" target="_blank"> <img src="https://discordapp.com/api/guilds/903043706410643496/widget.png?style=banner2"/> </a> 
+</p>
+
+<p align="center"> 
   <a href="https://ko-fi.com/nanotect" target="_blank"> <img src="https://ko-fi.com/img/githubbutton_sm.svg"/> </a> 
 </p>
 
@@ -133,6 +137,8 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Remove (/music remove [song])
 - PlaySkip (/music playskip [song/url])
 - SearchSkip (/music searchskip [songname])
+- PlayTop (/music playtop [song/url])
+- SearchTop (/music searchtop [songname])
 
 ⏺ **Filter Commands!**
 - Bass (/filter bass)
@@ -178,6 +184,7 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Generate (/premium generate [plan] [amount]) // (OWNER ONLY)
 - Redeem (/premium redeem [code])
 - Setup (/premium setup)
+- Transaction (/premium transaction [id])
 - Remove (/premium remove [mention]) // (OWNER ONLY)
 	
 📑 **Utilities Commands!**
