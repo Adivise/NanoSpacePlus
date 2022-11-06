@@ -156,15 +156,12 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Move (/music move [song] [position])
 - Remove (/music remove [song])
 - PlaySkip (/music playskip [song/url])
-<<<<<<< Updated upstream
 - SearchSkip (/music searchskip [songname])
 - PlayTop (/music playtop [song/url])
 - SearchTop (/music searchtop [songname])
-=======
 - SearchSkip (/music searchskip [song/url])
 - PlayTop (/music playtop [song/url])
 - SearchTop (/music searchtop [song/url])
->>>>>>> Stashed changes
 
 ⏺ **Filter Commands!**
 - Bass (/filter bass)
