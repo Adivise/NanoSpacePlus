@@ -30,6 +30,9 @@
 - [x] Vimeo
 - [x] Https (Radio)
 
+<details><summary>📃 Plugins (More Support Source) [CLICK ME]</summary>
+<p>
+
 ## 📃 Plugins (More Support Source) (Require: LavaLink v3.6.x)
 - [x] [LavaSrc](https://github.com/TopiSenpai/LavaSrc)
 - Spotify
@@ -46,6 +49,9 @@
 - TikTok
 - PornHub
 - Soundgasm
+
+</p>
+</details>
 
 <details><summary>📎 Requirements [CLICK ME]</summary>
 <p>
