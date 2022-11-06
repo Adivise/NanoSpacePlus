@@ -9,12 +9,9 @@ const manager = new ShardingManager('./index.js', {
   shardList: "auto", //edit it only if you know what are you doing
 });
 
-manager
-  .spawn({ amount: manager.totalShards, delay: null, timeout: -1 })
-  .then((shards) => {
+manager.spawn({ amount: manager.totalShards, delay: null, timeout: -1 }).then((shards) => {
     console.log(`[CLIENT] ${shards.size} shard(s) spawned.`);
-  })
-  .catch((err) => {
+  }).catch((err) => {
     console.log("[CLIENT] An error has occurred :", err);
   });
 

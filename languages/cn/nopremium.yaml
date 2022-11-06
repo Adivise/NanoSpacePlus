@@ -1,0 +1,5 @@
+##### No premium Event #####
+#No premium sending msg!
+premium_author: "只有高級會員！"
+premium_desc: "*您需要成為高級會員才能使用此命令*"
+premium_error: "出了點問題，請稍後再試。"

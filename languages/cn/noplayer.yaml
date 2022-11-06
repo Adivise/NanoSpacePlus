@@ -1,0 +1,5 @@
+##### Need to join voice channel to use command! #####
+#No song playing in guild!
+no_player: "此公會中目前沒有歌曲正在播放。"
+#Need to join voice & same voice to use command!
+no_voice: "您需要在同一個/語音頻道中。"

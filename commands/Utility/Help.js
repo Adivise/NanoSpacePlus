@@ -4,7 +4,7 @@ const { readdirSync } = require("fs");
 module.exports = {
     name: ["help"],
     description: "Displays all commands that the bot has.",
-    category: "Utilities",
+    category: "Utility",
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         

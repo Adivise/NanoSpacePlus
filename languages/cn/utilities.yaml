@@ -1,0 +1,14 @@
+##### Language command #####
+lang_perm: "您需要 `MANAGE_GUILD` 權限才能使用此命令。"
+lang_arg: "請指定語言！"
+provide_lang: "請提供語言: `%{languages}`"
+lang_set: "`🔧` | *語言已設置為:* `%{language}`"
+lang_change: "`🔧` | *語言已更改為:* `%{language}`"
+lang_error: "發生錯誤。請稍後再試。"
+##### Restart command #####
+restart_msg: "`🤖` | *客户端已:* `關閉`"
+##### Help command #####
+help_desc: "請選擇類別菜單！"
+help_category_desc: "選擇 %{category} 以查看所有命令。"
+help_category: "%{category}"
+help_timeout: "```幫助菜單超時，請嘗試 %{prefix}再次查看。```"

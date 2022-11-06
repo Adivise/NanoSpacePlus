@@ -25,24 +25,38 @@
 ## 🎶 Support Source
 - [x] Youtube
 - [x] SoundCloud
-- [x] Spotify
-- [x] Deezer
-- [x] Facebook 
 - [x] Twitch
-- [x] Apple
 - [x] Bandcamp
 - [x] Vimeo
 - [x] Https (Radio)
+
+## 📃 Plugins (More Support Source) (Require: LavaLink v3.6.x)
+- [x] [LavaSrc](https://github.com/TopiSenpai/LavaSrc)
+- Spotify
+- Deezer
+- Apple
+- Yandex
+
+- [x] [skybot-lavalink-plugin](https://github.com/DuncteBot/skybot-lavalink-plugin)
+- Mixcloud
+- Ocremix
+- Clyp
+- Reddit
+- Getyarn
+- TikTok
+- PornHub
+- Soundgasm
 
 <details><summary>📎 Requirements [CLICK ME]</summary>
 <p>
 
 ## 📎 Requirements
 
-- Node.js v16+ **[Download](https://nodejs.org/en/download/)**
-- Discord Bot Token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
-- LavaLink **[Guide](https://github.com/freyacodes/lavalink)** (*Dev Version!* **[Download](https://ci.fredboat.com/repository/downloadAll/Lavalink_Build/9311:id/artifacts.zip)** )
-- MongoDB **[Download](https://www.mongodb.com/try/download/community)** (Download & install = Finish!)
+- [x] Node.js v16+ **[Download](https://nodejs.org/en/download/)**
+- [x] Discord Bot Token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
+- [x] LavaLink **[Guide](https://github.com/freyacodes/lavalink)** (*Dev Version!* **[Download](https://ci.fredboat.com/repository/)**)
+- [My Application File](https://cdn.discordapp.com/attachments/1010784573061349496/1038914440734715994/application.yml)
+- [x] MongoDB **[Download](https://www.mongodb.com/try/download/community)** (Download & install = Finish!)
 
 ## 🛑 Super Requirements 
 
@@ -113,7 +127,7 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 
 - Play (/play [song/url])
 - Search (/search [songname])
-- Nowplaying (/music nowplaying)
+- Nowplaying (/nowplaying)
 - Queue (/music queue [page])
 - Repeat (/music loop type [current, all])
 - Loopqueue (/music loopall)
@@ -136,9 +150,15 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Move (/music move [song] [position])
 - Remove (/music remove [song])
 - PlaySkip (/music playskip [song/url])
+<<<<<<< Updated upstream
 - SearchSkip (/music searchskip [songname])
 - PlayTop (/music playtop [song/url])
 - SearchTop (/music searchtop [songname])
+=======
+- SearchSkip (/music searchskip [song/url])
+- PlayTop (/music playtop [song/url])
+- SearchTop (/music searchtop [song/url])
+>>>>>>> Stashed changes
 
 ⏺ **Filter Commands!**
 - Bass (/filter bass)
@@ -176,39 +196,25 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Import (/playlist import [name])
 - Detail (/playlist detail [name])
 - Remove (/playlist remove [name] [position])
-- Savequeue (/playlist savequeue [name])
+- SaveQueue (/playlist savequeue [name])
 - View (/playlist view)
 	
 💎 **Premium Commands!**
 - Profile (/profile)
 - Generate (/premium generate [plan] [amount]) // (OWNER ONLY)
-- Redeem (/premium redeem [code])
+- Redeem (/redeem [code])
 - Setup (/premium setup)
 - Transaction (/premium transaction [id])
 - Remove (/premium remove [mention]) // (OWNER ONLY)
 	
-📑 **Utilities Commands!**
-- Restart (/utilitie restart) // (OWNER ONLY)
-- Language (/utilitie language input: [language] ) // Example: en, th
+📑 **Utility Commands!**
+- Shutdown (/utility shutdown) // (OWNER ONLY)
+- Language (/utility language [language] ) // Example: en, th
 - Help (/help)
-
-</p>
-</details>
-
-<details><summary>📃 Translate Team (Languages) [CLICK ME]</summary>
-<p>
-
-## 📃 Translate Team (Languages)
-
-- [x] **en (English)** 
-    - [@Adivise](https://github.com/Adivise) **Discord:** `*Stylish.#4078`
-- [x] **th (Thailand)** 
-    - [@Adivise](https://github.com/Adivise) **Discord:** `*Stylish.#4078`
-- [x] **es-ES (Spanish)** 
-    - [@NoBody-UU](https://github.com/NoBody-UU) **Discord:** `NoBody🥀#9666`
-    - [@VenQuiDev](https://github.com/venquidev) **Discord:** `VenQui#6625`
-- [x] **vi (Vietnamese)**
-    - [@RainyXeon](https://github.com/RainyXeon) **Discord:** `RainyXeon </>#0017`
+- Charts (/charts [global/guild])
+- Useable (/useable)
+- Vps (/utility vps)
+- LavaLink (/utility lavalink)
 
 </p>
 </details>
@@ -218,7 +224,3 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 <a href="https://github.com/Adivise/NanoSpacePlus/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=Adivise/NanoSpacePlus" />
 </a>
-
-## ⁉ Become to translate team?
-
-- [Crowdin](https://crowdin.com/project/nanospace)

@@ -38,11 +38,16 @@ module.exports = {
                     await player.set("autoplay", true);
                     await player.set("requester", interaction.user);
                     await player.set("identifier", identifier);
-                    await player.queue.add(res.tracks[1]);
+
+                    try {
+                        await player.queue.add(res.tracks[1]);
+                    } catch (e) {
+                        return msg.edit(`Autoplay Support only Youtube!`);
+                    }
         
                     const on = new EmbedBuilder()
-                    .setDescription(`${client.i18n.get(language, "music", "autoplay_on")}`)
-                    .setColor(client.color);
+                        .setDescription(`${client.i18n.get(language, "music", "autoplay_on")}`)
+                        .setColor(client.color);
         
                     msg.edit({ content: " ", embeds: [on] });
                 }

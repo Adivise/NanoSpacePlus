@@ -157,6 +157,7 @@ client.on("messageCreate", async (message) => {
         /// Create database when not have!
         await client.createSetup(message.guild.id);
         await client.createLang(message.guild.id);
+        await client.createChart(message);
         
         const database = await Setup.findOne({ guild: message.guild.id });
         if (database.enable === false) return;
@@ -166,16 +167,24 @@ client.on("messageCreate", async (message) => {
 
         if (database.channel != message.channel.id) return; 
 
-        /// Get form here right? don't care about this, this error give affect bot!
-        const msg = await channel.messages.fetch(database.playmsg, { cache: true, force: true });
-        if (!msg) return;
+        try {
+            const msg = await channel.messages.fetch(database.playmsg, { cache: true, force: true });
+            if (!msg) return;
+        } catch (e) {
+            return;
+        }
 
         const guildModel = await GLang.findOne({ guild: message.guild.id });
         const { language } = guildModel;
         
         if (message.author.id === client.user.id) {
-            await delay(3000);
-            message.delete();
+            // check if from database.playmsg
+            if (message.id === database.playmsg) {
+                ///
+            } else {
+                await delay(3000);
+                message.delete();
+            }
         }
 
         if (message.author.bot) return;

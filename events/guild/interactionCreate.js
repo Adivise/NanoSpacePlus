@@ -3,7 +3,7 @@ const GLang = require("../../settings/models/Language.js");
 const chalk = require('chalk');
 const { SEARCH_DEFAULT } = require("../../settings/config.js")
 const yt = require("youtube-sr").default;
-const { REGEX } = require("../../settings/regex.js")
+const { REGEX } = require("../../settings/regex.js");
 
 module.exports = async(client, interaction) => {
     if (interaction.isCommand || interaction.isContextMenuCommand || interaction.isModalSubmit || interaction.isChatInputCommand) {
@@ -12,6 +12,7 @@ module.exports = async(client, interaction) => {
         /// Create database when not have!
         await client.createSetup(interaction.guild.id);
         await client.createLang(interaction.guild.id);
+        await client.createChart(interaction);
 
         /// Create new member!
         const user = interaction.client.premiums.get(interaction.user.id);
@@ -91,6 +92,8 @@ module.exports = async(client, interaction) => {
           `${command.name[2] || ""}`,
           `used by ${interaction.user.tag} from ${interaction.guild.name} (${interaction.guild.id})`,
         ]
+
+        await client.addUseable(command.name.at(-1));
 
         console.log(chalk.bgRed(`${msg_cmd.join(" ")}`));
 

@@ -2,9 +2,9 @@ const { EmbedBuilder, ApplicationCommandOptionType, PermissionsBitField } = requ
 const GLang = require('../../settings/models/Language.js'); 
 
 module.exports = {
-    name: ["utilities", "language"],
+    name: ["utility", "language"],
     description: "Change the language for the bot",
-    category: "Utilities",
+    category: "Utility",
     options: [
         {
             name: "input",

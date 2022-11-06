@@ -1,0 +1,33 @@
+##### All Filter command!
+filter_loading: "開啟 **%{name}**. 這可能需要幾秒鐘..."
+filter_on: "`🔩` | *開啟:* `%{name}`"
+filter_number: "請輸入一個數字"
+filter_greater: "數字必須大於 0"
+filter_less: "數字必須小於 10"
+#Bassboost commaand!
+bassboost_loading: "將 **低音加強** 設置為 **%{amount}dB**. 這可能需要幾秒鐘..."
+bassboost_set: "`🔩` | *低音加強設置為:* `%{amount}`"
+bassboost_limit: "請輸入一個介於 -10 和 10 之間的數字"
+#Equalizer command!
+eq_author: "自定義均衡器"
+eq_icon: "https://cdn.discordapp.com/emojis/758423098885275748.gif"
+eq_desc: "有 14 個波段可以設置為 -10 到 10 並非所有波段都必須填寫"
+eq_field_title: "例子:"
+eq_field_value: "%{prefix}eq 2 3 0 8 0 5 0 -5 0 0"
+eq_number: "波段 #%{num} 不是有效數字"
+eq_than: "波段 #%{num} 必須小於 10"
+eq_footer: "重置均衡器類型: %{prefix}均衡器重置"
+eq_loading: "將低音加強設置為 **`%{bands}`** 這可能需要幾秒鐘..."
+eq_on: "`🔩` | *均衡器設置為:* `%{bands}`"
+#Pitch command!
+pitch_loading: "將 **音調** 設置為 **%{amount}**. 這可能需要幾秒鐘..."
+pitch_on: "`🔩` | *音調設置為:* `%{amount}`"
+#Rate command!
+rate_loading: "將 **速率** 設置為 **%{amount}x**. 這可能需要幾秒鐘..."
+rate_on: "`🔩` | *速率設置為:* `%{amount}x`"
+#Reset command!
+reset_loading: "正在關閉**音效**這可能需要幾秒鐘..."
+reset_on: "`🔩` | *關閉:* `音效`"
+#Speed command!
+speed_loading: "將 **速度** 設置為 **%{amount}x**. 這可能需要幾秒鐘..."
+speed_on: "`🔩` | *速度設置為:* `%{amount}x`"

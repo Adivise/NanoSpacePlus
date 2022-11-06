@@ -1,0 +1,20 @@
+##### Setup command #####
+setup_topic: "⏯ *暫停/繼續撥放*\n⬅ *上一首*\n⏹ *停止播放*\n➡ *下一首*\n🔁 *開啟循環/關閉循環*"
+setup_msg: "*`成功設置音樂機器人在`* %{channel}"
+setup_enable: "*`不能使用此命令在這個頻道 已經有設置歌曲指令頻道`*"
+##### Setup Handler #####
+setup_queuemsg: "**__音樂列表__**\n加入一個語音頻道，按名稱或網址列隊歌曲"
+setup_playembed_author: "當前沒有歌曲播放"
+setup_nowplay: "現在播放的音樂..."
+setup_songpause: "音樂暫停..."
+setup_playembed_image: "https://images2.alphacoders.com/110/thumb-1920-1109233.jpg"
+setup_playembed_desc: ">>> [Invite](https://discord.com/api/oauth2/authorize?client_id=%{clientId}&permissions=2184310032&scope=bot%20applications.commands) | [Support](https://discord.gg/SNG3dh3MbR) | [Website](https://adivise.github.io/Stylish/)"
+setup_playembed_footer: "指令前綴是: %{prefix}"
+##### Setup Update Handler #####
+setup_author: "開始撥放音樂..."
+setup_author_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+setup_desc: "[%{title}](%{url}) `[%{duration}]` • %{request}"
+setup_footer: "%{songs} • 歌曲在隊列中 | 音量 • %{volume}% | %{duration} • 總時長"
+setup_content: "**__音樂列表__**"
+setup_content_queue: "*`%{index} • %{title} • [%{duration}]`* • %{request}"
+setup_content_empty: "加入一個語音頻道，按名稱或網址列隊歌曲"

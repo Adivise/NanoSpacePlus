@@ -5,7 +5,7 @@ module.exports = {
     TOKEN: process.env.TOKEN || "YOUR_TOKEN",  // your bot token
     EMBED_COLOR: process.env.EMBED_COLOR || "#000001", //<= default is "#000001"
 
-    SEARCH_DEFAULT: ["jvke", "I love you 300", "justin bieber", "post malone", "anime song"],
+    SEARCH_DEFAULT: ["jvke", "I love you 3000", "justin bieber", "post malone", "anime song"],
 
     OWNER_ID: process.env.OWNER_ID || "YOUR_CLIENT_ID", //your owner discord id example: "515490955801919488"
 
@@ -21,13 +21,18 @@ module.exports = {
 
     MONGO_URI: process.env.MONGO_URI || "YOUR_MONGO_URI", // your mongo uri
     LIMIT_TRACK: parseInt(process.env.LIMIT_TRACK || "50"),  //<= dafault is "50" // limit track in playlist
-    LIMIT_PLAYLIST: parseInt(process.env.LIMIT_PLAYLIST || "10"), //<= default is "10" // limit can create playlist
+    LIMIT_PLAYLIST: parseInt(process.env.LIMIT_PLAYLIST || "10"), //<= default is "10" // limit can create playlist per user
 
+    DEFAULT_SEARCH: "ytsearch", // default search engine & "ytmsearch" / "ytsearch" / "scsearch" / "spsearch"
     NODES: [
       { 
+        identifier: "NanoSpace",
         host: process.env.NODE_HOST || "localhost",
         port: parseInt(process.env.NODE_PORT || "5555"),
         password: process.env.NODE_PASSWORD || "123456",
+        retryAmount: 10,
+        retryDelay: 7500,
+        secure: false
       } 
     ],
 }

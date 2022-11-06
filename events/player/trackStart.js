@@ -13,6 +13,9 @@ module.exports = async (client, player, track, payload) => {
 
     /////////// Update Music Setup ///////////
 
+    await client.addChart(track, player.guild);
+		await client.addGChart(track);
+
     const channel = client.channels.cache.get(player.textChannel);
     if (!channel) return;
 

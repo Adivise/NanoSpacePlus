@@ -1,0 +1,19 @@
+##### Generate command #####
+provide_plan: "請提供計劃: %{plans}"
+plan_invalid: "無效計劃可用計劃: %{plans}"
+gen_author: "生成代碼"
+gen_desc: "• *生成* [`+%{codes_length}`]\n```%{codes}```\n • *計劃*: `%{plan}`\n • *到期時間*: `%{expires}`"
+gen_footer: "輸入: %{prefix}redeem <code> 進行兌換！"
+##### Profile command #####
+profile_author: "高級配置文件"
+profile_desc: "*用戶*: `%{user}`\n*計劃*: `%{plan}`\n*到期時間*: `%{expires}`"
+##### Redeem command #####
+redeem_arg: "請指定您要兌換的代碼！"
+redeem_already: "您已經是高級用戶"
+redeem_title: "已兌換會員"
+redeem_desc: "**您已成功兌換會員！**\n\n*到期時間*：[`%{expires}`]"
+redeem_invalid: "**代碼無效。 請使用有效的重試！**"
+##### Remove command #####
+remove_mention: "請提及會員！"
+remove_already: "**已經被刪除! %{user}**"
+remove_desc: "**您已成功刪除! %{user}**"

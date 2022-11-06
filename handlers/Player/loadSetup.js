@@ -2,6 +2,9 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const Setup = require("../../settings/models/Setup.js");
 const Language = require("../../settings/models/Language.js");
 const Premium = require('../../settings/models/Premium.js');
+const Chart = require("../../settings/models/GuildChart.js");
+const GChart = require("../../settings/models/GlobalChart.js");
+const Useable = require("../../settings/models/Useable.js");
 
 module.exports = async (client) => {
 
@@ -114,4 +117,67 @@ module.exports = async (client) => {
             clearInterval(interval);
         }
 
+        client.addChart = async function (track, guild) {
+            // update guild chart
+            const database = await Chart.findOne({ guildId: guild });
+            const track_id = await database.track_data.find(x => x.track_id === track.identifier);
+        
+            const object = {
+                track_id: track.identifier,
+                track_title: track.title,
+                track_url: track.uri,
+                track_duration: track.duration,
+                track_count: 1,
+            };
+        
+            if (track_id) {
+                await Chart.updateOne({ guildId: guild, "track_data.track_id": track.identifier }, { $inc: { "track_data.$.track_count": 1 } });
+            } else {
+                database.track_data.push(object);
+                await database.save();
+            }
+        }
+
+        client.createChart = async function (interaction) {
+            const find = await Chart.findOne({ guildId: interaction.guild.id });
+            if (!find) {
+                const newGuild = await Chart.create({ 
+                    guildId: interaction.guild.id,
+                    data: []
+                });
+                await newGuild.save();
+            }
+        }
+        
+        client.addGChart = async function (track) {
+            // update global chart
+            const database = await GChart.findOne({ track_id: track.identifier });
+            if (database) {
+                database.track_count += 1;
+                await database.save();
+            } else {
+                const newTrack = await GChart.create({
+                    track_id: track.identifier,
+                    track_title: track.title,
+                    track_url: track.uri,
+                    track_duration: track.duration,
+                    track_count: 1,
+                });
+                await newTrack.save();
+            }
+        }
+
+        client.addUseable = async function (name) {
+            const database = await Useable.findOne({ name: name });
+            if (database) {
+                database.count += 1;
+                await database.save();
+            } else {
+                const newUseable = await Useable.create({
+                    name: name,
+                    count: 1,
+                });
+                await newUseable.save();
+            }
+        }
 };

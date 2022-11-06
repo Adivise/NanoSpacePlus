@@ -1,0 +1,43 @@
+##### On track start playing! Event #####
+track_title: "開始撥放音樂..."
+track_icon: "https://cdn.discordapp.com/emojis/741605543046807626.gif"
+#Embed Field
+author_title: "作者："
+request_title: "請求者："
+volume_title: "當前音量："
+queue_title: "隊列長度："
+duration_title: "長短："
+total_duration_title: "總時長："
+current_duration_title: "當前持續時間: `[0:00 / %{current_duration}]`"
+#Need in voice to use button!
+join_voice: "您需要在同一個/語音頻道中才能使用此按鈕。"
+#Message Button
+switch_pause: 暫停
+switch_resume: 重新播放
+pause_msg: "`⏯` | *歌曲已被:* `%{pause}`"
+skip_msg: "`⏭` | *歌曲已被:* `跳過`"
+stop_msg: "`🚫` | *歌曲已被:* `暫停`"
+shuffle_msg: "`🔀` | *列表已被:* `隨機`"
+switch_enable: 啟用
+switch_disable: 已禁用
+repeat_msg: "`🔁` | *歌曲已被:* `%{loop}`"
+volup_msg: "`🔊` | *將音量更改為:* `%{volume}%`"
+voldown_msg: "`🔈` | *將音量更改為:* `%{volume}%`"
+replay_msg: "`⏮` | *歌曲已被:* `重新播放`"
+queue_author: "隊列 - %{guild}"
+queue_description: "*目前正在播放*\n*[%{track}](%{track_url})* `[%{duration}]` • %{requester}\n\n*隊列的其餘部分*:%{list_song}"
+queue_footer: "頁 • %{page}/%{pages} | %{queue_lang} • 歌曲 | %{total_duration} • 總持續時間"
+clear_msg: "`📛` | *列表已被:* `移除`"
+##### On QueueEnd Event #####
+queue_end_desc: "`📛` | *歌曲已被:* `結束`"
+##### On Track get error!! Event #####
+error_desc: "`❌` | *歌曲有錯誤:* `自動跳過`"
+##### On Track get stuck!! Event #####
+stuck_desc: "`❌` | *歌曲卡住了:* `自動跳過`"
+##### On Bot get move Event #####
+#On player get discoconnect
+dis_title: "斷開連接"
+dis_desc: "*我已與 <#%{voice}> 斷開連接*"
+#On player get move! = (detroy player)
+leave_title: "移動了"
+leave_desc: "*我被移動了自動斷開連接*"
