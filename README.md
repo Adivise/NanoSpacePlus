@@ -135,10 +135,10 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Search (/search [songname])
 - Nowplaying (/nowplaying)
 - Queue (/music queue [page])
-- Repeat (/music loop type [current, all])
-- Loopqueue (/music loopall)
+- Loop (/music loop [current, queue])
+- LoopQueue (/music loopqueue)
 - Shuffle (/music shuffle)
-- Volume control (/music volume [10 - 100])
+- Volume (/music volume [10 - 100])
 - Pause (/music pause)
 - Resume (/music resume)
 - Skip (/music skip)
@@ -150,7 +150,7 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Seek (/music seek [second])
 - Rewind (/music rewind [second])
 - Replay (/music replay)
-- 247 (/music 247)
+- TwentyFourSeven (/music 247)
 - Previous (/music previous)
 - Autoplay (/music autoplay)
 - Move (/music move [song] [position])
@@ -162,6 +162,7 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - SearchSkip (/music searchskip [song/url])
 - PlayTop (/music playtop [song/url])
 - SearchTop (/music searchtop [song/url])
+- Charts (/charts [global/guild])
 
 ⏺ **Filter Commands!**
 - Bass (/filter bass)
@@ -199,6 +200,7 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Import (/playlist import [name])
 - Detail (/playlist detail [name])
 - Remove (/playlist remove [name] [position])
+- SaveCurrent (/playlist savecurrent [name])
 - SaveQueue (/playlist savequeue [name])
 - View (/playlist view)
 	
@@ -214,8 +216,7 @@ After installation or finishes all you can use `node .` to start the bot. or `Ru
 - Shutdown (/utility shutdown) // (OWNER ONLY)
 - Language (/utility language [language] ) // Example: en, th
 - Help (/help)
-- Charts (/charts [global/guild])
-- Useable (/useable)
+- CommandStats (/commandstats)
 - Vps (/utility vps)
 - LavaLink (/utility lavalink)
 
