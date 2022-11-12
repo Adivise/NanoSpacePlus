@@ -7,6 +7,18 @@ module.exports = {
     name: ["utility", "lavalink"], // The name of the command
     description: "Display the Lavalink stats", // The description of the command (for help text)
     category: "Utility",
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false});
         // owner only

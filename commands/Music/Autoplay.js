@@ -4,65 +4,49 @@ module.exports = {
     name: ["music", "autoplay"],
     description: "Autoplay music (Random play songs)",
     category: "Music",
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: true,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
 
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "autoplay_loading")}`);
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-
         const autoplay = player.get("autoplay");
+        if (autoplay === true) {
+            await player.set("autoplay", false);
 
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+            const embed = new EmbedBuilder()
+                .setDescription(`${client.i18n.get(language, "music", "autoplay_off")}`)
+                .setColor(client.color);
 
-        try {
-            if (user && user.isPremium) {
-                if (autoplay === true) {
-        
-                    await player.set("autoplay", false);
-                    await player.queue.clear();
-        
-                    const off = new EmbedBuilder()
-                        .setDescription(`${client.i18n.get(language, "music", "autoplay_off")}`)
-                        .setColor(client.color);
-        
-                    msg.edit({ content: " ", embeds: [off] });
-                } else {
-        
-                    const identifier = player.queue.current.identifier;
-                    const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
-                    const res = await player.search(search, interaction.user);
-        
-                    await player.set("autoplay", true);
-                    await player.set("requester", interaction.user);
-                    await player.set("identifier", identifier);
+            return interaction.editReply({ embeds: [embed] });
+        } else {
+            const identifier = player.queue.current.identifier;
+            const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
+            const res = await player.search(search, interaction.user);
 
-                    try {
-                        await player.queue.add(res.tracks[1]);
-                    } catch (e) {
-                        return msg.edit(`Autoplay Support only Youtube!`);
-                    }
-        
-                    const on = new EmbedBuilder()
-                        .setDescription(`${client.i18n.get(language, "music", "autoplay_on")}`)
-                        .setColor(client.color);
-        
-                    msg.edit({ content: " ", embeds: [on] });
-                }
-            } else {
-                const embed = new EmbedBuilder()
-                    .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
-                    .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
-                    .setColor(client.color)
-                    .setTimestamp()
-        
-                return msg.edit({ content: " ", embeds: [embed] });
+            await player.set("autoplay", true);
+            await player.set("requester", interaction.user);
+            await player.set("identifier", identifier);
+            try {
+                await player.queue.add(res.tracks[1]);
+            } catch (e) {
+                return interaction.editReply(`**Autoplay Support Only Youtube!**`);
             }
-        } catch (err) {
-            console.log(err)
-            msg.edit({ content: `${client.i18n.get(language, "nopremium", "premium_error")}` })
+
+            const embed = new EmbedBuilder()
+                .setDescription(`${client.i18n.get(language, "music", "autoplay_on")}`)
+                .setColor(client.color);
+
+            return interaction.editReply({ embeds: [embed] });
         }
     }
 }

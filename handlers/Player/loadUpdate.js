@@ -44,12 +44,17 @@ module.exports = async (client) => {
                 request: cSong.requester,
             })}`) // [${cSong.title}](${cSong.uri}) \`[${formatDuration(cSong.duration)}]\` • ${cSong.requester}
             .setColor(client.color)
-            .setImage(`https://img.youtube.com/vi/${cSong.identifier}/sddefault.jpg`)
             .setFooter({ text: `${client.i18n.get(language, "setup", "setup_footer", {
                 songs: player.queue.length,
                 volume: player.volume,
                 duration: qDuration,
             })}` }) //${player.queue.length} • Song's in Queue | Volume • ${player.volume}% | ${qDuration} • Total Duration
+
+            if(cSong.thumbnail) {
+                embed.setImage(`https://img.youtube.com/vi/${cSong.identifier}/sddefault.jpg`);
+            } else {
+                embed.setImage(`${client.i18n.get(language, "setup", "setup_playembed_image")}`);
+            }
 
         return msg.edit({ 
             content: `${client.i18n.get(language, "setup", "setup_content")}\n${Str == '' ? `${client.i18n.get(language, "setup", "setup_content_empty")}` : '\n' + Str}`, 

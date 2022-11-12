@@ -13,10 +13,20 @@ module.exports = {
             type: ApplicationCommandOptionType.User,
         }
     ],
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: true,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
-
-        if(interaction.user.id != client.owner) return interaction.editReply({ content: `${client.i18n.get(language, "interaction", "owner_only")}` });
         
         const mentions = interaction.options.getUser("target");
         

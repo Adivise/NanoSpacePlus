@@ -13,17 +13,23 @@ module.exports = {
             required: true,
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
 
         const search = interaction.options.get("song").value;
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "searchtop_loading")}`);
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-
+        const msg = await interaction.editReply(`${client.emotes.search} Searching for \`${search}\`...`);
         const button = client.button.search;
 
         const row = new  ActionRowBuilder()
@@ -63,9 +69,9 @@ module.exports = {
                 .setStyle(ButtonStyle[button.five.style])
             )
 
-        const state = player.state;
-        if (state != "CONNECTED") await player.connect();
+        if (player.state != "CONNECTED") await player.connect();
         const res = await client.manager.search(search, interaction.user);
+
         if(res.loadType != "NO_MATCHES") {
             if(res.loadType == "TRACK_LOADED") {
                 await player.queue.unshift(res.tracks[0]);
@@ -223,14 +229,14 @@ module.exports = {
     }
 }
 
-function playtop(player) {
+async function playtop(player) {
     const song = player.queue[player.queue.length - 1];
 
     player.queue.splice(player.queue.length - 1, 1);
     player.queue.splice(1 - 1, 0, song);
 }
 
-function playtoppl(player, queues) {
+async function playtoppl(player, queues) {
     let num = 0;
     for (let i = queues + 1; i < player.queue.length + 1; i++) {
         const song = player.queue[i - 1];

@@ -7,50 +7,54 @@ module.exports = {
     category: "Music",
     options: [
         {
-            name: "input",
+            name: "result",
             description: "Song name to return lyrics for.",
             type: ApplicationCommandOptionType.String,
             required: false,
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
 
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "lyrics_loading")}`);
-        const value = interaction.options.getString("input");
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-
-        let song = value;
-            let CurrentSong = player.queue.current;
-        if (!song && CurrentSong) song = CurrentSong.title;
+        const value = interaction.options.getString("result");
+        const CurrentSong = player.queue.current;
+        if (!value && CurrentSong) value = CurrentSong.title;
 
         let lyrics = null;
 
         try {
-            lyrics = await lyricsfinder(song, "");
-            if (!lyrics) return msg.edit(`${client.i18n.get(language, "music", "lyrics_notfound")}`);
+            lyrics = await lyricsfinder(value, "");
+            if (!lyrics) return interaction.editReply(`${client.i18n.get(language, "music", "lyrics_notfound")}`);
         } catch (err) {
             console.log(err);
-            return msg.edit(`${client.i18n.get(language, "music", "lyrics_notfound")}`);
+            return interaction.editReply(`${client.i18n.get(language, "music", "lyrics_notfound")}`);
         }
-        let lyricsEmbed = new EmbedBuilder()
+
+        const embed = new EmbedBuilder()
             .setColor(client.color)
             .setTitle(`${client.i18n.get(language, "music", "lyrics_title", {
-                song: song
+                song: value
             })}`)
             .setDescription(`${lyrics}`)
             .setFooter({ text: `Requested by ${interaction.user.username}`})
             .setTimestamp();
 
         if (lyrics.length > 4096) {
-            lyricsEmbed.setDescription(`${client.i18n.get(language, "music", "lyrics_toolong")}`);
+            embed.data.description(`${client.i18n.get(language, "music", "lyrics_toolong")}`);
         }
 
-        msg.edit({ content: ' ', embeds: [lyricsEmbed] });
-        
+        return interaction.editReply({ embeds: [embed] });
     }
 }

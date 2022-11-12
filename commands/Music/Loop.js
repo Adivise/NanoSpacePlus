@@ -2,71 +2,78 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = {
     name: ["music", "loop"],
-    description: "Loop the current song/queue.",
+    description: "Loops the current song!",
     category: "Music",
     options: [
         {
-            name: "type",
-            description: "Type of loop",
+            name: "mode",
+            description: "What mode do you want to loop?",
             type: ApplicationCommandOptionType.String,
             required: true,
             choices: [
                 {
-                    name: "Current",
+                    name: "Current 🔂",
                     value: "current"
                 },
                 {
-                    name: "Queue",
+                    name: "Queue 🔁",
                     value: "queue"
                 }
             ]
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
+
+        const choice = interaction.options.getString("mode");
  
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "loop_loading")}`);
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-
-        if(interaction.options._hoistedOptions.find(c => c.value === "current")) {
+        if(choice === "current") {
             if (player.trackRepeat === false) {
-                player.setTrackRepeat(true);
+                await player.setTrackRepeat(true);
 
-                const looped = new EmbedBuilder()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "loop_current")}`)
                     .setColor(client.color);
 
-                return msg.edit({ content: " ", embeds: [looped] });
+                return interaction.editReply({ embeds: [embed] });
             } else {
-                player.setTrackRepeat(false);
+                await player.setTrackRepeat(false);
 
-                const unlooped = new EmbedBuilder()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "unloop_current")}`)
                     .setColor(client.color);
 
-                return msg.edit({ content: " ", embeds: [unlooped] });
+                return interaction.editReply({ embeds: [embed] });
             }
-        } else if(interaction.options._hoistedOptions.find(c => c.value === "queue")) {
+        } else if(choice === "queue") {
             if (player.queueRepeat === true) {
-                player.setQueueRepeat(false);
+                await player.setQueueRepeat(false);
 
-                const unloopall = new EmbedBuilder()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "unloop_all")}`)
                     .setColor(client.color);
 
-                return msg.edit({ content: " ", embeds: [unloopall] });
+                return interaction.editReply({ embeds: [embed] });
             } else {
-                player.setQueueRepeat(true);
+                await player.setQueueRepeat(true);
 
-                const loopall = new EmbedBuilder()
+                const embed = new EmbedBuilder()
                     .setDescription(`${client.i18n.get(language, "music", "loop_all")}`)
                     .setColor(client.color);
 
-                return msg.edit({ content: " ", embeds: [loopall] });
+                return interaction.editReply({ embeds: [embed] });
             }
         }
     }

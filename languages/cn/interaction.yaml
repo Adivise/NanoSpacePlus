@@ -2,7 +2,9 @@
 #On settings/config.js in DEV_ID
 dev_only: 該機器人正在維護中。(請稍後再試)
 #No permission to use command (this for bot!)
-no_perms: 我沒有執行命令的權限！
+bot_perms: 我沒有執行命令的權限！
+# No permission to use command (this for user!)
+user_perms: "You don't have permissions `%{perms}`"
 #Bot getting error something!
 error: 出了些問題。
 #You are not the client owner of this bot!

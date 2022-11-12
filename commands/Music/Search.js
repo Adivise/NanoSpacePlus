@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionsBitField, ActionRowBuilder, ButtonBuilder, ButtonStyle, ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ApplicationCommandOptionType } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
@@ -13,17 +13,24 @@ module.exports = {
             required: true,
         }
     ],
+    permissions: {
+        channel: ["Speak", "Connect"],
+        bot: ["Speak", "Connect"],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: true,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
 
-        const value = interaction.options.get("song").value;
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "search_loading")}`);
-
-        const { channel } = interaction.member.voice;
-        if (!channel) return msg.edit(`${client.i18n.get(language, "music", "search_invoice")}`);
-        if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "search_join")}`);
-        if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "search_speak")}`);
-
+        const search = interaction.options.get("song").value;
+        const msg = await interaction.editReply(`${client.emotes.search} Searching for \`${search}\`...`);
+        
         const player = client.manager.create({
             guild: interaction.guild.id,
             voiceChannel: interaction.member.voice.channel.id,
@@ -70,14 +77,13 @@ module.exports = {
                 .setStyle(ButtonStyle[button.five.style])
             )
 
-        const search = value;
-
-        const state = player.state;
-        if (state != "CONNECTED") await player.connect();
+        if (player.state != "CONNECTED") await player.connect();
         const res = await client.manager.search(search, interaction.user);
+
         if(res.loadType != "NO_MATCHES") {
             if(res.loadType == "TRACK_LOADED") {
-                player.queue.add(res.tracks[0]);
+                await player.queue.add(res.tracks[0]);
+
                 const embed = new EmbedBuilder() //`**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
                     .setDescription(`${client.i18n.get(language, "music", "search_result", {
                         title: res.tracks[0].title,
@@ -86,8 +92,9 @@ module.exports = {
                         request: res.tracks[0].requester
                     })}`)
                     .setColor(client.color)
-                    msg.edit({ content: " ", embeds: [embed] });
-                    if (!player.playing) player.play();
+
+                msg.edit({ content: " ", embeds: [embed] });
+                if (!player.playing) player.play();
                 } else if(res.loadType == "SEARCH_RESULT") {
                     let index = 1;
                     const results = res.tracks
@@ -114,7 +121,8 @@ module.exports = {
                         const id = interaction.customId;
 
                         if(id === "one") {
-                            player.queue.add(res.tracks[0]);
+                            await player.queue.add(res.tracks[0]);
+
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[0].title}](${res.tracks[0].uri})** \`${convertTime(res.tracks[0].duration, true)}\` • ${res.tracks[0].requester}
@@ -128,7 +136,8 @@ module.exports = {
             
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "two") {
-                            player.queue.add(res.tracks[1]);
+                            await player.queue.add(res.tracks[1]);
+
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[1].title}](${res.tracks[1].uri})** \`${convertTime(res.tracks[1].duration, true)}\` • ${res.tracks[1].requester}
@@ -142,7 +151,8 @@ module.exports = {
         
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "three") {
-                            player.queue.add(res.tracks[2]);
+                            await player.queue.add(res.tracks[2]);
+
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[2].title}](${res.tracks[2].uri})** \`${convertTime(res.tracks[2].duration, true)}\` • ${res.tracks[2].requester}
@@ -156,7 +166,8 @@ module.exports = {
         
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "four") {
-                            player.queue.add(res.tracks[3]);
+                            await player.queue.add(res.tracks[3]);
+
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[3].title}](${res.tracks[3].uri})** \`${convertTime(res.tracks[3].duration, true)}\` • ${res.tracks[3].requester}
@@ -170,7 +181,8 @@ module.exports = {
         
                             if(msg) await msg.edit({ embeds: [embed], components: [] });
                         } else if(id === "five") {
-                            player.queue.add(res.tracks[4]);
+                            await player.queue.add(res.tracks[4]);
+
                             if(player && player.state === "CONNECTED" && !player.playing && !player.paused && !player.queue.size) await player.play();
 
                             const embed = new EmbedBuilder() //**Queued • [${res.tracks[4].title}](${res.tracks[4].uri})** \`${convertTime(res.tracks[4].duration, true)}\` • ${res.tracks[4].requester}
@@ -194,7 +206,8 @@ module.exports = {
                     });
 
                 } else if(res.loadType == "PLAYLIST_LOADED") {
-                    player.queue.add(res.tracks)
+                    await player.queue.add(res.tracks);
+
                     const playlist = new EmbedBuilder() //**Queued** • [${res.playlist.name}](${search}) \`${convertTime(res.playlist.duration)}\` (${res.tracks.length} tracks) • ${res.tracks[0].requester}
                         .setDescription(`${client.i18n.get(language, "music", "search_playlist", {
                             title: res.playlist.name,
@@ -204,8 +217,9 @@ module.exports = {
                             request: res.tracks[0].requester
                         })}`)
                         .setColor(client.color)
+
                     msg.edit({ content: " ", embeds: [playlist] });
-                        if(!player.playing) player.play()
+                    if(!player.playing) player.play()
                 } else if(res.loadType == "LOAD_FAILED") {
                     msg.edit(`${client.i18n.get(language, "music", "search_fail")}`);
                     player.destroy();

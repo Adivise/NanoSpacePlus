@@ -1,13 +1,13 @@
 {
   "name": "nanospaceplus",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "✈ Join Discord: https://discord.gg/4pk97A2 👌",
   "main": "index.js",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.30",
     "chalk": "^4.1.0",
     "chillout": "^5.0.0",
     "common-tags": "^1.8.0",
-    "delay": "^4.4.0",
     "discord.js": "^14.3.0",
     "dotenv": "^12.0.4",
     "erela.js": "github:Adivise/better-erela.js",

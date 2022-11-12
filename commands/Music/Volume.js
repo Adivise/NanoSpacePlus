@@ -10,33 +10,38 @@ module.exports = {
             description: "The amount of volume to set the bot to.",
             type: ApplicationCommandOptionType.Integer,
             required: false,
+            min_value: 1,
+            max_value: 100
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
         
         const value = interaction.options.getInteger("amount");
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "volume_loading")}`);
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-
-        if (!value) return msg.edit(`${client.i18n.get(language, "music", "volume_usage", {
+        if (!value) return interaction.editReply(`${client.i18n.get(language, "music", "volume_usage", {
             volume: player.volume
         })}`);
-        if (Number(value) <= 0 || Number(value) > 100) return msg.edit(`${client.i18n.get(language, "music", "volume_invalid")}`);
 
         await player.setVolume(Number(value));
 
-        const changevol = new EmbedBuilder()
+        const embed = new EmbedBuilder()
             .setDescription(`${client.i18n.get(language, "music", "volume_msg", {
                 volume: value
             })}`)
             .setColor(client.color);
         
-        msg.edit({ content: " ", embeds: [changevol] });
-        
+        return interaction.editReply({ embeds: [embed] });
     }
 }

@@ -1,9 +1,9 @@
-const { EmbedBuilder, ApplicationCommandType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
-module.exports = { 
-    name: ["Context | Skip"],
-    type: ApplicationCommandType.Message,
-    category: "Context",
+module.exports = {
+    name: ["music", "loopqueue"],
+    description: "Loops all songs in queue!",
+    category: "Music",
     permissions: {
         channel: [],
         bot: [],
@@ -18,23 +18,22 @@ module.exports = {
     },
     run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
-
-        if (player.queue.size == 0) {
-            await player.destroy();
-            await client.UpdateMusic(player);
-
+        
+        if (player.queueRepeat === true) {
+            await player.setQueueRepeat(false);
+            
             const embed = new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
+                .setDescription(`${client.i18n.get(language, "music", "unloopall")}`)
                 .setColor(client.color);
-    
+
             return interaction.editReply({ embeds: [embed] });
         } else {
-            await player.stop();
-
+            await player.setQueueRepeat(true);
+            
             const embed = new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
+                .setDescription(`${client.i18n.get(language, "music", "loopall")}`)
                 .setColor(client.color);
-    
+
             return interaction.editReply({ embeds: [embed] });
         }
     }

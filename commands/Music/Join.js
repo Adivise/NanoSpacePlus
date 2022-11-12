@@ -4,15 +4,22 @@ module.exports = {
     name: ["music", "join"],
     description: "Summon the bot to your voice channel.",
     category: "Music",
+    permissions: {
+        channel: ["Speak", "Connect"],
+        bot: ["Speak", "Connect"],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: true,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
-
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "join_loading")}`);
-
-        const { channel } = interaction.member.voice;
-        if(!channel) return msg.edit(`${client.i18n.get(language, "music", "join_voice")}`);
-        if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-        if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
+        
+        const { channel } = message.member.voice;
 
         const player = client.manager.create({
             guild: interaction.guild.id,
@@ -29,7 +36,6 @@ module.exports = {
             })}`)
             .setColor(client.color)
 
-        msg.edit({ content: " ", embeds: [embed] })
-        
+        return interaction.editReply({ embeds: [embed] });
     }
 }

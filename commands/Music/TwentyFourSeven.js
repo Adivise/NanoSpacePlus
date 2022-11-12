@@ -1,16 +1,16 @@
-const { EmbedBuilder, ApplicationCommandType } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
-module.exports = { 
-    name: ["Context | Skip"],
-    type: ApplicationCommandType.Message,
-    category: "Context",
+module.exports = {
+    name: ["music", "247"],
+    description: "24/7 in voice channel",
+    category: "Music",
     permissions: {
         channel: [],
         bot: [],
         user: []
     },
     settings: {
-        isPremium: false,
+        isPremium: true,
         isPlayer: true,
         isOwner: false,
         inVoice: false,
@@ -19,22 +19,21 @@ module.exports = {
     run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
 
-        if (player.queue.size == 0) {
-            await player.destroy();
-            await client.UpdateMusic(player);
+        if (player.twentyFourSeven) {
+            player.twentyFourSeven = false;
 
             const embed = new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
+                .setDescription(`${client.i18n.get(language, "music", "247_off")}`)
                 .setColor(client.color);
-    
+
             return interaction.editReply({ embeds: [embed] });
         } else {
-            await player.stop();
+            player.twentyFourSeven = true;
 
             const embed = new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "skip_msg")}`)
+                .setDescription(`${client.i18n.get(language, "music", "247_on")}`)
                 .setColor(client.color);
-    
+
             return interaction.editReply({ embeds: [embed] });
         }
     }

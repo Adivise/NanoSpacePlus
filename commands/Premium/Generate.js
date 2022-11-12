@@ -21,10 +21,20 @@ module.exports = {
             type: ApplicationCommandOptionType.String,
         }
     ],
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: true,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
-        
-        if(interaction.user.id != client.owner) return interaction.editReply({ content: `${client.i18n.get(language, "interaction", "owner_only")}` });
 
         const name = interaction.options.getString("plan");
         const camount = interaction.options.getString("amount");
@@ -32,7 +42,7 @@ module.exports = {
         let codes = [];
 
         const plan = name;
-        const plans = ['daily', 'weekly', 'monthly', 'yearly'];
+        const plans = ['daily', 'weekly', 'monthly', 'yearly', 'lifetime'];
 
         if (!plans.includes(name))
         return interaction.editReply({ content:  `${client.i18n.get(language, "premium", "plan_invalid", {
@@ -44,6 +54,7 @@ module.exports = {
         if (plan === 'weekly') time = Date.now() + 86400000 * 7;
         if (plan === 'monthly') time = Date.now() + 86400000 * 30;
         if (plan === 'yearly') time = Date.now() + 86400000 * 365;
+        if (plan === 'lifetime') time = Date.now() + 86400000 * 365 * 100;
 
         let amount = camount;
         if (!amount) amount = 1;

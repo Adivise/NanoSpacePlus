@@ -1,10 +1,22 @@
 const { EmbedBuilder } = require('discord.js');
-const Useable = require("../../settings/models/Useable.js");
+const Useable = require("../../settings/models/CommandStats.js");
 
 module.exports = {
-    name: ["useables"], // The name of the command
+    name: ["commandstats"], // The name of the command
     description: "Display Top 10 commands used!", 
     category: "Utility",
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false});
 

@@ -14,22 +14,29 @@ module.exports = {
             autocomplete: true
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         try {
             if (interaction.options.getString("song")) {
                 await interaction.deferReply({ ephemeral: false });
 
                 const value = interaction.options.get("song").value;
-                const msg = await interaction.editReply(`${client.i18n.get(language, "music", "playtop_loading")}`);
-                
-                const player = client.manager.get(interaction.guild.id);
-                if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-                const { channel } = interaction.member.voice;
-                if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
                 const state = player.state;
                 if (state != "CONNECTED") await player.connect();
                 const res = await client.manager.search(value, interaction.user);
+
                 if(res.loadType != "NO_MATCHES") {
                     if(res.loadType == "TRACK_LOADED") {
                         await player.queue.add(res.tracks[0]);
@@ -43,7 +50,8 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "PLAYLIST_LOADED") {
                         const queues = player.queue.length;
@@ -59,7 +67,8 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "SEARCH_RESULT") {
                         await player.queue.add(res.tracks[0]);
@@ -73,14 +82,15 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "LOAD_FAILED") {
-                        msg.edit(`${client.i18n.get(language, "music", "playtop_fail")}`); 
+                        interaction.editReply(`${client.i18n.get(language, "music", "playtop_fail")}`); 
                         player.destroy();
                     }
                 } else {
-                    msg.edit(`${client.i18n.get(language, "music", "playtop_match")}`); 
+                    interaction.editReply(`${client.i18n.get(language, "music", "playtop_match")}`); 
                     player.destroy();
                 }
             }
@@ -90,14 +100,14 @@ module.exports = {
     }
 }
 
-function playtop(player) {
+async function playtop(player) {
     const song = player.queue[player.queue.length - 1];
 
     player.queue.splice(player.queue.length - 1, 1);
     player.queue.splice(1 - 1, 0, song);
 }
 
-function playtoppl(player, queues) {
+async function playtoppl(player, queues) {
     let num = 0;
     for (let i = queues + 1; i < player.queue.length + 1; i++) {
         const song = player.queue[i - 1];

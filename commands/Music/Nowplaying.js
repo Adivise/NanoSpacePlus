@@ -7,7 +7,19 @@ module.exports = {
     name: ["nowplaying"], // I move search to main issues subcmd (max 25)
     description: "Display the song currently playing.",
     category: "Music",
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
 
         const database = await Setup.findOne({ guild: interaction.guild.id });
@@ -16,35 +28,46 @@ module.exports = {
         const realtime = client.config.NP_REALTIME;
         const msg = await interaction.editReply(`${client.i18n.get(language, "music", "np_loading")}`);
 
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-
         const song = player.queue.current;
         const CurrentDuration = formatDuration(player.position);
         const TotalDuration = formatDuration(song.duration);
-        const Thumbnail = `https://img.youtube.com/vi/${song.identifier}/maxresdefault.jpg`;
-        const songInfo = await ytsr.searchOne(song.uri);
-        const views = songInfo.views;
-        const uploadat = songInfo.uploadedAt;
         const Part = Math.floor(player.position / song.duration * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
 
+        console.log(player.playing);
+        
         const embeded = new EmbedBuilder()
             .setAuthor({ name: player.playing ? `${client.i18n.get(language, "music", "np_title")}` : `${client.i18n.get(language, "music", "np_title_pause")}`, iconURL: `${client.i18n.get(language, "music", "np_icon")}` })
             .setColor(client.color)
             .setDescription(`**[${song.title}](${song.uri})**`)
-            .setThumbnail(Thumbnail)
             .addFields({ name: `${client.i18n.get(language, "music", "np_author")}`, value: `${song.author}`, inline: true })
             .addFields({ name: `${client.i18n.get(language, "music", "np_request")}`, value: `${song.requester}`, inline: true })
             .addFields({ name: `${client.i18n.get(language, "music", "np_volume")}`, value: `${player.volume}%`, inline: true })
-            .addFields({ name: `${client.i18n.get(language, "music", "np_view")}`, value: `${views}`, inline: true })
-            .addFields({ name: `${client.i18n.get(language, "music", "np_upload")}`, value: `${uploadat}`, inline: true })
-            .addFields({ name: `${client.i18n.get(language, "music", "np_download")}`, value: `**[Click Here](https://www.y2mate.com/youtube/${song.identifier})**`, inline: true })
-            .addFields({ name: `${client.i18n.get(language, "music", "np_current_duration", {
-                current_duration: CurrentDuration,
-                total_duration: TotalDuration
-            })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\``, inline: false })
             .setTimestamp();
+
+            if (song.thumbnail) {
+                const songInfo = await ytsr.searchOne(song.uri);
+                const views = songInfo.views;
+                const uploadat = songInfo.uploadedAt;
+                
+                embeded.setThumbnail(`https://img.youtube.com/vi/${song.identifier}/maxresdefault.jpg`);
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_view")}`, value: `${views}`, inline: true })
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_upload")}`, value: `${uploadat}`, inline: true })
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_download")}`, value: `**[Click Here](https://www.y2mate.com/youtube/${song.identifier})**`, inline: true })
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_current_duration", {
+                    current_duration: CurrentDuration,
+                    total_duration: TotalDuration
+                })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\``, inline: false })
+            } else {
+                embeded.setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 2048 }));
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_view")}`, value: `Not Support`, inline: true })
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_upload")}`, value: `Not Support`, inline: true })
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_download")}`, value: `Not Support`, inline: true })
+                embeded.addFields({ name: `${client.i18n.get(language, "music", "np_current_duration", {
+                    current_duration: CurrentDuration,
+                    total_duration: TotalDuration
+                })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\``, inline: false })
+            }
 
         const button = client.button.nowplaying;
 
@@ -85,7 +108,7 @@ module.exports = {
                 .setStyle(ButtonStyle[button.loop.style])
             )
 
-        const NEmbed = await msg.edit({ content: " ", embeds: [embeded], components: [row] });
+        const nwp = await msg.edit({ content: " ", embeds: [embeded], components: [row] });
 
         if (realtime === 'true') {
         client.interval = setInterval(async () => {
@@ -99,11 +122,11 @@ module.exports = {
                 total_duration: TotalDuration
             })}`, value: `\`\`\`${Emoji} ${'─'.repeat(Part) + '🎶' + '─'.repeat(30 - Part)}\`\`\`` };
 
-            if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded], components: [row] })
+            if (nwp) nwp.edit({ content: " ", embeds: [embeded], components: [row] })
         }, 5000);
         } else if (realtime === 'false') {
             if (!player.playing) return;
-            if (NEmbed) NEmbed.edit({ content: " ", embeds: [embeded], components: [row] });
+            if (nwp) nwp.edit({ content: " ", embeds: [embeded], components: [row] });
         }
 
         const filter = (interaction) => {
@@ -111,7 +134,7 @@ module.exports = {
             else {
                 interaction.reply({ content: `${client.i18n.get(language, "music", "np_invoice")}`, ephemeral: true });
             }
-            };
+        };
         const collector = msg.createMessageComponentCollector({ filter, time: song.duration });
         
         collector.on('collect', async (interaction) => {
@@ -136,7 +159,7 @@ module.exports = {
                 total_duration: TotalDuration
             })}`, value: `\`\`\`${player.playing ? "🔴 |" : "⏸ |"} ${'─'.repeat(Math.floor(player.position / song.duration * 30)) + '🎶' + '─'.repeat(30 - Math.floor(player.position / song.duration * 30))}\`\`\`` };
 
-            if(NEmbed) await NEmbed.edit({ embeds: [embeded] });
+            if(nwp) await nwp.edit({ embeds: [embeded] });
             interaction.reply({ embeds: [embed], ephemeral: true });
             } else if(id === "replay") {
             if(!player) {
@@ -163,7 +186,7 @@ module.exports = {
                 .setColor(client.color);
 
             await client.clearInterval(client.interval);
-            if (NEmbed) await NEmbed.edit({ components: [] })
+            if (nwp) await nwp.edit({ components: [] })
             interaction.reply({ embeds: [embed], ephemeral: true });
             } else if (id === "skip") {
             if(!player) {
@@ -176,7 +199,7 @@ module.exports = {
                 .setColor(client.color);
 
             await client.clearInterval(client.interval);
-            if (NEmbed) await NEmbed.edit({ components: [] });
+            if (nwp) await nwp.edit({ components: [] });
             interaction.reply({ embeds: [embed], ephemeral: true });
             } else if(id === "loop") {
             if(!player) {
@@ -197,7 +220,7 @@ module.exports = {
 
         collector.on('end', async (collected, reason) => {
             if(reason === "time") {
-                if (NEmbed) await NEmbed.edit({ components: [] });
+                if (nwp) await nwp.edit({ components: [] });
                 await client.clearInterval(client.interval);
             }
         });

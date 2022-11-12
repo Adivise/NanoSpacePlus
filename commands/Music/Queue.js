@@ -14,19 +14,23 @@ module.exports = {
             required: false,
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
-        
-        const value = interaction.options.getInteger("page");
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return interaction.editReply(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
         const song = player.queue.current;
         const qduration = `${formatDuration(player.queue.duration)}`;
-        const thumbnail = `https://img.youtube.com/vi/${song.identifier}/hqdefault.jpg`;
 
         let pagesNum = Math.ceil(player.queue.length / 10);
         if(pagesNum === 0) pagesNum = 1;
@@ -47,7 +51,6 @@ module.exports = {
                 .setAuthor({ name: `${client.i18n.get(language, "music", "queue_author", {
                     guild: interaction.guild.name,
                 })}`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
-                .setThumbnail(thumbnail)
                 .setColor(client.color)
                 .setDescription(`${client.i18n.get(language, "music", "queue_description", {
                     title: song.title,
@@ -63,9 +66,16 @@ module.exports = {
                     duration: qduration,
                 })}` });
 
+                if (song.thumbnail) {
+                    embed.setThumbnail(`https://img.youtube.com/vi/${song.identifier}/maxresdefault.jpg`);
+                } else {
+                    embed.setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 2048 }));
+                }
+
             pages.push(embed);
         }
-
+        
+        const value = interaction.options.getInteger("page");
         if (!value) {
             if (pages.length == pagesNum && player.queue.length > 10) SlashPage(client, interaction, pages, 60000, player.queue.length, qduration, language);
             else return interaction.editReply({ embeds: [pages[0]] });

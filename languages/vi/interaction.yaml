@@ -2,7 +2,9 @@
 #On settings/config.js in DEV_ID
 dev_only: Bot đang bảo trì. (Vui lòng quay lại sau)
 #No permission to use command (this for bot!)
-no_perms: Tôi không có quyền để thực hiện lệnh này!
+bot_perms: Tôi không có quyền để thực hiện lệnh này!
+# No permission to use command (this for user!)
+user_perms: "You don't have permissions `%{perms}`"
 #Bot getting error something!
 error: Có gì đó không đúng.
 #You are not the client owner of this bot!

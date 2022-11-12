@@ -14,25 +14,31 @@ module.exports = {
             autocomplete: true
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         try {
             if (interaction.options.getString("song")) {
                 await interaction.deferReply({ ephemeral: false });
 
                 const value = interaction.options.get("song").value;
-                const msg = await interaction.editReply(`${client.i18n.get(language, "music", "playskip_loading")}`);
-                
-                const player = client.manager.get(interaction.guild.id);
-                if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-                const { channel } = interaction.member.voice;
-                if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-
-                /// Clear nowplaying
+ 
                 await client.clearInterval(client.interval);
 
                 const state = player.state;
                 if (state != "CONNECTED") await player.connect();
                 const res = await client.manager.search(value, interaction.user);
+
                 if(res.loadType != "NO_MATCHES") {
                     if(res.loadType == "TRACK_LOADED") {
                         await player.queue.unshift(res.tracks[0]);
@@ -46,7 +52,8 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "PLAYLIST_LOADED") {
                         const queues = player.queue.length;
@@ -62,7 +69,8 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "SEARCH_RESULT") {
                         await player.queue.unshift(res.tracks[0])
@@ -76,14 +84,15 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "LOAD_FAILED") {
-                        msg.edit(`${client.i18n.get(language, "music", "playskip_fail")}`); 
+                        interaction.editReply(`${client.i18n.get(language, "music", "playskip_fail")}`); 
                         player.destroy();
                     }
                 } else {
-                    msg.edit(`${client.i18n.get(language, "music", "playskip_match")}`); 
+                    interaction.editReply(`${client.i18n.get(language, "music", "playskip_match")}`); 
                     player.destroy();
                 }
             }
@@ -93,7 +102,7 @@ module.exports = {
     }
 }
 
-function skipped(player) {
+async function skipped(player) {
     const song = player.queue[player.queue.length - 1];
 
     player.queue.splice(player.queue.length - 1, 1);
@@ -102,7 +111,7 @@ function skipped(player) {
     player.stop();
 }
 
-function skippedpl(player, queues) {
+async function skippedpl(player, queues) {
     let num = 0;
     for (let i = queues + 1; i < player.queue.length + 1; i++) {
         const song = player.queue[i - 1];

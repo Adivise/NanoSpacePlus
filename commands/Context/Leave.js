@@ -1,23 +1,29 @@
-const { ContextMenuInteraction, EmbedBuilder, ApplicationCommandType } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType } = require('discord.js');
 
 module.exports = { 
     name: ["Context | Stop"],
     type: ApplicationCommandType.Message,
     category: "Context",
-    /**
-     * @param {ContextMenuInteraction} interaction
-     */
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "leave_loading")}`);
 
-        const player = client.manager.get(interaction.guild.id);
-		if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
+        const { channel } = message.member.voice;
 
         await player.destroy();
         await client.UpdateMusic(player);
+        await client.clearInterval(client.interval);
 
         const embed = new EmbedBuilder()
             .setDescription(`${client.i18n.get(language, "music", "leave_msg", {
@@ -25,6 +31,6 @@ module.exports = {
             })}`)
             .setColor(client.color);
 
-        msg.edit({ content: " ", embeds: [embed] })
+        return interaction.editReply({ embeds: [embed] });
     }
 }

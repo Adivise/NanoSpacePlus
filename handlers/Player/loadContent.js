@@ -1,7 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const Setup = require("../../settings/models/Setup.js");
 const GLang = require("../../settings/models/Language.js");
-const delay = require("delay");
 
 module.exports = async (client) => {
 try {
@@ -154,21 +153,18 @@ try {
 client.on("messageCreate", async (message) => {
         if (!message.guild || !message.guild.available) return;
 
-        /// Create database when not have!
-        await client.createSetup(message.guild.id);
-        await client.createLang(message.guild.id);
-        await client.createChart(message);
+        await client.createMessage(message);
         
         const database = await Setup.findOne({ guild: message.guild.id });
         if (database.enable === false) return;
 
-        const channel = await message.guild.channels.cache.get(database.channel);
-        if (!channel) return;
+        const channel_find = await message.guild.channels.cache.get(database.channel);
+        if (!channel_find) return;
 
         if (database.channel != message.channel.id) return; 
 
         try {
-            const msg = await channel.messages.fetch(database.playmsg, { cache: true, force: true });
+            const msg = await channel_find.messages.fetch(database.playmsg, { cache: true, force: true });
             if (!msg) return;
         } catch (e) {
             return;
@@ -192,12 +188,8 @@ client.on("messageCreate", async (message) => {
         const song = message.cleanContent;
         await message.delete();
 
-        let voiceChannel = await message.member.voice.channel;
-        if (!voiceChannel) return message.channel.send(`${client.i18n.get(language, "noplayer", "no_voice")}`).then((msg) => { 
-            setTimeout(() => {
-                msg.delete()
-            }, 4000);
-        });
+        const { channel } = await message.member.voice;
+        if (!channel) return message.channel.send(`${client.i18n.get(language, "noplayer", "no_voice")}`);
 
         const player = await client.manager.create({
             guild: message.guild.id,
@@ -206,9 +198,9 @@ client.on("messageCreate", async (message) => {
             selfDeafen: true,
         });
 
-        const state = player.state;
-        if (state != "CONNECTED") await player.connect();
+        if (player.state != "CONNECTED") await player.connect();
         const res = await client.manager.search(song, message.author);
+
         if(res.loadType != "NO_MATCHES") {
             if(res.loadType == "TRACK_LOADED") {
                 player.queue.add(res.tracks[0]);
@@ -241,3 +233,7 @@ client.on("messageCreate", async (message) => {
         }
     });
 };
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

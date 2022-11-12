@@ -11,6 +11,7 @@ module.exports = {
             description: "The name of the playlist",
             required: true,
             type: ApplicationCommandOptionType.String,
+            autocomplete: true
         },
         {
             name: "postion",
@@ -19,47 +20,42 @@ module.exports = {
             type: ApplicationCommandOptionType.Integer
         }
     ],
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: true,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
 
-        try {
-            if (user && user.isPremium) {
-                const value = interaction.options.getString("name");
-                const pos = interaction.options.getInteger("postion");
-        
-                const Plist = value.replace(/_/g, ' ');
-    
-                const playlist = await Playlist.findOne({ name: Plist });
-                if(!playlist) return interaction.editReply(`${client.i18n.get(language, "playlist", "remove_notfound")}`);
-                if(playlist.owner !== interaction.user.id) return interaction.editReply(`${client.i18n.get(language, "playlist", "remove_owner")}`);
-            
-                const position = pos;
-                const song = playlist.tracks[position];
-                if(!song) return interaction.editReply(`${client.i18n.get(language, "playlist", "remove_song_notfound")}`);
-    
-                playlist.tracks.splice(position - 1, 1);
-                await playlist.save();
-    
-                const embed = new EmbedBuilder()
-                    .setDescription(`${client.i18n.get(language, "playlist", "remove_removed", {
-                        name: Plist,
-                        position: pos
-                        })}`)
-                    .setColor(client.color)
-    
-                interaction.editReply({ embeds: [embed] });
-            } else {
-                const embed = new EmbedBuilder()
-                    .setAuthor({ name: `${client.i18n.get(language, "nopremium", "premium_author")}`, iconURL: client.user.displayAvatarURL() })
-                    .setDescription(`${client.i18n.get(language, "nopremium", "premium_desc")}`)
-                    .setColor(client.color)
-                    .setTimestamp()
+        const name = interaction.options.getString("name");
+        const position = interaction.options.getInteger("postion");
 
-                return interaction.editReply({ content: " ", embeds: [embed] });
-            }
-        } catch (err) {
-            console.log(err);
-            interaction.editReply({ content: `${client.i18n.get(language, "nopremium", "premium_error")}` })
-        }
+        const PName = name.replace(/_/g, ' ');
+        const playlist = await Playlist.findOne({ name: PName });
+        if(!playlist) return interaction.editReply(`${client.i18n.get(language, "playlist", "remove_notfound")}`);
+        if(playlist.owner !== interaction.user.id) return interaction.editReply(`${client.i18n.get(language, "playlist", "remove_owner")}`);
+
+        const song = playlist.tracks[position];
+        if(!song) return interaction.editReply(`${client.i18n.get(language, "playlist", "remove_song_notfound")}`);
+
+        playlist.tracks.splice(position - 1, 1);
+        await playlist.save();
+
+        const embed = new EmbedBuilder()
+            .setDescription(`${client.i18n.get(language, "playlist", "remove_removed", {
+                name: PName,
+                position: position
+                })}`)
+            .setColor(client.color)
+
+        return interaction.editReply({ embeds: [embed] });
     }
 }

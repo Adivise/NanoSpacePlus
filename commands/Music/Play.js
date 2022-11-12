@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionsBitField, ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { convertTime } = require("../../structures/ConvertTime.js");
 
 module.exports = {
@@ -14,32 +14,39 @@ module.exports = {
             autocomplete: true
         }
     ],
+    permissions: {
+        channel: ["Speak", "Connect"],
+        bot: ["Speak", "Connect"],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: true,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         try {
             if (interaction.options.getString("song")) {
                 await interaction.deferReply({ ephemeral: false });
 
                 const value = interaction.options.get("song").value;
-                const msg = await interaction.editReply(`${client.i18n.get(language, "music", "play_loading")}`);
-                
-                const { channel } = interaction.member.voice;
-                if (!channel) return msg.edit(`${client.i18n.get(language, "music", "play_invoice")}`);
-                if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Connect)) return msg.edit(`${client.i18n.get(language, "music", "play_join")}`);
-                if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.Flags.Speak)) return msg.edit(`${client.i18n.get(language, "music", "play_speak")}`);
 
-                const player = await client.manager.create({
+                const player = client.manager.create({
                     guild: interaction.guild.id,
                     voiceChannel: interaction.member.voice.channel.id,
                     textChannel: interaction.channel.id,
                     selfDeafen: true,
                 });
                 
-                const state = player.state;
-                if (state != "CONNECTED") await player.connect();
+                if (player.state != "CONNECTED") await player.connect();
                 const res = await client.manager.search(value, interaction.user);
+
                 if(res.loadType != "NO_MATCHES") {
                     if(res.loadType == "TRACK_LOADED") {
-                        player.queue.add(res.tracks[0]);
+                        await player.queue.add(res.tracks[0]);
+
                         const embed = new EmbedBuilder()
                             .setDescription(`${client.i18n.get(language, "music", "play_track", {
                                 title: res.tracks[0].title,
@@ -48,10 +55,12 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "PLAYLIST_LOADED") {
-                        player.queue.add(res.tracks)
+                        await player.queue.add(res.tracks)
+
                         const embed = new EmbedBuilder()
                             .setDescription(`${client.i18n.get(language, "music", "play_playlist", {
                                 title: res.playlist.name,
@@ -61,10 +70,12 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "SEARCH_RESULT") {
-                        player.queue.add(res.tracks[0]);
+                        await player.queue.add(res.tracks[0]);
+
                         const embed = new EmbedBuilder()
                             .setDescription(`${client.i18n.get(language, "music", "play_result", {
                                 title: res.tracks[0].title,
@@ -73,14 +84,15 @@ module.exports = {
                                 request: res.tracks[0].requester
                             })}`)
                             .setColor(client.color)
-                        msg.edit({ content: " ", embeds: [embed] });
+
+                        interaction.editReply({ content: " ", embeds: [embed] });
                         if(!player.playing) player.play();
                     } else if(res.loadType == "LOAD_FAILED") {
-                        msg.edit(`${client.i18n.get(language, "music", "play_fail")}`); 
+                        interaction.editReply(`${client.i18n.get(language, "music", "play_fail")}`); 
                         player.destroy();
                     }
                 } else {
-                    msg.edit(`${client.i18n.get(language, "music", "play_match")}`); 
+                    interaction.editReply(`${client.i18n.get(language, "music", "play_match")}`); 
                     player.destroy();
                 }
             }

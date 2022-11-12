@@ -15,35 +15,40 @@ module.exports = {
             required: false,
         }
     ],
-    run: async (interaction, client, user, language) => {
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: true,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: true,
+    },
+    run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
-        
-        const msg = await interaction.editReply(`${client.i18n.get(language, "music", "rewind_loading")}`);
+
         const value = interaction.options.getInteger("seconds");
-
-        const player = client.manager.get(interaction.guild.id);
-        if (!player) return msg.edit(`${client.i18n.get(language, "noplayer", "no_player")}`);
-        const { channel } = interaction.member.voice;
-        if (!channel || interaction.member.voice.channel !== interaction.guild.members.me.voice.channel) return msg.edit(`${client.i18n.get(language, "noplayer", "no_voice")}`);
-
         const CurrentDuration = formatDuration(player.position);
 
         if(value && !isNaN(value)) {
             if((player.position - value * 1000) > 0) {
                 await player.seek(player.position - value * 1000);
                 
-                const rewind1 = new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "rewind_msg", {
-                    duration: CurrentDuration,
-                })}`)
-                .setColor(client.color);
+                const embed = new EmbedBuilder()
+                    .setDescription(`${client.i18n.get(language, "music", "rewind_msg", {
+                        duration: CurrentDuration,
+                    })}`)
+                    .setColor(client.color);
 
-                msg.edit({ content: " ", embeds: [rewind1] });
+                return interaction.editReply({ embeds: [embed] });
             } else {
-                return msg.edit(`${client.i18n.get(language, "music", "rewind_beyond")}`);
+                return interaction.editReply(`${client.i18n.get(language, "music", "rewind_beyond")}`);
             }
         } else if(value && isNaN(value)) {
-            return msg.edit(`${client.i18n.get(language, "music", "rewind_invalid", {
+            return interaction.editReply(`${client.i18n.get(language, "music", "rewind_invalid", {
                 prefix: "/"
             })}`);
         }
@@ -52,15 +57,15 @@ module.exports = {
             if((player.position - rewindNum * 1000) > 0) {
                 await player.seek(player.position - rewindNum * 1000);
                 
-                const rewind2 = new EmbedBuilder()
-                .setDescription(`${client.i18n.get(language, "music", "rewind_msg", {
-                    duration: CurrentDuration,
-                })}`)
-                .setColor(client.color);
+                const embed = new EmbedBuilder()
+                    .setDescription(`${client.i18n.get(language, "music", "rewind_msg", {
+                        duration: CurrentDuration,
+                    })}`)
+                    .setColor(client.color);
 
-                msg.edit({ content: " ", embeds: [rewind2] });
+                return interaction.editReply({ embeds: [embed] });
             } else {
-                return msg.edit(`${client.i18n.get(language, "music", "rewind_beyond")}`);
+                return interaction.editReply(`${client.i18n.get(language, "music", "rewind_beyond")}`);
             }
         }
     }

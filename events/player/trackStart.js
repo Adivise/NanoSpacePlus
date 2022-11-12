@@ -10,11 +10,9 @@ module.exports = async (client, player, track, payload) => {
 
     await client.UpdateQueueMsg(player);
     await client.clearInterval(client.interval);
+    await client.addChart(player, track);
 
     /////////// Update Music Setup ///////////
-
-    await client.addChart(track, player.guild);
-		await client.addGChart(track);
 
     const channel = client.channels.cache.get(player.textChannel);
     if (!channel) return;
@@ -29,7 +27,6 @@ module.exports = async (client, player, track, payload) => {
       .setAuthor({ name: `${client.i18n.get(language, "player", "track_title")}`, iconURL: `${client.i18n.get(language, "player", "track_icon")}` })
       .setDescription(`**[${track.title}](${track.uri})**`)
       .setColor(client.color)
-      .setThumbnail(`https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`)
       .addFields({ name: `${client.i18n.get(language, "player", "author_title")}`, value: `${track.author}`, inline: true })
       .addFields({ name: `${client.i18n.get(language, "player", "request_title")}`, value: `${track.requester}`, inline: true })
       .addFields({ name: `${client.i18n.get(language, "player", "volume_title")}`, value: `${player.volume}%`, inline: true })
@@ -40,6 +37,12 @@ module.exports = async (client, player, track, payload) => {
         current_duration: formatduration(track.duration, true),
       })}`, value: `\`\`\`🔴 | 🎶──────────────────────────────\`\`\``, inline: false })
       .setTimestamp();
+
+      if (track.thumbnail) {
+        embeded.setThumbnail(`https://img.youtube.com/vi/${track.identifier}/maxresdefault.jpg`);
+      } else {
+        embeded.setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 2048 }));
+      }
     
       const button = client.button.trackStart;
     
@@ -219,8 +222,7 @@ module.exports = async (client, player, track, payload) => {
             .setColor(client.color);
 
         message.reply({ embeds: [embed], ephemeral: true });
-      }
-      else if(id === "voldown") {
+      } else if(id === "voldown") {
         if(!player) {
           collector.stop();
         }
@@ -233,8 +235,7 @@ module.exports = async (client, player, track, payload) => {
             .setColor(client.color);
 
         message.reply({ embeds: [embed], ephemeral: true });
-      }
-      else if(id === "replay") {
+      } else if(id === "replay") {
         if(!player) {
           collector.stop();
         }
@@ -245,15 +246,13 @@ module.exports = async (client, player, track, payload) => {
             .setColor(client.color);
 
         message.reply({ embeds: [embed], ephemeral: true });
-      }
-      else if(id === "queue") {
+      } else if(id === "queue") {
         if(!player) {
           collector.stop();
         }
         const song = player.queue.current;
         const qduration = `${formatduration(player.queue.duration)}`;
-        const thumbnail = `https://img.youtube.com/vi/${song.identifier}/mqdefault.jpg`;
-    
+        
         let pagesNum = Math.ceil(player.queue.length / 10);
         if(pagesNum === 0) pagesNum = 1;
     
@@ -273,7 +272,6 @@ module.exports = async (client, player, track, payload) => {
             .setAuthor({ name: `${client.i18n.get(language, "player", "queue_author", {
               guild: message.guild.name,
             })}`, iconURL: message.guild.iconURL({ dynamic: true }) })
-            .setThumbnail(thumbnail)
             .setColor(client.color)
             .setDescription(`${client.i18n.get(language, "player", "queue_description", {
               track: song.title,
@@ -288,12 +286,17 @@ module.exports = async (client, player, track, payload) => {
               queue_lang: player.queue.length,
               total_duration: qduration,
             })}` });
+
+          if (song.thumbnail) {
+            embed.setThumbnail(`https://img.youtube.com/vi/${song.identifier}/maxresdefault.jpg`);
+          } else {
+              embed.setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 2048 }));
+          }
     
           pages.push(embed);
         }
         message.reply({ embeds: [pages[0]], ephemeral: true });
-      }
-      else if(id === "clear") {
+      } else if(id === "clear") {
         if(!player) {
           collector.stop();
         }
@@ -306,6 +309,7 @@ module.exports = async (client, player, track, payload) => {
         message.reply({ embeds: [embed], ephemeral: true });
       }
     });
+
     collector.on('end', async (collected, reason) => {
       if(reason === "time") {
         nplaying.edit({ embeds: [embeded], components: [] })

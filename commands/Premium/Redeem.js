@@ -15,6 +15,18 @@ module.exports = {
             type: ApplicationCommandOptionType.String,
         }
     ],
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         
@@ -31,7 +43,7 @@ module.exports = {
   
         const premium = await Redeem.findOne({ code: input.toUpperCase() });
         if (premium) {
-            const expires = moment(premium.expiresAt).format('dddd, MMMM YYYY HH:mm:ss')
+            const expires = moment(premium.expiresAt).format('do/MMMM/YYYY (HH:mm:ss)')
   
             member.isPremium = true
             member.premium.redeemedBy.push(interaction.user)

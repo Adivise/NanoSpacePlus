@@ -4,8 +4,8 @@ const Playlist = require("../../settings/models/Playlist.js");
 const tracks = [];
 
 module.exports = {
-    name: ["playlist", "savequeue"],
-    description: "Save the current queue to a playlist",
+    name: ["playlist", "savecurrent"],
+    description: "Save the current song to a playlist",
     category: "Playlist",
     options: [
         {
@@ -38,16 +38,14 @@ module.exports = {
         if(!playlist) return interaction.editReply(`${client.i18n.get(language, "playlist", "savequeue_notfound")}`);
         if(playlist.owner !== interaction.user.id) return interaction.editReply(`${client.i18n.get(language, "playlist", "savequeue_owner")}`);
 
-        const queue = player.queue.map(track => track);
         const current = player.queue.current;
 
         tracks.push(current);
-        tracks.push(...queue);
 
         const embed = new EmbedBuilder()
             .setDescription(`${client.i18n.get(language, "playlist", "savequeue_saved", {
                 name: PName,
-                tracks: queue.length + 1
+                tracks: 1
                 })}`)
             .setColor(client.color)
 

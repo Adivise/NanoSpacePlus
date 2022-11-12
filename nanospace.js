@@ -7,16 +7,16 @@ class MainClient extends Client {
         super({
             shards: "auto",
             allowedMentions: {
-              everyone: false,
-              roles: false,
-              users: false,
+                everyone: false,
+                roles: false,
+                users: false,
             },
             intents: [
-              GatewayIntentBits.Guilds,
-              GatewayIntentBits.GuildMembers,
-              GatewayIntentBits.GuildMessages,
-              GatewayIntentBits.GuildVoiceStates,
-              GatewayIntentBits.MessageContent,
+                GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.MessageContent,
             ]
         });
 
@@ -34,28 +34,28 @@ class MainClient extends Client {
     const client = this;
 
     this.manager = new Manager({
-      nodes: this.config.NODES,
-      autoPlay: true,
-      volumeDecrementer: 0.75,
-      forceSearchLinkQueries: true,
-      defaultSearchPlatform: client.config.DEFAULT_SEARCH,
-      allowedLinksRegexes: Object.values(Manager.regex),
-      shards: client.ws.totalShards || 1,
-      clientName: client.user?.username,
-      clientId: client.user?.id || client.id,
-      send(id, payload) {
-        const guild = client.guilds.cache.get(id);
-        if (guild) guild.shard.send(payload);
-      },
+		nodes: this.config.NODES,
+		autoPlay: true,
+		volumeDecrementer: 0.75,
+		forceSearchLinkQueries: true,
+		defaultSearchPlatform: client.config.DEFAULT_SEARCH,
+		allowedLinksRegexes: Object.values(Manager.regex),
+		shards: client.ws.totalShards || 1,
+		clientName: client.user?.username,
+		clientId: client.user?.id || client.id,
+		send(id, payload) {
+			const guild = client.guilds.cache.get(id);
+			if (guild) guild.shard.send(payload);
+		},
     });
 
     ["slash", "premiums"].forEach(x => client[x] = new Collection());
     ["loadCommand", "loadEvent", "loadDatabase", "loadPlayer"].forEach(x => require(`./handlers/${x}`)(client));
 
-	  }
-
+	}
 		connect() {
         return super.login(this.token);
     };
 };
+
 module.exports = MainClient;

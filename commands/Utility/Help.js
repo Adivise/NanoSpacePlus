@@ -5,6 +5,18 @@ module.exports = {
     name: ["help"],
     description: "Displays all commands that the bot has.",
     category: "Utility",
+    permissions: {
+        channel: [],
+        bot: [],
+        user: []
+    },
+    settings: {
+        isPremium: false,
+        isPlayer: false,
+        isOwner: false,
+        inVoice: false,
+        sameVoice: false,
+    },
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         
@@ -42,8 +54,6 @@ module.exports = {
                             await m.deferUpdate();
                             let [directory] = m.values;
 
-                            const cmd = client.slash.filter(c => c.name === "music")
-
                             const embed = new EmbedBuilder()
                                 .setAuthor({ name: `${interaction.guild.members.me.displayName} Help Command!`, iconURL: interaction.guild.iconURL({ dynamic: true })})
                                 .setDescription(`The bot prefix is: \`/\``)
@@ -53,9 +63,9 @@ module.exports = {
                                 .setFooter({ text: `© ${interaction.guild.members.me.displayName} | Total Commands: ${client.slash.size}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
 
                             msg.edit({ embeds: [embed] });
+                        }
                     }
-                }
-            });
+                });
 
             collector.on('end', async (collected, reason) => {
                 if(reason === 'time') {
