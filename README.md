@@ -11,11 +11,10 @@
 </p>
 
 ## 📑 Feature
-- [x] Music System
-- [x] Playlists System
+- [x] Music System (AutoComplete [Play, Playskip, Playtop])
+- [x] Playlists System (AutoComplete, [All])
 - [x] Premium System (Ko-Fi Support!)
 - [x] Setup Request System
-- [x] AutoComplete (Play, Playskip, Playtop)
 - [x] Multi Language
 - [x] Slash Command (Base, Group, Sub)
 - [x] Context Message Menu
