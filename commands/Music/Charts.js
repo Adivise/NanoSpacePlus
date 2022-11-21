@@ -106,7 +106,7 @@ module.exports = {
                 return interaction.editReply({ embeds: [embed] });
             }
             // sort
-            const sorted = database.track_data.sort((a, b) => b.track_count - a.track_count);
+            const sorted = database.playedHistory.sort((a, b) => b.track_count - a.track_count);
             // 10 
             const top10 = sorted.slice(0, 5);
 

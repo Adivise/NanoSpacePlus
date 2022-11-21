@@ -40,9 +40,6 @@ class MainClient extends Client {
 		forceSearchLinkQueries: true,
 		defaultSearchPlatform: client.config.DEFAULT_SEARCH,
 		allowedLinksRegexes: Object.values(Manager.regex),
-		shards: client.ws.totalShards || 1,
-		clientName: client.user?.username,
-		clientId: client.user?.id || client.id,
 		send(id, payload) {
 			const guild = client.guilds.cache.get(id);
 			if (guild) guild.shard.send(payload);
