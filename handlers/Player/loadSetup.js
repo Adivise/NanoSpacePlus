@@ -131,6 +131,17 @@ module.exports = async (client) => {
         }
 
         client.createMessage = async function (message) {
+            const find_setup = await Setup.findOne({ guild: message.guild.id });
+            if (!find_setup) {
+                const newSetup = await new Setup({
+                    guild: message.guild.id,
+                    enable: false,
+                    channel: "",
+                    playmsg: "",
+                });
+                await newSetup.save();
+            }
+            
             const find_premium = await Premium.findOne({ Id: message.author.id });
             if (!find_premium) {
                 const newPremium = await Premium.create({ 
