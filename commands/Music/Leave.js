@@ -19,7 +19,7 @@ module.exports = {
     run: async (interaction, client, user, language, player) => {
         await interaction.deferReply({ ephemeral: false });
         
-        const { channel } = message.member.voice;
+        const { channel } = interaction.member.voice;
 
         await player.destroy();
         await client.UpdateMusic(player);

@@ -19,7 +19,7 @@ module.exports = {
     run: async (interaction, client, user, language) => {
         await interaction.deferReply({ ephemeral: false });
         
-        const { channel } = message.member.voice;
+        const { channel } = interaction.member.voice;
 
         const player = client.manager.create({
             guild: interaction.guild.id,
