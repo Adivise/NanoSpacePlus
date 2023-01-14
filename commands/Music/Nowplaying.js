@@ -33,8 +33,6 @@ module.exports = {
         const TotalDuration = formatDuration(song.duration);
         const Part = Math.floor(player.position / song.duration * 30);
         const Emoji = player.playing ? "🔴 |" : "⏸ |";
-
-        console.log(player.playing);
         
         const embeded = new EmbedBuilder()
             .setAuthor({ name: player.playing ? `${client.i18n.get(language, "music", "np_title")}` : `${client.i18n.get(language, "music", "np_title_pause")}`, iconURL: `${client.i18n.get(language, "music", "np_icon")}` })

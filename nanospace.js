@@ -1,16 +1,12 @@
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { Manager } = require("erela.js");
-const { I18n } = require("locale-parser");
+const { I18n } = require("@hammerhq/localization");
 
 class MainClient extends Client {
 	 constructor() {
         super({
             shards: "auto",
-            allowedMentions: {
-                everyone: false,
-                roles: false,
-                users: false,
-            },
+            allowedMentions: { parse: ["users", "roles"] },
             intents: [
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildMembers,
