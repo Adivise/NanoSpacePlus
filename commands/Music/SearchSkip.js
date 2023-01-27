@@ -29,7 +29,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false });
 
         const search = interaction.options.get("song").value;
-        const msg = await interaction.editReply(`${client.emotes.search} Searching for \`${search}\`...`);
+        const msg = await interaction.editReply(` Searching for \`${search}\`...`);
         const button = client.button.search;
 
         const row = new  ActionRowBuilder()
