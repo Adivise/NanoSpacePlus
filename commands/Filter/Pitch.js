@@ -33,7 +33,7 @@ module.exports = {
 
         const data = {
             op: 'filters',
-            guildId: message.guild.id,
+            guildId: interaction.guild.id,
             timescale: { pitch: value },
         }
 
