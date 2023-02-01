@@ -142,7 +142,7 @@ module.exports = {
             ctx.closePath();
             ctx.clip();
 
-            const avatar = await Canvas.loadImage(interaction.guild.iconURL({ format: 'png' }));
+            const avatar = await Canvas.loadImage(interaction.guild.iconURL({ format: 'png' }) || "https://media.discordapp.net/attachments/1010784573061349496/1070283756100911184/question.png");
             ctx.drawImage(avatar, 25, 25, 200, 200);
 
             const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'chart.png' });
